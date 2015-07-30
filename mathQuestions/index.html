@@ -1,18 +1,23 @@
 <html ng-app="MathQuestions">
-<link rel="stylesheet" href="/mathQuestions/css/print.css" media="print"/>
+<link rel="stylesheet" href="css/print.css" media="print"/>
+<link rel="stylesheet" href="css/style.css" media="screen"/>
 
+<link rel="stylesheet" href="prereqs/bootstrap/dist/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="prereqs/bootstrap/dist/css/bootstrap-theme.min.css"/>
 <body>
-<div id="banner">
-<h1>Math Questions</h1>
-<div id="nav">
-  <ul class="menu">
-    <li><a href="#/worksheet">worksheet</a></li>
-  </ul>
-</div>
+<div class="header-bar">
+  <div class="container">
+    <h1>Math Questions</h1>
+  </div>
 </div>
 
+<div class="canvas">
 <div ng-view></div>
 
+</div>
+
+<script src="prereqs/jquery/dist/jquery.min.js"></script>
+<script src="prereqs/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="prereqs/angular/angular.js"></script>
 <script src="prereqs/angular-route/angular-route.js"></script>
   

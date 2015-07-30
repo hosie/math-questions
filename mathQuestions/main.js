@@ -7,7 +7,14 @@ angular.module('MathQuestions', [
   'MathQuestions.questionPreview',
   'GreatMath.mental-strategy-questions',
   'GreatMath.times-table-questions'
-]).
-config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/worksheet'});
+])
+.config(['$routeProvider', function($routeProvider) {
+  
+  $routeProvider.when('/main', {
+    templateUrl: 'views/main/main.html'
+  });
+}])
+
+.config(['$routeProvider', function($routeProvider) {
+  $routeProvider.otherwise({redirectTo: '/main'});
 }]);
