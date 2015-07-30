@@ -1,10 +1,9 @@
 <div>
-<form name="myForm">
-    <label>
-       Topic id:
-       <input type="text" name="topicId" ng-model="topicId" required>
-    </label>    
-  </form>
+ 
+<select ng-model="topicId" ng-options="topic.id as topic.description for topic in availableTopics"></select>
+
+<div>
+    
 </div>
 <div>
 {{question}}

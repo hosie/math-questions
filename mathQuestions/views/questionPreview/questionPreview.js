@@ -12,6 +12,14 @@ angular.module('MathQuestions.questionPreview', ['ngRoute','GreatMath.question-g
 
 .controller('QuestionPreviewController', ['$scope','questionGenerator',function($scope,questionGenerator) {
   $scope.topicId=1;
+  $scope.availableTopics = [
+    {id:1, description:'number bonds to 5'},
+    {id:2, description:'number bonds to 10'},
+    {id:3, description:'number bonds to 20'},
+    {id:4, description:'number bonds to 100'}
+    
+];
+
   setInterval(function(){
     questionGenerator.generate(
     {
