@@ -13,7 +13,12 @@ angular.module('MathQuestions.questionPreview', ['ngRoute','GreatMath.question-g
 .controller('QuestionPreviewController', ['$scope','questionGenerator',function($scope,questionGenerator) {
   $scope.topicId=1;
   setInterval(function(){
-    questionGenerator.generate($scope.topicId,function(err,question){
+    questionGenerator.generate(
+    {
+                topicClass : "mentalStrategies",
+                topicId    : $scope.topicId
+    },
+    function(err,question){
       $scope.$apply(function(){
         $scope.question=question;
       });      
