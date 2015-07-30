@@ -1,0 +1,24 @@
+{
+  "name": "math-questions",
+  "version": "0.0.1",
+  "authors": [
+    "hosie <jhosie@uk.ibm.com>"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.1",
+    "bootstrap": "~3.3.5",
+    "d3": "~3.5.5",
+    "angular-route": "~1.4.1",
+    "angular-mocks": "~1.4.1"
+  }
+}

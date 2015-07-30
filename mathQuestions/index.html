@@ -1,0 +1,29 @@
+<html ng-app="MathQuestions">
+<link rel="stylesheet" href="/mathQuestions/css/print.css" media="print"/>
+
+<body>
+<div id="banner">
+<h1>Math Questions</h1>
+<div id="nav">
+  <ul class="menu">
+    <li><a href="#/worksheet">worksheet</a></li>
+  </ul>
+</div>
+</div>
+
+<div ng-view></div>
+
+<script src="prereqs/angular/angular.js"></script>
+<script src="prereqs/angular-route/angular-route.js"></script>
+  
+<script src="main.js"></script>
+<script src="components/TopicProvider.js"></script>
+<script src="components/TopicDistributor.js"></script>
+<script src="components/MentalStrategyQuestions.js"></script>
+<script src="components/TimesTableQuestions.js"></script>
+<script src="components/QuestionGenerator.js"></script>
+<script src="views/worksheet/worksheet.js"></script>
+<script src="views/questionPreview/questionPreview.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<div id="worksheetToolbar">
+<button id="generateButton" ng-click="generate()">Generate</button>
+</div>
+<div class="A4Portrait">
+  <div ng-repeat="week in weeks">
+    <div ng-repeat="sheet in week.worksheets">
+      <h1>Math Questions</h1>
+      <h2 class="subheading">Year 7  Week {{week.number}}  Session {{sheet.number}}</h2>
+      <p>Answer as many questions as you can in 5 mins.</p>
+      <table class="wrapperTable">
+        <tbody>
+          <tr>
+            <td>
+              <p><b>Mental Strategies</b>- do these in your head</p>
+              <table id="mentalStrategiesTable" class="mentalStrategiesTable questionTable">
+                <col>
+                <col>
+                <col class="answerColumn">
+        
+                <tr>
+                  <th>Q</th>
+                  <th>Question</th>
+                  <th style="width:auto;">Answer Box</th>
+                </tr>
+                <tr class="questionRow" ng-repeat="question in sheet.mentalStrategies.questions">
+                  <td class="questionNumber"> {{question.number}}</td>
+                  <td>{{question.question}}</td>
+                  <td><div ng-if="includeAnswer">{{question.answers}}</div></td>
+                </tr>
+                <tr class="totalRow">
+                  <td></td>
+                  <td><b>Total out of {{sheet.mentalStrategies.questions.length}}</b></td>
+                  <td></td>
+                </tr>
+              </table>
+            </td>
+            <td>
+              <p><b>Timestables</b>- do these in your head</p>
+              <table class="timesTableTable questionTable">
+                <col>
+                <col>
+                <col class="answerColumn">
+                <tr>
+                  <th>Q</th>
+                  <th>Question</th>
+                  <th>Answer Box</th>
+                </tr>
+                <tr class="questionRow" ng-repeat="question in sheet.timesTable.questions">
+                  <td class="questionNumber">{{question.number}}</td>
+                  <td>{{question.question}}</td>
+                  <td><div ng-if="includeAnswer">{{question.answers}}</div></td>
+                </tr>
+                <tr class="totalRow">
+                  <td></td>
+                  <td><b>Total out of {{sheet.timesTable.questions.length}}</b></td>
+                  <td></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+        
+      <p><b>Key skills</b>- you may use written calculations for these questions</p>
+      <table class="questionTable keySkillsTable">
+        <tr>
+          <th>Q</th>
+          <th>Question</th>
+          <th>Answer Box</th>
+        </tr>
+        <tr ng-repeat="question in sheet.keySkills.questions">
+          <td>{{question.number}}</td>
+          <td ng-bind-html="question.question">{{question.question}}</td>
+          <td><div ng-if="includeAnswer">{{question.answers}}</div></td>
+        </tr>
+        <tr class="totalRow">
+          <td></td>
+          <td><b>Total out of {{sheet.keySkills.questions.length}}</b></td>
+          <td></td>
+        </tr>        
+      </table>
+      <br>
+      <br>
+      <table class="scoresTable">
+        <tr>
+          <th>What's your score?</th>
+          <th>Mental Strategies</th>
+          <th></th>
+          <th>Timestables</th>
+          <th></th>
+          <th>Key Skills</th>
+          <th></th>
+          <th>Score</th>
+        </tr>
+        <tr>
+          <td>Fill in your scores in the boxes <br> and calculate your score.</td>
+          <td class="scoreBox">&#9744;</td>
+          <td class="summaryOperator">+</td>
+          <td class="scoreBox">&#9744;</td>
+          <td class="summaryOperator">+</td>
+          <td class="scoreBox">&#9744;</td>
+          <td class="summaryOperator">=</td>
+          <td class="scoreBox">&#9744;</td>
+        </tr>
+      </table>      
+    </div>
+  </div>
+</div>
