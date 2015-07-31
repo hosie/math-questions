@@ -21,10 +21,9 @@
   "scripts": {
     "postinstall": "bower install",
     "start": "http-server -c-1",
-    "pretest": "npm install",
+    "startDev": "http-server -c-1 -p 8000 -o",
     "test": "karma start karma.conf.js",
     "test-single-run": "karma start karma.conf.js  --single-run",
-    "preupdate-webdriver": "npm install",
     "update-webdriver": "webdriver-manager update",
     "preprotractor": "npm run update-webdriver",
     "protractor": "node_modules/.bin/protractor e2e-tests/protractor.conf.js"
