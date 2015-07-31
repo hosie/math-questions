@@ -26,7 +26,7 @@ describe('GreatMath.mental-strategy-questions module', function() {
   });  
   
   var topicId=1;
-  while (topicId<=4){
+  while (topicId<=5){
     (
       function(id){
         it('registers a function for topic ' + id,function(){

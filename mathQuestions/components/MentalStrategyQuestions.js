@@ -36,6 +36,26 @@
       },function(callback){
       generateNumberBonds(100,callback);
     })
+    .when(
+    {
+      topicClass : "mentalStrategies",
+      topicId:5,
+      topicDescription:"Doubling single digit"
+    },function(callback){
+      var style = randomInteger(2);
+      var theDigit=randomInteger(9);
+      if(style==1){
+        
+      
+        callback(null,"What is double " + theDigit + "?");
+        
+      }else{
+        var theDouble = 2* theDigit;
+        callback(null,"" + theDouble + "is double which number?");
+      }
+      
+    }
+    )
     ;
   });
 
