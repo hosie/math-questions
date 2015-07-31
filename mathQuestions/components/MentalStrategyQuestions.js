@@ -5,7 +5,8 @@
     questionGenerator.when(
       {
         topicClass : "mentalStrategies",
-        topicId    : 1
+        topicId    : 1,
+        topicDescription : "Number bonds to 5"
       }
       ,function(callback){
         generateNumberBonds(5,callback);
@@ -13,14 +14,16 @@
     .when(
       {
         topicClass : "mentalStrategies",
-        topicId    : 2
+        topicId    : 2,
+        topicDescription : "Number bonds to 10"
       },function(callback){
         generateNumberBonds(10,callback);
       })
     .when(
       {
         topicClass : "mentalStrategies",
-        topicId    : 3
+        topicId    : 3,
+        topicDescription : "Number bonds to 20"
       }
       ,function(callback){
       generateNumberBonds(20,callback);
@@ -28,7 +31,8 @@
     .when(
       {
         topicClass : "mentalStrategies",
-        topicId    : 4
+        topicId    : 4,
+        topicDescription : "Number bonds to 100"
       },function(callback){
       generateNumberBonds(100,callback);
     })

@@ -5,8 +5,10 @@ describe('GreatMath.mental-strategy-questions module', function() {
   beforeEach(module('GreatMath.mental-strategy-questions'));
   var mockQuestionGenerator =   {
     registeredFunctions:{},
+    topicDescriptions:{},
     when:function(questionSpec,generatorFunction){
       this.registeredFunctions[questionSpec.topicId]=generatorFunction;
+      this.topicDescriptions[questionSpec.topicId]=questionSpec.topicDescription;
       return this;
     }                    
   };
@@ -21,19 +23,33 @@ describe('GreatMath.mental-strategy-questions module', function() {
   
   beforeEach(function(){
     inject();
-  });
+  });  
   
-  it('registers a function for topic 1',function(){
-    expect(mockQuestionGenerator.registeredFunctions[1]).not.toEqual(undefined);
-  });
+  var topicId=1;
+  while (topicId<=4){
+    (
+      function(id){
+        it('registers a function for topic ' + id,function(){
+          expect(mockQuestionGenerator.registeredFunctions[id]).not.toEqual(undefined);
+        });
+        
+        it('registers a description for topic ' + id,function(){
+          expect(mockQuestionGenerator.topicDescriptions[id]).not.toEqual(undefined);
+        });    
+        
+        it('topic ' + id + ' function callsback with a question',function(done){
+          mockQuestionGenerator.registeredFunctions[id](function(err,question){
+            expect(err).toBeNull();
+            expect(question).not.toBeNull();
+            done();
+          });
+        });        
+      }
+    )(topicId)
+    topicId++;
+  }
   
-  it('topic 1 function callsback with a question',function(done){
-    mockQuestionGenerator.registeredFunctions[1](function(err,question){
-      expect(err).toBeNull();
-      expect(question).not.toBeNull();
-      done();
-    });
-  });
+  
   
 });
   

@@ -274,7 +274,67 @@ describe('GreatMath.question-generator module', function() {
     
   });
   
+  describe('topic list',function(){
+    beforeEach(function(){
+      questionGenerator.when(
+        {
+          topicClass       : "testClass",
+          topicId          : 1,
+          topicDescription : "topic 1 description"
+        },function(callback,options){
+          callback(null,"question1");
+        }
+      )
+      .when(
+        {
+          topicClass : "testClass",
+          topicId    : 2,
+          topicDescription : "topic 2 description"
+        },function(callback,options){
+          callback(null,"question2");
+        }
+      )
+      .when(
+        {
+          topicClass : "testClass",
+          topicId    : 3,
+          topicDescription : "topic 3 description"
+        },function(callback,options){
+          callback(null,"question3");
+        }
+      );
+    });
+    
+    it('provides a list of all registered topics',function(done){
+      questionGenerator.getTopics(function(topics){
+        expect(topics.length).toBe(3);
+        done();
+      });
+    });
+
+    it('topics contain correct description',function(done){
+      questionGenerator.getTopics(function(topics){
+        expect(topics[1].description).toEqual('topic 2 description');
+        done();
+      });
+    });
+
+    it('topics contain correct id',function(done){
+      questionGenerator.getTopics(function(topics){
+        expect(topics[1].id).toEqual(2);
+        done();
+      });
+    });     
+
+    xit('getTopics is async');
+    
+    
+  });
+  
+  
   xit('allows default function to be async',function(){});
+  
+  xit('calls "no default function" error async',function(){});
   
   xit('duplicate registrations causes error');
 });
