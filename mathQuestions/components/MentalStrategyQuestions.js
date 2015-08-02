@@ -1,7 +1,7 @@
 'use strict';
 (function(){
-  angular.module('GreatMath.mental-strategy-questions', ['GreatMath.question-generator'])
-  .run(function(questionGenerator){
+  angular.module('GreatMath.mental-strategy-questions', ['GreatMath.question-generator','GreatMath.math-util'])
+  .run(function(questionGenerator,mathUtil){
     questionGenerator.when(
       {
         topicClass : "mentalStrategies",
@@ -37,44 +37,52 @@
       generateNumberBonds(100,callback);
     })
     .when(
-    {
-      topicClass : "mentalStrategies",
-      topicId:5,
-      topicDescription:"Doubling single digit"
-    },function(callback){
-      var theDigit=randomInteger(9);
-      callback(null,"What is double " + theDigit + "?");
-    }
+      {
+        topicClass : "mentalStrategies",
+        topicId:5,
+        topicDescription:"Doubling single digit"
+      },function(callback){
+        var theDigit=mathUtil.randomInteger(9);
+        callback(null,"What is double " + theDigit + "?");
+      }
+    )
+    .when(
+      {
+        topicClass : "mentalStrategies",
+        topicId:6,
+        topicDescription:"Doubling two digit"
+      },function(callback){
+        var theDigit=mathUtil.randomInteger(99,10);
+        callback(null,"What is double " + theDigit + "?");
+      }
     )
     ;
+    
+    var box= "\u2610";
+
+    function generateNumberBonds(answer,callback){
+      var operand1 = mathUtil.randomInteger(answer-1);
+      var operand2 = answer - operand1;
+      
+      var missingDigit = mathUtil.randomInteger(2);
+      if(missingDigit==1){
+        operand1=box;
+      }
+      if(missingDigit==2){
+        operand2=box;
+      }
+      var reverse = mathUtil.randomInteger(2);
+      var question;
+      if(reverse==1){
+        question = "" + operand1 + " + " + operand2 + " = " + answer; 
+      }else{
+        question = answer + " = " + operand1 + " + " + operand2;
+        
+      }
+       
+      callback(null,question);
+    }
   });
 
-  var box= "\u2610";
-
-  function randomInteger(max){
-    return 1 + Math.floor(max*Math.random());  
-  }
-
-  function generateNumberBonds(answer,callback){
-    var operand1 = randomInteger(answer-1);
-    var operand2 = answer - operand1;
-    
-    var missingDigit = randomInteger(2);
-    if(missingDigit==1){
-      operand1=box;
-    }
-    if(missingDigit==2){
-      operand2=box;
-    }
-    var reverse = randomInteger(2);
-    var question;
-    if(reverse==1){
-      question = "" + operand1 + " + " + operand2 + " = " + answer; 
-    }else{
-      question = answer + " = " + operand1 + " + " + operand2;
-      
-    }
-     
-    callback(null,question);
-  }
+  
 })();
