@@ -10,9 +10,9 @@ angular.module('MathQuestions.questionPreview', ['ngRoute','GreatMath.question-g
   });
 }])
 
-.controller('QuestionPreviewController', ['$scope','questionGenerator',function($scope,questionGenerator) {
+.controller('QuestionPreviewController', ['$scope','questionGenerator','topicRegistry',function($scope,questionGenerator,topicRegistry) {
   $scope.topicId=1;
-  questionGenerator.getTopics(function(topics){
+  topicRegistry.getTopics(function(topics){
     $scope.$apply(function(){
       $scope.availableTopics = topics;      
     });

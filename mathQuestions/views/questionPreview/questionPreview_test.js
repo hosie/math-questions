@@ -1,8 +1,9 @@
 describe('QuestionPreviewController',function(){
   
   var $scope;
+  var mockQuestionGenerator={};
   
-  var mockQuestionGenerator = {
+  var mockTopicRegistry = {
     getTopics:function(callback){
       callback([
         {
@@ -24,6 +25,12 @@ describe('QuestionPreviewController',function(){
   beforeEach(module('MathQuestions.questionPreview'));
   beforeEach(module(function($provide){
         
+      $provide.factory('topicRegistry',function(){
+        
+        return mockTopicRegistry;
+        
+      });
+      
       $provide.factory('questionGenerator',function(){
         
         return mockQuestionGenerator;
