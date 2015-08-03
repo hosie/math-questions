@@ -2,11 +2,13 @@
 
 angular.module('GreatMath.topic-registry', [])
 .factory('topicRegistry', [function() {
+  var ERR_UNKNOWN_ID="ERR_UNKNOWN_ID";
   return{
     nextId:1,
     registeredTopics:{},
     classNames:[],
     allTopics:[],
+    ERR_UNKNOWN_ID:ERR_UNKNOWN_ID,
     register:function(topic){
       //default to the empty string class name
       topic.id= ++this.nextId;
@@ -42,7 +44,7 @@ angular.module('GreatMath.topic-registry', [])
       var result = this.allTopics[id];
       setTimeout(function(){
         if(result==undefined){
-          callback("topic not found for id provided",null);
+          callback(ERR_UNKNOWN_ID,null);
         }else{
           callback(null,result);
         }
