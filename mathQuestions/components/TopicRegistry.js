@@ -44,7 +44,7 @@ angular.module('GreatMath.topic-registry', [])
       var result = this.allTopics[id];
       setTimeout(function(){
         if(result==undefined){
-          callback(ERR_UNKNOWN_ID,null);
+          callback({reason:ERR_UNKNOWN_ID,info:{id:id}},null);
         }else{
           callback(null,result);
         }

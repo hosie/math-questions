@@ -159,7 +159,8 @@ describe('GreatMath.topic-registry module', function() {
       var wrongId = topics[0].id + 1;
       topicRegistry.getTopic(wrongId,function(err,topic){
         expect(err).not.toBeNull();
-        expect(err).toEqual(topicRegistry.ERR_UNKNOWN_ID);
+        expect(err.reason).toEqual(topicRegistry.ERR_UNKNOWN_ID);
+        expect(err.info.id).toEqual(wrongId);
         expect(topic).toBeNull();    
         done();
       
