@@ -24,21 +24,41 @@ describe('GreatMath.question-generator module', function() {
     questionGenerator=_questionGenerator_;    
   }));
   
+  beforeEach(function(){
+    mockTopicRegistry.getTopic=function(id,callback){        
+      callback(null,this.testTopic);
+    };
+    mockTopicRegistry.getTopics=function(filter,callback){        
+      callback(null,[this.testTopic]);
+    };
+  });
   
+  it('calls the question module to generate a question',function(done){
+    mockTopicRegistry.testTopic = {
+      //TODO use - but how can we expect the callback to be async? callback:jasmine.createSpy('generateQuestion')
+      generateQuestion:function(callback){
+        callback(null,"testQuestion")
+      }
+    }
+    
+    questionGenerator.generate({
+      topicClass : "testClass",
+      topicId    : 1
+    },function(err,question){
+      expect(err).toBeNull();
+      expect(question).toEqual("testQuestion");            
+      done();
+    });
+  });
   
   it('Additional options are passed to the generator function',function(done){
-    var topic = {
+    mockTopicRegistry.testTopic = {
       //TODO use - but how can we expect the callback to be async? callback:jasmine.createSpy('generateQuestion')
       generateQuestion:function(callback,options){
         callback(null,"question1 with additional option " + options.testOption);
       }
     }
-    mockTopicRegistry.getTopic=function(id,callback){        
-      callback(null,topic);
-    };
-    mockTopicRegistry.getTopics=function(filter,callback){        
-      callback(null,[topic]);
-    };
+    
     questionGenerator.generate({
       topicClass : "testClass",
       topicId    : 1,
@@ -49,6 +69,10 @@ describe('GreatMath.question-generator module', function() {
       done();
     });
     
+  });
+  
+  it('Question modules may throw exceptions synchronously',function(){
+        
   });
   
   describe('default generator',function(){
