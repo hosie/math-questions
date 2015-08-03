@@ -1,22 +1,20 @@
 'use strict';
 
 describe('GreatMath.mental-strategy-questions module', function() {
-  
+  var EXPECTED_NUMBER_OF_TOPICS=6;
   beforeEach(module('GreatMath.mental-strategy-questions'));
-  var mockQuestionGenerator =   {
-    registeredFunctions:{},
-    topicDescriptions:{},
-    when:function(questionSpec,generatorFunction){
-      this.registeredFunctions[questionSpec.topicId]=generatorFunction;
-      this.topicDescriptions[questionSpec.topicId]=questionSpec.topicDescription;
+  var mockTopicRegistry =   {
+    registeredTopics:[],
+    register:function(topic){
+      this.registeredTopics.push(topic);      
       return this;
     }                    
   };
   
   beforeEach(function(){
     module(function($provide){
-      $provide.factory('questionGenerator',function(){
-        return mockQuestionGenerator;
+      $provide.factory('topicRegistry',function(){
+        return mockTopicRegistry;
       });      
     });    
   });
@@ -25,31 +23,51 @@ describe('GreatMath.mental-strategy-questions module', function() {
     inject();
   });  
   
-  var topicId=1;
-  while (topicId<=5){
-    (
-      function(id){
-        it('registers a function for topic ' + id,function(){
-          expect(mockQuestionGenerator.registeredFunctions[id]).not.toEqual(undefined);
+  it('registers expected number of topics',function(){
+    expect(mockTopicRegistry.registeredTopics.length).toEqual(EXPECTED_NUMBER_OF_TOPICS);
+    
+  });
+  
+  
+  describe('generateQuestion functions',function(){
+    for(var i=0;i<EXPECTED_NUMBER_OF_TOPICS;i++){
+      (function(topicIndex){
+        it('topic number ' + topicIndex + ' has a generateQuestion function',function(){
+          var topic = mockTopicRegistry.registeredTopics[topicIndex];
+          expect(topic.generateQuestion).toEqual(jasmine.any(Function));
         });
-        
-        it('registers a description for topic ' + id,function(){
-          expect(mockQuestionGenerator.topicDescriptions[id]).not.toEqual(undefined);
-        });    
-        
-        it('topic ' + id + ' function callsback with a question',function(done){
-          mockQuestionGenerator.registeredFunctions[id](function(err,question){
-            expect(err).toBeNull();
-            expect(question).not.toBeNull();
-            done();
+
+        it('topic number ' + topicIndex + ' generateQuestion function callsback with a question',function(){
+          var topic = mockTopicRegistry.registeredTopics[topicIndex];
+          topic.generateQuestion(function(question){
+            expect(question).toEqual(jasmine.any(String));
           });
         });        
-      }
-    )(topicId)
-    topicId++;
-  }
+      })(i);      
+    }        
+  });
   
+  describe('descriptions',function(){
+    for(var i=0;i<EXPECTED_NUMBER_OF_TOPICS;i++){
+      (function(topicIndex){
+        it('topic number ' + topicIndex + ' has a valid description',function(){
+          var topic = mockTopicRegistry.registeredTopics[topicIndex];
+          expect(topic.description).toEqual(jasmine.any(String));
+        });  
+      })(i);      
+    }        
+  });
   
+  describe('class names',function(){
+    for(var i=0;i<EXPECTED_NUMBER_OF_TOPICS;i++){
+      (function(topicIndex){
+        it('topic number ' + topicIndex + ' has a valid classname',function(){
+          var topic = mockTopicRegistry.registeredTopics[topicIndex];
+          expect(topic.class).toEqual(jasmine.any(String));
+        });  
+      })(i);      
+    }        
+  });
   
 });
   

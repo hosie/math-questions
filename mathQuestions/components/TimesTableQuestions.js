@@ -1,15 +1,19 @@
 'use strict';
 
 (function(){
-  angular.module('GreatMath.times-table-questions', ['GreatMath.question-generator','GreatMath.math-util'])
-  .run(function(questionGenerator,mathUtil){
-    questionGenerator.when(
+  angular.module('GreatMath.times-table-questions', ['GreatMath.topic-registry','GreatMath.math-util'])
+  .run(function(topicRegistry,mathUtil){
+    topicRegistry.register(
       {
-        topicClass : "timesTable",
-        topicId    : 1
-      }
-      ,function(callback,options){
-        generateTimestable(options.multiplier,callback);
+        class : "timesTable",
+        description: "Times table",
+        generateQuestion : function(callback,errcallback,options){
+          if((options== undefined) || (options.multiplier == undefined)){
+            errcallback("Multiplier missing");
+          }else{
+            generateTimestable(options.multiplier,callback);  
+          }          
+        }
       })  
     ;
   
@@ -33,7 +37,7 @@
       var question = "" + multiplier + multiplicationSign + multiplier2 + " = " + answer; 
       
        
-      callback(null,question);
+      callback(question);
     
     }
   });

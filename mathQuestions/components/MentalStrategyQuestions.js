@@ -1,59 +1,66 @@
 'use strict';
 (function(){
-  angular.module('GreatMath.mental-strategy-questions', ['GreatMath.question-generator','GreatMath.math-util'])
-  .run(function(questionGenerator,mathUtil){
-    questionGenerator.when(
+  angular.module('GreatMath.mental-strategy-questions', ['GreatMath.topic-registry','GreatMath.math-util'])
+  .run(function(topicRegistry,mathUtil){
+    topicRegistry.register(
       {
-        topicClass : "mentalStrategies",
-        topicId    : 1,
-        topicDescription : "Number bonds to 5"
-      }
-      ,function(callback){
-        generateNumberBonds(5,callback);
-      })
-    .when(
-      {
-        topicClass : "mentalStrategies",
-        topicId    : 2,
-        topicDescription : "Number bonds to 10"
-      },function(callback){
-        generateNumberBonds(10,callback);
-      })
-    .when(
-      {
-        topicClass : "mentalStrategies",
-        topicId    : 3,
-        topicDescription : "Number bonds to 20"
-      }
-      ,function(callback){
-      generateNumberBonds(20,callback);
-    })
-    .when(
-      {
-        topicClass : "mentalStrategies",
-        topicId    : 4,
-        topicDescription : "Number bonds to 100"
-      },function(callback){
-      generateNumberBonds(100,callback);
-    })
-    .when(
-      {
-        topicClass : "mentalStrategies",
-        topicId:5,
-        topicDescription:"Doubling single digit"
-      },function(callback){
-        var theDigit=mathUtil.randomInteger(9);
-        callback(null,"What is double " + theDigit + "?");
+        class  : "mentalStrategies",
+        description : "Number bonds to 5",
+        generateQuestion: function(callback){
+          generateNumberBonds(5,callback);
+        }
       }
     )
-    .when(
+      
+    .register(
       {
-        topicClass : "mentalStrategies",
+        class : "mentalStrategies",
+        description : "Number bonds to 10",
+        generateQuestion: function(callback){
+        generateNumberBonds(10,callback);
+        }
+      }
+    )
+    .register(
+      {
+        class : "mentalStrategies",
+        topicId    : 3,
+        description : "Number bonds to 20",
+        generateQuestion : function(callback){
+          generateNumberBonds(20,callback);
+        }
+      }
+    )
+    .register(
+      {
+        class : "mentalStrategies",
+        topicId    : 4,
+        description : "Number bonds to 100",
+        generateQuestion: function(callback){
+          generateNumberBonds(100,callback);
+        }
+      }
+    )
+    .register(
+      {
+        class : "mentalStrategies",
+        topicId:5,
+        description:"Doubling single digit",
+        generateQuestion : function(callback){
+          var theDigit=mathUtil.randomInteger(9);
+          callback("What is double " + theDigit + "?");
+        }
+      }
+    )
+    .register(
+      {
+        class : "mentalStrategies",
         topicId:6,
-        topicDescription:"Doubling two digit"
-      },function(callback){
+        description:"Doubling two digit",
+        generateQuestion: function(callback){
         var theDigit=mathUtil.randomInteger(99,10);
-        callback(null,"What is double " + theDigit + "?");
+        callback("What is double " + theDigit + "?");
+        }
       }
     )
     ;
@@ -80,9 +87,7 @@
         
       }
        
-      callback(null,question);
+      callback(question);
     }
-  });
-
-  
+  });  
 })();
