@@ -37,7 +37,7 @@ describe('GreatMath.question-generator module', function() {
     mockTopicRegistry.testTopic = {
       //TODO use - but how can we expect the callback to be async? callback:jasmine.createSpy('generateQuestion')
       generateQuestion:function(callback){
-        callback(null,"testQuestion")
+        callback("testQuestion")
       }
     }
     
@@ -54,8 +54,8 @@ describe('GreatMath.question-generator module', function() {
   it('Additional options are passed to the generator function',function(done){
     mockTopicRegistry.testTopic = {
       //TODO use - but how can we expect the callback to be async? callback:jasmine.createSpy('generateQuestion')
-      generateQuestion:function(callback,options){
-        callback(null,"question1 with additional option " + options.testOption);
+      generateQuestion:function(callback,errorCallback,options){
+        callback("question1 with additional option " + options.testOption);
       }
     }
     
@@ -71,8 +71,41 @@ describe('GreatMath.question-generator module', function() {
     
   });
   
-  it('Question modules may throw exceptions synchronously',function(){
-        
+  it('Question modules may throw exceptions synchronously',function(done){
+    mockTopicRegistry.testTopic = {
+      generateQuestion:function(){
+        throw "Synchronous Error";
+      }
+    }
+    
+    questionGenerator.generate({
+      topicClass : "testClass",
+      topicId    : 1
+    },function(err,question){
+      expect(err).not.toBeNull();
+      expect(err).toEqual("Synchronous Error");            
+      done();
+    });        
+  });
+  
+  it('Question modules may report exceptions asynchronously',function(done){
+    mockTopicRegistry.testTopic = {
+      //TODO use - but how can we expect the callback to be async? callback:jasmine.createSpy('generateQuestion')
+      generateQuestion:function(callback,errorCallback,options){
+        setTimeout(function(){
+          errorCallback("Asynchronous Error");
+        },0);
+      }
+    }
+    
+    questionGenerator.generate({
+      topicClass : "testClass",
+      topicId    : 1
+    },function(err,question){
+      expect(err).not.toBeNull();
+      expect(err).toEqual("Asynchronous Error");            
+      done();
+    });
   });
   
   describe('default generator',function(){
