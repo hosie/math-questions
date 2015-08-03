@@ -169,8 +169,6 @@ describe('GreatMath.topic-registry module', function() {
     
   });
   
-  xit('always returns the same topic id for the same topic regarless of which filters were applied');
-  
   it('Allows chaining for registration methods',function(done){
     topicRegistry.register(
       {
@@ -196,7 +194,11 @@ describe('GreatMath.topic-registry module', function() {
     }); 
   });
   
+  //DEBT: behaviour known to be true but not tested
+  xit('always returns the same topic id for the same topic regarless of which filters were applied');
+  
+  //DEBT: behaviour known to be true but not tested
   xit('getTopics is async');
- 
-  xit('duplicate descriptions causes error');
+   
+  
 });
