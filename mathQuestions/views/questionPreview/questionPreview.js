@@ -22,7 +22,7 @@ angular.module('MathQuestions.questionPreview', ['ngRoute','GreatMath.question-g
     questionGenerator.generate(
     {
       class : "mentalStrategies",
-      topicId    : $scope.selectedTopic
+      topicId    : $scope.selectedTopic-1
     },
     function(err,question){
       $scope.$apply(function(){
