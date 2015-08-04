@@ -97,108 +97,146 @@ describe('Worksheet', function() {
     it('Should set a default for number of questions', function() {
       expect($scope.numberOfTimesTableQuestions).toBe(10);
     });
-    
-    it('generates correct number of weeks', function() {
+    it('is happy when there are no questions to generate', function(done) {
       $scope.$apply(function(){
         mockDistribution.$setNumberOfWeeks(10);        
-        
-        $scope.generate();
-      });
-      expect($scope.weeks.length).toBe(10);
+        mockDistribution.$setNumberOfMentalStrategyQuestions(0);
+        mockDistribution.$setNumberOfTimesTableQuestions(0);
+        $scope.generate()
+        .then(function(){          
+          done();
+        });
+      });      
+    });
+    
+    it('generates correct number of weeks', function(done) {
+      $scope.$apply(function(){
+        mockDistribution.$setNumberOfWeeks(10);        
+        mockDistribution.$setNumberOfMentalStrategyQuestions(1);
+        mockDistribution.$setNumberOfTimesTableQuestions(1);
+        $scope.generate()
+        .then(function(){
+          expect($scope.weeks.length).toBe(10);  
+          done();
+        });
+      });      
     });
 
-    it('generates correct number of sheets per week', function() {
+    it('generates correct number of sheets per week', function(done) {
       $scope.$apply(function(){        
-        $scope.generate();
+        $scope.generate()
+        .then(function(){
+          $scope.weeks.forEach(function(week){
+            expect(week.worksheets.length).toBe(numberOfSheetsPerWeek);
+            
+          });         
+          done();
+        })
+        ;
       });
-      $scope.weeks.forEach(function(week){
-        expect(week.worksheets.length).toBe(numberOfSheetsPerWeek);
-      });
+      
       
     });
     
-    it('populates correct week numbers', function() {
+    it('populates correct week numbers', function(done) {
       $scope.$apply(function(){        
-        $scope.generate();
+        $scope.generate()
+        .then(function(){
+          $scope.weeks.forEach(function(week,index){
+            expect(week.number).toBe(index+1);
+          });    
+          done();          
+        })
+        ;
       });
-      $scope.weeks.forEach(function(week,index){
-        expect(week.number).toBe(index+1);
-      });      
+            
     });
     
-    it('populates correct session numbers', function() {
+    it('populates correct session numbers', function(done) {
       $scope.$apply(function(){        
-        $scope.generate();
+        $scope.generate()
+        .then(function(){
+          $scope.weeks.forEach(function(week){
+            week.worksheets.forEach(function(sheet,index){
+              expect(sheet.number).toBe(index+1);
+            });
+          });
+          done();
+        })
+        ;
       });
-      $scope.weeks.forEach(function(week){
-        week.worksheets.forEach(function(sheet,index){
-          expect(sheet.number).toBe(index+1);
-        });
-      });      
+            
     });
     
     describe('Mental strategies',function(){
-      it('has correct number of questions',function(){
+      it('has correct number of questions',function(done){
         mockDistribution.$setNumberOfWeeks(2);
         
         mockDistribution.$setNumberOfMentalStrategyQuestions(5);
         $scope.$apply(function(){        
-          $scope.generate();
-        });
-        
-        $scope.weeks.forEach(function(week){
-          week.worksheets.forEach(function(sheet,index){
-            expect(sheet.mentalStrategies.questions.length).toBe(5);
-          });
-        });
+          $scope.generate()
+          .then(function(){
+            $scope.weeks.forEach(function(week){
+              week.worksheets.forEach(function(sheet,index){
+                expect(sheet.mentalStrategies.questions.length).toBe(5);
+              });
+            });
 
-        mockDistribution.$setNumberOfWeeks(2);
-        
-        mockDistribution.$setNumberOfMentalStrategyQuestions(2);
-        $scope.$apply(function(){        
-          $scope.generate();
-        });
-        
-        $scope.weeks.forEach(function(week){
-          week.worksheets.forEach(function(sheet,index){
-            expect(sheet.mentalStrategies.questions.length).toBe(2);
-          });
-        });               
-      });
-      
-      it('correctly numbers questions',function(){
-        
-        mockDistribution.$setNumberOfMentalStrategyQuestions(5);
-        $scope.$apply(function(){        
-          $scope.generate();
-        });
-        
-        $scope.weeks.forEach(function(week){
-          week.worksheets.forEach(function(sheet){
-            sheet.mentalStrategies.questions.forEach(function(question,questionIndex){
-              var expectedQuestionNumber=questionIndex+1;
-              expect(question.number).toBe(expectedQuestionNumber);
+            mockDistribution.$setNumberOfWeeks(2);
+            
+            mockDistribution.$setNumberOfMentalStrategyQuestions(2);
+            $scope.$apply(function(){        
+              $scope.generate().then(function(){
+                $scope.weeks.forEach(function(week){
+                  week.worksheets.forEach(function(sheet,index){
+                    expect(sheet.mentalStrategies.questions.length).toBe(2);
+                  });
+                });
+                done();
+              });
             });
           });
+        });        
+      });
+      
+      it('correctly numbers questions',function(done){
+        
+        mockDistribution.$setNumberOfMentalStrategyQuestions(5);
+        $scope.$apply(function(){        
+          $scope.generate()
+          .then(function(){
+            $scope.weeks.forEach(function(week){
+              week.worksheets.forEach(function(sheet){
+                sheet.mentalStrategies.questions.forEach(function(question,questionIndex){
+                  var expectedQuestionNumber=questionIndex+1;
+                  expect(question.number).toBe(expectedQuestionNumber);
+                });
+              });
+            });
+            done();
+          });
         });
       });
       
-      it('places the questions according to the topic distribibutor',function(){
+      it('places the questions according to the topic distribibutor',function(done){
         mockDistribution.$setNumberOfWeeks(2);
         mockDistribution.$setNumberOfMentalStrategyQuestions(5);        
         $scope.$apply(function(){        
-          $scope.generate();
-        });
-        
-        $scope.weeks.forEach(function(week){
-          week.worksheets.forEach(function(sheet){
-            sheet.mentalStrategies.questions.forEach(function(question,questionIndex){
-              var expectedQuestionNumber=questionIndex+1;
-              var expectedText = 'question for '+ expectedQuestionNumber;
-              expect(question.question).toEqual(expectedText + alphabet[questionIndex]);
+          $scope.generate().then(function(){
+            $scope.weeks.forEach(function(week){
+              week.worksheets.forEach(function(sheet){
+                sheet.mentalStrategies.questions.forEach(function(question,questionIndex){
+                  var expectedQuestionNumber=questionIndex+1;
+                  var expectedText = 'question for '+ expectedQuestionNumber;
+                  expect(question.question).toEqual(expectedText + alphabet[questionIndex]);
+                });
+              });
             });
+            done();            
           });
         });
+        
+        
       });
       
       it("sets a default generator function ",function(){
@@ -228,64 +266,64 @@ describe('Worksheet', function() {
     });
 
     describe('Times table',function(){
-      it('has correct number of questions',function(){
+      it('has correct number of questions',function(done){
         mockDistribution.$setNumberOfWeeks(2);
         
         mockDistribution.$setNumberOfTimesTableQuestions(5);
         $scope.$apply(function(){        
-          $scope.generate();
-        });
-        
-        $scope.weeks.forEach(function(week){
-          week.worksheets.forEach(function(sheet,index){
-            expect(sheet.timesTable.questions.length).toBe(5);
-          });
-        });
+          $scope.generate()
+          .then(function(){
+            $scope.weeks.forEach(function(week){
+              week.worksheets.forEach(function(sheet,index){
+                expect(sheet.timesTable.questions.length).toBe(5);
+              });
+            });
 
-        mockDistribution.$setNumberOfWeeks(2);
-        
-        mockDistribution.$setNumberOfTimesTableQuestions(2);
-        $scope.$apply(function(){        
-          $scope.generate();
+            mockDistribution.$setNumberOfWeeks(2);
+            
+            mockDistribution.$setNumberOfTimesTableQuestions(2);
+            $scope.$apply(function(){        
+              $scope.generate()
+              .then(function(){
+                $scope.weeks.forEach(function(week){
+                  week.worksheets.forEach(function(sheet,index){
+                    expect(sheet.timesTable.questions.length).toBe(2);
+                  });
+                });
+                done();
+              });
+            });
+          });
         });
         
-        $scope.weeks.forEach(function(week){
-          week.worksheets.forEach(function(sheet,index){
-            expect(sheet.timesTable.questions.length).toBe(2);
-          });
-        });               
+                       
       });
       
-      it('calls question generator for times table questions',function(){
+      it('calls question generator for times table questions',function(done){
         mockDistribution.$setNumberOfWeeks(1);
         mockDistribution.$setNumberOfTimesTableQuestions(1);
-        spyOn(mockQuestionGenerator, 'generate');
+        spyOn(mockQuestionGenerator, 'generate').and.callThrough();
         $scope.$apply(function(){        
-          $scope.generate();
+          $scope.generate().then(function(){
+            expect (mockQuestionGenerator.generate).toHaveBeenCalledWith({class:"timesTable",topicId:1,multiplier:jasmine.any(Number)},jasmine.any(Function));
+            done();
+          });
         });
-        expect (mockQuestionGenerator.generate).toHaveBeenCalledWith({class:"timesTable",topicId:1,multiplier:jasmine.any(Number)},jasmine.any(Function));
-        
-        
-        
-        
       });
       
-      it('it uses the multiplier from the distributor',function(){
+      it('uses the multiplier from the distributor',function(done){
         mockDistribution.$setNumberOfWeeks(1);
         mockDistribution.$setNumberOfTimesTableQuestions(1);
         mockDistribution.$setTimesTableMultipliers(42);
-        spyOn(mockQuestionGenerator, 'generate');
+        spyOn(mockQuestionGenerator, 'generate').and.callThrough();
         $scope.$apply(function(){        
-          $scope.generate();
+          $scope.generate()
+          .then(function(){
+            expect (mockQuestionGenerator.generate).toHaveBeenCalledWith({class:"timesTable",topicId:1,multiplier:42},jasmine.any(Function));
+            done();
+          });
         });
-        expect (mockQuestionGenerator.generate).toHaveBeenCalledWith({class:"timesTable",topicId:1,multiplier:42},jasmine.any(Function));
-        
-        
-        
-        
       });
-      
-      
     });
   });
 });
