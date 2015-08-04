@@ -30,7 +30,9 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.topic-distributo
           resolve:function(){
             var self=this;
             setTimeout(function(){
-              self.callback();
+              if(self.callback){
+                self.callback();
+              }
             },0);
           }
         }
