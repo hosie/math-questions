@@ -15,12 +15,13 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.topic-distributo
   $scope.numberOfTimesTableQuestions     = 10;
   $scope.numberOfWorksheetsPerWeek       = 5;
   
-  questionGenerator.otherwise(function(questionSpec,callback){
-    callback(null,"Placeholder for " + questionSpec.topicClass + " topic " + questionSpec.topicId);
+  questionGenerator.setDefault(function(questionSpec,callback){
+    callback(null,"Placeholder for " + questionSpec.class + " topic " + questionSpec.topicId);
   });
   
   topicDistributor.createDistribution(function(distribution){
     $scope.$apply(function(){
+      
       $scope.generate = function (){
         $scope.weeks = [];
         
@@ -35,44 +36,54 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.topic-distributo
               }
             };
             
-            week.mentalStrategies.topics.forEach(function(topic,topicIndex){
-              questionGenerator.generate(
-              {
-                topicClass : "mentalStrategies",
-                topicId    : topic.id
-              },              
-              function(err,question){
-                worksheet.mentalStrategies.questions.push({
-                  number:topicIndex+1,
-                  question: question
-                });                
-              });              
-            });
-            worksheet.timesTable={
-              questions:[]                
-            };
-            
-            week.timesTable.questionSpecs.forEach(function(questionSpec,questionIndex){
-              var timesTableQuestionNumber=questionIndex+1;
-              questionGenerator.generate(
-              {
-                topicClass:"timesTable",
-                topicId:1,
-                multiplier:questionSpec.multiplier
-              },
-              function(err,question){
-                worksheet.timesTable.questions.push({
-                  number   : timesTableQuestionNumber,
-                  question : question
-                });
+            (function(worksheet){
+              week.mentalStrategies.topics.forEach(function(topic,topicIndex){
+                questionGenerator.generate(
+                {
+                  class : "mentalStrategies",
+                  topicId    : topic.id
+                },              
+                function(err,question){
+                  $scope.$apply(function(){
+                    worksheet.mentalStrategies.questions[topicIndex]=
+                    {
+                      number:topicIndex+1,
+                      question: question
+                    };  
+                  });
+                                  
+                });              
+              });
+              worksheet.timesTable={
+                questions:[]                
+              };
+              
+              week.timesTable.questionSpecs.forEach(function(questionSpec,questionIndex){
                 
-              }
-              );
-                       
-              timesTableQuestionNumber++;
-            });
+                questionGenerator.generate(
+                {
+                  class:"timesTable",
+                  topicId:1,
+                  multiplier:questionSpec.multiplier
+                },
+                function(err,question){
+                  $scope.$apply(function(){
+                    worksheet.timesTable.questions[questionIndex]=
+                    {
+                      number   : questionIndex+1,
+                      question : question
+                    };  
+                  });
+                }
+                );  
+              });
+              
+              week.worksheets.push(worksheet);
+              
+            })(worksheet);
             
-            week.worksheets.push(worksheet);
+            
+            
           }
           $scope.weeks.push(week);
         });

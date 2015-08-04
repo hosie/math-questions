@@ -26,10 +26,10 @@ describe('GreatMath.question-generator module', function() {
   
   beforeEach(function(){
     mockTopicRegistry.getTopic=function(id,callback){        
-      callback(null,this.testTopic);
+      callback(this.testTopic);
     };
     mockTopicRegistry.getTopics=function(filter,callback){        
-      callback(null,[this.testTopic]);
+      callback([this.testTopic]);
     };
   });
   
@@ -42,7 +42,7 @@ describe('GreatMath.question-generator module', function() {
     }
     
     questionGenerator.generate({
-      topicClass : "testClass",
+      class : "testClass",
       topicId    : 1
     },function(err,question){
       expect(err).toBeNull();
@@ -60,7 +60,7 @@ describe('GreatMath.question-generator module', function() {
     }
     
     questionGenerator.generate({
-      topicClass : "testClass",
+      class : "testClass",
       topicId    : 1,
       testOption : "foo"
     },function(err,question){
@@ -79,7 +79,7 @@ describe('GreatMath.question-generator module', function() {
     }
     
     questionGenerator.generate({
-      topicClass : "testClass",
+      class : "testClass",
       topicId    : 1
     },function(err,question){
       expect(err).not.toBeNull();
@@ -99,7 +99,7 @@ describe('GreatMath.question-generator module', function() {
     }
     
     questionGenerator.generate({
-      topicClass : "testClass",
+      class : "testClass",
       topicId    : 1
     },function(err,question){
       expect(err).not.toBeNull();
@@ -124,7 +124,7 @@ describe('GreatMath.question-generator module', function() {
       
       questionGenerator.generate(
         {
-          topicClass : "mentalStrategies",
+          class : "mentalStrategies",
           topicId    : 1
         },function(err,question){
           expect(err).toBeNull();
@@ -136,7 +136,7 @@ describe('GreatMath.question-generator module', function() {
   
     it('throws exception for unkown topic id if no default generator is registered',function(){
       var questionSpec = {
-        topicClass : "mentalStrategies",
+        class : "mentalStrategies",
         topicId    : 1
       };
       questionGenerator.generate(questionSpec,function(err,question){

@@ -11,8 +11,8 @@ angular.module('GreatMath.question-generator', ['GreatMath.topic-registry'])
       var generatorFunction;
       var topicId = questionSpec.topicId;
       var self=this;
-      topicRegistry.getTopics({class:questionSpec.topicClass},function(err,topics){
-        if(err==null){
+      topicRegistry.getTopics({class:questionSpec.class},function(topics){
+        if((topicId-1) < topics.length){
           generatorFunction = topics[topicId-1].generateQuestion;//TODO this -1 business means that we know something about how the topicRegistry  allocates IDs. This is wrong
           try{
             
@@ -33,7 +33,7 @@ angular.module('GreatMath.question-generator', ['GreatMath.topic-registry'])
           }
           
           
-        }else if(err==topicRegistry.ERR_UNKNOWN_ID){
+        }else{
           if(null!=self.defaultGeneratorFunction){
             self.defaultGeneratorFunction(questionSpec,callback);                  
           }else{

@@ -25,7 +25,7 @@ describe('basic (quick) end to end tests',function(){
     
   });
 
-  xdescribe('worksheet generator',function(){
+  describe('worksheet generator',function(){
 
     beforeEach(function() {
       browser.get('http://localhost:8000/mathQuestions/#/worksheet');

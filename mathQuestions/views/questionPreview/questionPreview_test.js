@@ -71,7 +71,7 @@ describe('QuestionPreviewController',function(){
         function(){
           expect(mockQuestionGenerator.generate).toHaveBeenCalledWith(
             { 
-              topicClass : "mentalStrategies",
+              class : "mentalStrategies",
               topicId    : 42
             },
             jasmine.any(Function)

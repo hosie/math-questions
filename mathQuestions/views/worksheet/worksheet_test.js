@@ -54,9 +54,13 @@ describe('Worksheet', function() {
     defaultHasBeenSet:false,
     defaultFunction:null,
     generate : function(questionSpec,callback){
-      callback(null,"question for " + questionSpec.topicId);
+      setTimeout(
+        function(){
+          callback(null,"question for " + questionSpec.topicId);
+        },0
+      );
     },
-    otherwise:function(defaultFunction){
+    setDefault:function(defaultFunction){
       this.defaultHasBeenSet=true;
       this.defaultFunction=defaultFunction;
     }
@@ -210,7 +214,7 @@ describe('Worksheet', function() {
       it('default function does the right thing',function(done){
         mockQuestionGenerator.defaultFunction(
           {
-            topicClass : 'TestTopicClass',
+            class : 'TestTopicClass',
             topicId:'TestTopicID'
           },
           function(err,question){
@@ -259,7 +263,7 @@ describe('Worksheet', function() {
         $scope.$apply(function(){        
           $scope.generate();
         });
-        expect (mockQuestionGenerator.generate).toHaveBeenCalledWith({topicClass:"timesTable",topicId:1,multiplier:jasmine.any(Number)},jasmine.any(Function));
+        expect (mockQuestionGenerator.generate).toHaveBeenCalledWith({class:"timesTable",topicId:1,multiplier:jasmine.any(Number)},jasmine.any(Function));
         
         
         
@@ -274,7 +278,7 @@ describe('Worksheet', function() {
         $scope.$apply(function(){        
           $scope.generate();
         });
-        expect (mockQuestionGenerator.generate).toHaveBeenCalledWith({topicClass:"timesTable",topicId:1,multiplier:42},jasmine.any(Function));
+        expect (mockQuestionGenerator.generate).toHaveBeenCalledWith({class:"timesTable",topicId:1,multiplier:42},jasmine.any(Function));
         
         
         

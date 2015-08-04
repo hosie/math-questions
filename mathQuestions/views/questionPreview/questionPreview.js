@@ -21,7 +21,7 @@ angular.module('MathQuestions.questionPreview', ['ngRoute','GreatMath.question-g
   function populateQuestion(){
     questionGenerator.generate(
     {
-      topicClass : "mentalStrategies",
+      class : "mentalStrategies",
       topicId    : $scope.selectedTopic
     },
     function(err,question){
