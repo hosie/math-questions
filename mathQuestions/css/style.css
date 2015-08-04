@@ -8,3 +8,14 @@
 .canvas {
   padding: 30px 20px;
 }
+
+.question-preview{
+  font-size:50pt;
+}
+
+.topic-preview-selection>option{
+  font-size:35pt;
+}
+.topic-preview-selection{
+  font-size:35pt;
+}
