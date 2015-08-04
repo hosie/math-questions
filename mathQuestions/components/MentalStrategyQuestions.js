@@ -24,7 +24,6 @@
     .register(
       {
         class : "mentalStrategies",
-        topicId    : 3,
         description : "Number bonds to 20",
         generateQuestion : function(callback){
           generateNumberBonds(20,callback);
@@ -34,7 +33,6 @@
     .register(
       {
         class : "mentalStrategies",
-        topicId    : 4,
         description : "Number bonds to 100",
         generateQuestion: function(callback){
           generateNumberBonds(100,callback);
@@ -44,7 +42,6 @@
     .register(
       {
         class : "mentalStrategies",
-        topicId:5,
         description:"Doubling single digit",
         generateQuestion : function(callback){
           var theDigit=mathUtil.randomInteger(9);
@@ -55,7 +52,6 @@
     .register(
       {
         class : "mentalStrategies",
-        topicId:6,
         description:"Doubling two digit",
         generateQuestion: function(callback){
         var theDigit=mathUtil.randomInteger(99,10);
@@ -63,6 +59,91 @@
         }
       }
     )
+    .register(
+      {
+        class : "mentalStrategies",
+        description:"Halving single digit",
+        generateQuestion : function(callback){
+          var theDigit=mathUtil.randomInteger(9);
+          callback("Halve " + theDigit);
+        }
+      }
+    )
+    .register(
+      {
+        class : "mentalStrategies",
+        description:"Halving two digit",
+        generateQuestion: function(callback){
+          var theDigit=mathUtil.randomInteger(99,10);
+          callback("Halve " + theDigit);
+        }
+      }
+    )
+    .register(
+      {
+        class : "mentalStrategies",
+        description:"Add 10",
+        generateQuestion: function(callback){
+          var theDigit=mathUtil.randomInteger(99,1);
+          callback("10 + " + theDigit + " = " + box);
+        }
+      }
+    )
+    .register(
+      {
+        class : "mentalStrategies",
+        description:"Subtracting 10",
+        generateQuestion: function(callback){
+          var theDigit=mathUtil.randomInteger(99,11);
+          callback("" + theDigit + " - 10 = " + box);
+        }
+      }
+    )
+    .register(
+      {
+        class : "mentalStrategies",
+        description:"Adding multiples of 10",
+        generateQuestion: function(callback){
+          var multiplier = mathUtil.randomInteger(9);
+          var operand1  = mathUtil.randomInteger(99,1);
+          var multipleOfTen = 10 * multiplier;
+          callback("" + operand1 + " + " + multipleOfTen + "=" + box);
+        }
+      }
+    )
+    .register(
+      {
+        class : "mentalStrategies",
+        description:"Subtracting multiples of 10",
+        generateQuestion: function(callback){
+          var answer = mathUtil.randomInteger(89,1);
+          var multiplier = mathUtil.randomInteger(9);
+          var multipleOfTen = 10 * multiplier;
+          
+          var operand1  = answer + multipleOfTen;
+          
+          callback("" + operand1 + " - " + multipleOfTen + " =" + box);
+        }
+      }
+    )
+    .register(
+      {
+        class : "mentalStrategies",
+        description:"How many to a multiple of 10",
+        generateQuestion: function(callback){
+          var multiplier = mathUtil.randomInteger(9);
+          var multipleOfTen = 10 * multiplier;
+          var operand2  = mathUtil.randomInteger(9);
+          var operand1  = multipleOfTen - operand2;
+          
+          callback("" + operand1 + " + " + box + "=" + multipleOfTen);
+        }
+      }
+    )
+    
+    
+    
+    
     ;
     
     var box= "\u2610";

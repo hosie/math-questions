@@ -1,7 +1,7 @@
 'use strict';
 
 describe('GreatMath.mental-strategy-questions module', function() {
-  var EXPECTED_NUMBER_OF_TOPICS=6;
+  var EXPECTED_NUMBER_OF_TOPICS=13;
   beforeEach(module('GreatMath.mental-strategy-questions'));
   var mockTopicRegistry =   {
     registeredTopics:[],
