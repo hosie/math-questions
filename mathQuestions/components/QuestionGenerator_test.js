@@ -26,7 +26,7 @@ describe('GreatMath.question-generator module', function() {
   
   beforeEach(function(){
     mockTopicRegistry.getTopic=function(id,callback){        
-      callback(this.testTopic);
+      callback(null,this.testTopic);
     };
     mockTopicRegistry.getTopics=function(filter,callback){        
       callback([this.testTopic]);
@@ -47,6 +47,17 @@ describe('GreatMath.question-generator module', function() {
     },function(err,question){
       expect(err).toBeNull();
       expect(question).toEqual("testQuestion");            
+      done();
+    });
+  });
+  
+  it('looks up topics from registry using correct id',function(done){
+    spyOn(mockTopicRegistry,'getTopic').and.callThrough();
+    questionGenerator.generate({
+      class : "testClass",
+      topicId    : 101
+    },function(err,question){
+      expect(mockTopicRegistry.getTopic).toHaveBeenCalledWith(101,jasmine.any(Function));      
       done();
     });
   });
@@ -115,6 +126,9 @@ describe('GreatMath.question-generator module', function() {
       mockTopicRegistry.getTopics = function(filter,callback){
         callback(this.ERR_UNKNOWN_ID,null);
       }
+      mockTopicRegistry.getTopic = function(id,callback){
+        callback(this.ERR_UNKNOWN_ID,null);
+      }
     });
     
     it('registers default generator function',function(done){
@@ -134,6 +148,23 @@ describe('GreatMath.question-generator module', function() {
       );
     });
   
+    it('calls default generator function when topicId is null',function(done){
+      questionGenerator.setDefault(function(questionSpec,callback){
+        callback(null,"placeholder for null topic");
+      });
+      
+      questionGenerator.generate(
+        {
+          class : "mentalStrategies",
+          topicId    : null
+        },function(err,question){
+          expect(err).toBeNull();
+          expect(question).toEqual("placeholder for null topic");
+          done();
+        }
+      );
+    });
+    
     it('throws exception for unkown topic id if no default generator is registered',function(){
       var questionSpec = {
         class : "mentalStrategies",
