@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('GreatMath.topic-distributor', ['GreatMath.topic-provider'])
+angular.module('GreatMath.session-scheduler', ['GreatMath.topic-registry'])
 
-.factory('topicDistributor', ['topicProvider',function(topicProvider) {
+.factory('sessionScheduler', ['topicRegistry',function(topicRegistry) {
   return {
     /*calls the callback with an array of objects.  Each object represents a week and contains 3 arrays of topic ids
     
@@ -62,37 +62,41 @@ angular.module('GreatMath.topic-distributor', ['GreatMath.topic-provider'])
           weeks:[
           ]
         };
-        distributionTable.forEach(function(row,weekIndex){
-          var week = {
-            number : weekIndex+1,
-            mentalStrategies:{
-              topics : []
+        topicRegistry.getTopics({},function(topics){
+          distributionTable.forEach(function(row,weekIndex){
+            var week = {
+              number : weekIndex+1,
+              mentalStrategies:{
+                topics : []
+              }
+            };
+            row.forEach(function(cell,topicIndex){
+              //0 means no questions on that topic this week. 
+              //1 ( or anything greater than 0, for that matter) means there is one question on that topic this week
+              if(cell>0){
+                week.mentalStrategies.topics.push({
+                  id:topics[topicIndex].id
+                });  
+              }
+            });
+            week.timesTable={
+              questionSpecs:[]
+            };
+            
+            for(var questionNumber=1;questionNumber<=10;questionNumber++){
+              var multiplier = 2 + Math.floor( 9 * Math.random());
+              
+              week.timesTable.questionSpecs.push({multiplier:multiplier});
+              
             }
-          };
-          row.forEach(function(cell,topicIndex){
-            //0 means no questions on that topic this week. 
-            //1 ( or anything greater than 0, for that matter) means there is one question on that topic this week
-            if(cell>0){
-              week.mentalStrategies.topics.push({
-                id:topicIndex+1
-              });  
-            }
+            result.weeks.push(week);          
           });
-          week.timesTable={
-            questionSpecs:[]
-          };
+          setTimeout(function(){
+            callback(result);          
+          },0);
           
-          for(var questionNumber=1;questionNumber<=10;questionNumber++){
-            var multiplier = 2 + Math.floor( 9 * Math.random());
-            
-            week.timesTable.questionSpecs.push({multiplier:multiplier});
-            
-          }
-          result.weeks.push(week);          
         });
-        setTimeout(function(){
-          callback(result);          
-        },0);
+        
     }    
   };
 }]);

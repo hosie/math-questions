@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.topic-distributor','GreatMath.question-generator'])
+angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.session-scheduler','GreatMath.question-generator'])
 
 .config(['$routeProvider', function($routeProvider) {
   
@@ -10,7 +10,7 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.topic-distributo
   });
 }])
 
-.controller('WorksheetController', ['$scope','$sce','topicDistributor','questionGenerator',function($scope,$sce,topicDistributor,questionGenerator) {
+.controller('WorksheetController', ['$scope','$sce','sessionScheduler','questionGenerator',function($scope,$sce,sessionScheduler,questionGenerator) {
   
   $scope.numberOfTimesTableQuestions     = 10;
   $scope.numberOfWorksheetsPerWeek       = 5;
@@ -19,7 +19,7 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.topic-distributo
     callback(null,"Placeholder for " + questionSpec.class + " topic " + questionSpec.topicId);
   });
   
-  topicDistributor.createDistribution(function(distribution){
+  sessionScheduler.createDistribution(function(distribution){
     $scope.$apply(function(){
       
       $scope.generate = function (){

@@ -1,48 +1,47 @@
 'use strict';
 
-describe('GreatMath.topic-distributor module', function() {
-  beforeEach(module('GreatMath.topic-distributor'));
+describe('GreatMath.session-scheduler module', function() {
+  beforeEach(module('GreatMath.session-scheduler'));
+  
+  var mockTopicRegistry;
+  var sessionScheduler;
   beforeEach(function(){
     module(function($provide){
-      $provide.factory('topicProvider',function(){
-        return{
-          getTopics : function(callback){
-            callback([
-            {
-              id:1,
-              name:"topic1"              
-            },
-            {
-              id:2,
-              name:"topic2"              
-            },
-            {
-              id:3,
-              name:"topic3"              
-            },
-            {
-              id:4,
-              name:"topic4"              
-            }
-            ]);            
-          }          
-        }
+      $provide.factory('topicRegistry',function(){
+        return mockTopicRegistry;
       });      
     });    
   });
-
-  var topicDistributor;
-  
-  beforeEach(inject(function($rootScope, _topicDistributor_) {
     
-    topicDistributor=_topicDistributor_;
+  beforeEach(inject(function($rootScope, _sessionScheduler_) {
+    
+    sessionScheduler=_sessionScheduler_;
   }));
+  
+  describe('When there are 26 topics registered',function(){
     
-  describe('BasicDistribution',function(){
+    mockTopicRegistry={
+      mentalStrategiesTopics:[],
+      getTopics:function(options,callback){
+        var result = this.mentalStrategiesTopics;
+        setTimeout(function(){
+          callback(result);
+        },0);
+      }
+    };
+    
+    for(var i=1;i<=26;i++){
+      mockTopicRegistry.mentalStrategiesTopics.push({
+        id:100+i,
+        description:"mental strategey topic " + i
+      });
+    }
+    
+    
     
     var distribution;
     beforeEach(function(done){
-      topicDistributor.createDistribution(function(result){
+      sessionScheduler.createDistribution(function(result){
         distribution=result;
         done();        
       })      
@@ -67,13 +66,14 @@ describe('GreatMath.topic-distributor module', function() {
         expect(numberOfQuestions).toBe(10);
       });
     }
-    for (var i=1;topicId<=26;topicId++){
-      var topicId=i;
+    
+    mockTopicRegistry.mentalStrategiesTopics.forEach(function(topic){
+      var topicId=topic.id;
     
       it("topic " + topicId + " has 15 questions",function(){
         var numberOfOccurances=0;        
         distribution.weeks.forEach(function(item){
-          item.topics.forEach(function(item){
+          item.mentalStrategies.topics.forEach(function(item){
             if(item.id==topicId){
               numberOfOccurances++;
             }            
@@ -83,13 +83,13 @@ describe('GreatMath.topic-distributor module', function() {
         //an even distribution would mean that each topic has 15 questions in total
         expect(numberOfOccurances).toBe(15);        
       })
-    };
+    });
     
     it('calls back asynchrously',function(done){
       //otherwise we don't know whether or not we are in a digest.
       //best to ensure that it is always async and consumer must make any scope updates in a digest block
       var sync=true;
-      topicDistributor.createDistribution(function(result){
+      sessionScheduler.createDistribution(function(result){
         expect(sync).toBe(false);
         done();
       });

@@ -67,7 +67,7 @@ describe('Worksheet', function() {
   };
   beforeEach(module('MathQuestions.worksheet'));
   beforeEach(module(function($provide){
-      $provide.factory('topicDistributor',function(){
+      $provide.factory('sessionScheduler',function(){
         //return a mock topciDistributor factory
         mockDistribution.$setNumberOfWeeks(2);
         mockDistribution.$setNumberOfMentalStrategyQuestions(2);
