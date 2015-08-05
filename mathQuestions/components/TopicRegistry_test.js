@@ -35,8 +35,7 @@ describe('GreatMath.topic-registry module', function() {
       done();
     });    
   });
-  
-  
+    
   it('Register more than one topic',function(done){    
     topicRegistry.register(
       {

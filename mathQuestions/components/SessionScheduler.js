@@ -62,7 +62,9 @@ angular.module('GreatMath.session-scheduler', ['GreatMath.topic-registry'])
           weeks:[
           ]
         };
-        topicRegistry.getTopics({},function(topics){
+        
+        //mental strategies
+        topicRegistry.getTopics({class:'mentalStrategies'},function(topics){
           distributionTable.forEach(function(row,weekIndex){
             var week = {
               number : weekIndex+1,
@@ -83,17 +85,30 @@ angular.module('GreatMath.session-scheduler', ['GreatMath.topic-registry'])
               questionSpecs:[]
             };
             
-            for(var questionNumber=1;questionNumber<=10;questionNumber++){
-              var multiplier = 2 + Math.floor( 9 * Math.random());
-              
-              week.timesTable.questionSpecs.push({multiplier:multiplier});
-              
-            }
+            topicRegistry.getTopics({class:'timesTable'},function(ttTopics){
+              var ttTopicId;
+              if(ttTopics.length==0){
+                ttTopicId=null;
+              }else{
+                ttTopicId=ttTopics[0].id;
+              }
+              for(var questionNumber=1;questionNumber<=10;questionNumber++){
+                var multiplier = 2 + Math.floor( 9 * Math.random());
+                
+                week.timesTable.questionSpecs.push(
+                {
+                  id         : ttTopicId,
+                  multiplier : multiplier
+                });
+                
+              }
+              setTimeout(function(){
+                callback(result);          
+              },0);
+            });
             result.weeks.push(week);          
           });
-          setTimeout(function(){
-            callback(result);          
-          },0);
+          
           
         });
         

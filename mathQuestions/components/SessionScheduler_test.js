@@ -4,8 +4,14 @@ describe('GreatMath.session-scheduler module', function() {
   beforeEach(module('GreatMath.session-scheduler'));
   
   var mockTopicRegistry={
-    getTopics:function(options,callback){
-      var result = this.mentalStrategiesTopics;
+    getTopics:function(filter,callback){
+      var result;
+      
+      if(filter.class=="mentalStrategies"){
+        result = this.mentalStrategiesTopics;
+      }else{
+        result = [];
+      }
       setTimeout(function(){
         callback(result);
       },0);
@@ -25,7 +31,9 @@ describe('GreatMath.session-scheduler module', function() {
     sessionScheduler=_sessionScheduler_;
   }));
   
-  describe('When there are 26 topics registered',function(){
+  
+  
+  describe('When there are 26 mental strategey topics registered',function(){
 
     beforeEach(function(){
     
@@ -104,10 +112,72 @@ describe('GreatMath.session-scheduler module', function() {
       });
     });
     
+    
+  });
+  
+  describe('When there are less than 26 mental strategey topics registered',function(){
+    beforeEach(function(){
+      mockTopicRegistry.mentalStrategiesTopics=[
+        {
+          id:1,
+          description:"test topic 1"
+        }
+        ];  
+    });
+    
+    var distribution;
+    beforeEach(function(done){
+      sessionScheduler.createDistribution(function(result){
+        distribution=result;
+        done();        
+      })      
+    });
+    
+    it('there are 10 mental strategies questions on every sheet',function(){
+      distribution.weeks.forEach(function(week,weekIndex){
+        expect(week.mentalStrategies.topics.length).toBe(10);        
+      });
+    });
+    
+    it('uses null as placeholders for topic id',function(){
+      
+    });
+    
+  });
+    
+  describe('Times table',function(){
+    beforeEach(function(){
+      mockTopicRegistry.getTopics=function(filter,callback){
+        setTimeout(function(){
+          callback([
+          {
+            id:201
+          }
+          ]);
+        },0);
+      };
+    });
+    
+    var distribution;
+    beforeEach(function(done){
+      sessionScheduler.createDistribution(function(result){
+        distribution=result;
+        done();        
+      })      
+    });
+    
     it('there are 10 times table questions on every sheet',function(){
       distribution.weeks.forEach(function(week,weekIndex){
         expect(week.timesTable.questionSpecs.length).toBe(10);        
       });
+    });
+    
+    it('each times table question has the correct topicid',function(){
+      distribution.weeks.forEach(function(week){
+        week.timesTable.questionSpecs.forEach(function(topic){
+          expect(topic.id).toEqual(201);              
+        });
+      });  
     });
     
     it('each times table question has a multiplier',function(){
@@ -144,39 +214,7 @@ describe('GreatMath.session-scheduler module', function() {
     });
     
     xit('multipliers are somewhat random',function(){});
-    
-  });
-  
-  describe('When there are less than 26 topics registered',function(){
-    beforeEach(function(){
-      mockTopicRegistry.mentalStrategiesTopics=[
-        {
-          id:1,
-          description:"test topic 1"
-        }
-        ];  
-    });
-    
-    var distribution;
-    beforeEach(function(done){
-      sessionScheduler.createDistribution(function(result){
-        distribution=result;
-        done();        
-      })      
-    });
-    
-    it('there are 10 mental strategies questions on every sheet',function(){
-      distribution.weeks.forEach(function(week,weekIndex){
-        expect(week.mentalStrategies.topics.length).toBe(10);        
-      });
-    });
-    
-    it('uses null as placeholders for topic id',function(){
-      
-    });
-    
-  });
-    
-    
+        
+  });  
   
 });
