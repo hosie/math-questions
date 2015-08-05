@@ -75,7 +75,7 @@ angular.module('GreatMath.session-scheduler', ['GreatMath.topic-registry'])
               //1 ( or anything greater than 0, for that matter) means there is one question on that topic this week
               if(cell>0){
                 week.mentalStrategies.topics.push({
-                  id:topics[topicIndex].id
+                  id: topicIndex>=topics.length ? null : topics[topicIndex].id //use null as placeholder when there are less than 26 topics
                 });  
               }
             });
