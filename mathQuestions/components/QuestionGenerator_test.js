@@ -124,10 +124,10 @@ describe('GreatMath.question-generator module', function() {
     beforeEach(function(){//TODO refactor, use jasmine.mock or something here?
       mockTopicRegistry.ERR_UNKNOWN_ID={reason:"ERR_UNKNOWN_ID"};
       mockTopicRegistry.getTopics = function(filter,callback){
-        callback(this.ERR_UNKNOWN_ID,null);
+        callback({reason:this.ERR_UNKNOWN_ID},null);
       }
       mockTopicRegistry.getTopic = function(id,callback){
-        callback(this.ERR_UNKNOWN_ID,null);
+        callback({reason:this.ERR_UNKNOWN_ID},null);
       }
     });
     

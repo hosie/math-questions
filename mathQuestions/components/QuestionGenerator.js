@@ -31,7 +31,7 @@ angular.module('GreatMath.question-generator', ['GreatMath.topic-registry'])
               callback(err,null);
             },0);
           }
-        }else if(err==topicRegistry.ERR_UNKNOWN_ID){
+        }else if(err.reason==topicRegistry.ERR_UNKNOWN_ID){
           if(null!=self.defaultGeneratorFunction){
             self.defaultGeneratorFunction(questionSpec,callback);                  
           }else{
