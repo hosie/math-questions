@@ -22,18 +22,20 @@ angular.module('GreatMath.topic-registry', [])
       return this;
     },
     getTopics:function(filter,callback){
-      var targetClass;
       var result = [];
-      
+      var classFilter;
       if(callback==undefined){
         callback = filter;
+      }else{
+        classFilter=filter.class;        
+      }
+      if(classFilter!=undefined){
+        result = this.registeredTopics[classFilter];        
+      }else{
         var self=this;
         this.classNames.forEach(function(className){
           result = result.concat(self.registeredTopics[className])
         });
-      }else{
-        targetClass=filter.class;
-        result = this.registeredTopics[targetClass];
       }
       
       setTimeout(function(){

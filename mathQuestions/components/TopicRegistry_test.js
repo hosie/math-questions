@@ -23,6 +23,20 @@ describe('GreatMath.topic-registry module', function() {
     });    
   });
   
+  it('class name in filter is optional',function(done){    
+    topicRegistry.register(
+      {
+        class : "testClass",
+        generateQuestion : function(){}
+      }
+    );    
+    topicRegistry.getTopics({},function(topics){
+      expect(topics.length).toBe(1);
+      done();
+    });    
+  });
+  
+  
   it('Register more than one topic',function(done){    
     topicRegistry.register(
       {
