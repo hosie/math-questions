@@ -24,7 +24,7 @@ describe('GreatMath.topic-registry module', function() {
   });
   
   it('returns empty array if filter does not match',function(done){
-    topicRegistry.getTopics(function(topics){
+    topicRegistry.getTopics({class:"unknownClass"},function(topics){
       expect(topics.length).toBe(0);
       done();
     })

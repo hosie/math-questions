@@ -29,7 +29,7 @@ angular.module('GreatMath.topic-registry', [])
       }else{
         classFilter=filter.class;        
       }
-      if(classFilter!=undefined){
+      if(classFilter!=undefined && (this.classNames.lastIndexOf(classFilter)!=-1)){
         result = this.registeredTopics[classFilter];        
       }else{
         var self=this;
