@@ -3,20 +3,28 @@
 describe('GreatMath.session-scheduler module', function() {
   beforeEach(module('GreatMath.session-scheduler'));
   
-  var mockTopicRegistry={
-    getTopics:function(filter,callback){
-      var result;
-      
-      if(filter.class=="mentalStrategies"){
-        result = this.mentalStrategiesTopics;
-      }else{
-        result = [];
+  var mockTopicRegistry;
+  beforeEach(function(){
+    mockTopicRegistry={
+      keySkillsTopics:[],
+      mentalStrategiesTopics:[],
+      getTopics:function(filter,callback){
+        var result;
+        
+        if(filter.class=="mentalStrategies"){
+          result = this.mentalStrategiesTopics;
+        }else if(filter.class=="keySkills"){
+          result = this.keySkillsTopics;
+        }else{
+          result = [];
+        }
+        setTimeout(function(){
+          callback(result);
+        },0);
       }
-      setTimeout(function(){
-        callback(result);
-      },0);
-    }
-  };
+    };  
+  });
+  
   var sessionScheduler;
   beforeEach(function(){
     module(function($provide){
@@ -30,9 +38,7 @@ describe('GreatMath.session-scheduler module', function() {
     
     sessionScheduler=_sessionScheduler_;
   }));
-  
-  
-  
+    
   describe('When there are 26 mental strategey topics registered',function(){
 
     beforeEach(function(){
@@ -217,4 +223,56 @@ describe('GreatMath.session-scheduler module', function() {
         
   });  
   
+  describe('keySkills',function(){
+    var keySkillsTopicIds=[];
+    for(var i=1;i<=26;i++){
+      keySkillsTopicIds[i]=300+i;
+    }
+    
+    beforeEach(function(){
+    
+      mockTopicRegistry.keySkillsTopics=[];
+      
+      for(var i=1;i<=26;i++){
+        mockTopicRegistry.keySkillsTopics.push({
+          id:keySkillsTopicIds[i],
+          description:"key skill topic " + i
+        });
+      }
+    });
+    
+    var distribution;
+    beforeEach(function(done){
+      sessionScheduler.createDistribution(function(result){
+        distribution=result;
+        done();        
+      })      
+    });
+    
+    it('there are 10 key skills questions on every sheet',function(done){
+      distribution.weeks.forEach(function(week,weekIndex){
+        expect(week.keySkills.questionSpecs.length).toBe(10);        
+        done();
+      });
+    });
+    
+    it('each topic appears 15 times',function(done){
+      
+      keySkillsTopicIds.forEach(function(topicId){
+        var numberOfOccurances=0;        
+        distribution.weeks.forEach(function(item){
+          item.keySkills.questionSpecs.forEach(function(item){
+            if(item.id==topicId){
+              numberOfOccurances++;
+            }            
+          });          
+        });
+        //with 39 weeks, 10 questions each week and 26 topics,
+        //an even distribution would mean that each topic has 15 questions in total
+        expect(numberOfOccurances).toBe(15);        
+        
+      });
+      done();      
+    });
+  });  
 });
