@@ -90,7 +90,7 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.session-schedule
                   questionGenerator.generate(
                   {
                     class:"timesTable",
-                    topicId:1,
+                    topicId:questionSpec.id,
                     multiplier:questionSpec.multiplier
                   },
                   function(err,question){

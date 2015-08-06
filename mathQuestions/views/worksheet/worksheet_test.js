@@ -6,6 +6,7 @@ describe('Worksheet', function() {
   var numberOfSheetsPerWeek=5;
   var mockDistribution = {
     weeks: [],
+    
     $setNumberOfWeeks:function(numberOfWeeks){
       this.weeks=[];
       var weekNumber=1;
@@ -26,7 +27,7 @@ describe('Worksheet', function() {
       this.weeks.forEach(function(week){
         var questionNumber=1;
         while(questionNumber<numberOfQuestions+1){
-          week.timesTable.questionSpecs.push({multiplier:1});                    
+          week.timesTable.questionSpecs.push({id:31504,multiplier:1});                    
           questionNumber++;
         }
       });
@@ -239,6 +240,24 @@ describe('Worksheet', function() {
         
       });
       
+      it('uses correct topic id to generate questions',function(done){
+        var topicIds = [42,73,44,104,92,87];
+        mockDistribution.$setNumberOfWeeks(1);
+        mockDistribution.$setNumberOfMentalStrategyQuestions(6);
+        mockDistribution.weeks[0].mentalStrategies.topics.forEach(function(topic,topicIndex){
+          topic.id=topicIds[topicIndex];
+        });
+        $scope.$apply(function(){        
+          $scope.generate().then(function(){
+            var question = $scope.weeks[0].worksheets[0].mentalStrategies.questions.forEach(function(question,questionIndex){//todo use spyOn once I figure out how to assert hasBeenCalled x times with...
+              expect(question.question).toEqual("question for " + topicIds[questionIndex]);            
+            } );            
+            done();            
+          });
+        });
+        
+      });
+      
       it("sets a default generator function ",function(){
         expect(mockQuestionGenerator.defaultHasBeenSet).toBe(true);
       });
@@ -305,7 +324,7 @@ describe('Worksheet', function() {
         spyOn(mockQuestionGenerator, 'generate').and.callThrough();
         $scope.$apply(function(){        
           $scope.generate().then(function(){
-            expect (mockQuestionGenerator.generate).toHaveBeenCalledWith({class:"timesTable",topicId:1,multiplier:jasmine.any(Number)},jasmine.any(Function));
+            expect (mockQuestionGenerator.generate).toHaveBeenCalledWith({class:"timesTable",topicId:jasmine.any(Number),multiplier:jasmine.any(Number)},jasmine.any(Function));
             done();
           });
         });
@@ -319,11 +338,26 @@ describe('Worksheet', function() {
         $scope.$apply(function(){        
           $scope.generate()
           .then(function(){
-            expect (mockQuestionGenerator.generate).toHaveBeenCalledWith({class:"timesTable",topicId:1,multiplier:42},jasmine.any(Function));
+            expect (mockQuestionGenerator.generate).toHaveBeenCalledWith({class:"timesTable",topicId:jasmine.any(Number),multiplier:42},jasmine.any(Function));
             done();
           });
         });
       });
+    
+      it('uses correct topic id to generate questions',function(done){
+        mockDistribution.$setNumberOfWeeks(1);
+        mockDistribution.$setNumberOfTimesTableQuestions(1);
+        mockDistribution.weeks[0].timesTable.questionSpecs[0].id=42;
+        spyOn(mockQuestionGenerator, 'generate').and.callThrough();
+        $scope.$apply(function(){        
+          $scope.generate()
+          .then(function(){
+            expect (mockQuestionGenerator.generate).toHaveBeenCalledWith({class:"timesTable",topicId:42,multiplier:jasmine.any(Number)},jasmine.any(Function));
+            done();
+          });
+        });        
+      });
+      
     });
   });
 });
