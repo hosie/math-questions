@@ -146,7 +146,16 @@ describe('GreatMath.session-scheduler module', function() {
     });
     
     it('uses null as placeholders for topic id',function(){
-      
+      var numberOfNulls=0;
+      var expectedNumberOfNulls = 25 * 15;//25 missing topics, expecting distribution of 15 instances of each
+      distribution.weeks.forEach(function(week){
+        week.mentalStrategies.topics.forEach(function(questionSpec){
+          if(questionSpec.id==null){
+            numberOfNulls++;
+          }
+        });
+      });
+      expect(numberOfNulls).toEqual(expectedNumberOfNulls);      
     });
     
   });
@@ -274,5 +283,46 @@ describe('GreatMath.session-scheduler module', function() {
       });
       done();      
     });
-  });  
+  });
+
+  
+  describe('When there are less than 26 key skills topics registered',function(){
+    beforeEach(function(){
+      mockTopicRegistry.keySkillsTopics=[
+        {
+          id:1,
+          description:"test topic 1"
+        }
+        ];  
+    });
+    
+    var distribution;
+    beforeEach(function(done){
+      sessionScheduler.createDistribution(function(result){
+        distribution=result;
+        done();        
+      })      
+    });
+    
+    it('there are 10 key skills questions on every sheet',function(){
+      distribution.weeks.forEach(function(week,weekIndex){
+        expect(week.keySkills.questionSpecs.length).toBe(10);        
+      });
+    });
+    
+    it('uses null as placeholders for topic id',function(){
+      var numberOfNulls=0;
+      var expectedNumberOfNulls = 25 * 15;//25 missing topics, expecting distribution of 15 instances of each
+      distribution.weeks.forEach(function(week){
+        week.keySkills.questionSpecs.forEach(function(questionSpec){
+          if(questionSpec.id==null){
+            numberOfNulls++;
+          }
+        });
+      });
+      expect(numberOfNulls).toEqual(expectedNumberOfNulls);
+    });    
+  });
+    
+  
 });

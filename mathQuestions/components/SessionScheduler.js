@@ -58,8 +58,12 @@ angular.module('GreatMath.session-scheduler', ['GreatMath.topic-registry'])
         }
         schedule.weeks[weekIndex].keySkills={questionSpecs:[]};
         row.forEach(function(cell,topicIndex){
-          if(cell>0 && topicIndex<topics.length){
-            schedule.weeks[weekIndex].keySkills.questionSpecs.push({id:topics[topicIndex].id});
+          if(cell>0){
+            var topicId=null;
+            if(topicIndex<topics.length){
+              topicId=topics[topicIndex].id;
+            }
+            schedule.weeks[weekIndex].keySkills.questionSpecs.push({id:topicId});
           }  
         });
       });
