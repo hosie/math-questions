@@ -168,6 +168,16 @@ describe('Worksheet', function() {
       });
             
     });
+      
+    it("sets a default generator function ",function(){
+      expect(mockQuestionGenerator.defaultHasBeenSet).toBe(true);
+    });
+    
+    it("default generator is actually a function ",function(){
+      
+      var isAFunction = (typeof mockQuestionGenerator.defaultFunction === "function");
+      expect(isAFunction).toBe(true);
+    });
     
     describe('Mental strategies',function(){
       it('has correct number of questions',function(done){
@@ -256,16 +266,6 @@ describe('Worksheet', function() {
           });
         });
         
-      });
-      
-      it("sets a default generator function ",function(){
-        expect(mockQuestionGenerator.defaultHasBeenSet).toBe(true);
-      });
-      
-      it("default generator is actually a function ",function(){
-        
-        var isAFunction = (typeof mockQuestionGenerator.defaultFunction === "function");
-        expect(isAFunction).toBe(true);
       });
       
       it('default function does the right thing',function(done){
