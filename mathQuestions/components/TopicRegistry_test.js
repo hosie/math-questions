@@ -23,6 +23,13 @@ describe('GreatMath.topic-registry module', function() {
     });    
   });
   
+  it('returns empty array if filter does not match',function(done){
+    topicRegistry.getTopics(function(topics){
+      expect(topics.length).toBe(0);
+      done();
+    })
+  });
+  
   it('class name in filter is optional',function(done){    
     topicRegistry.register(
       {
