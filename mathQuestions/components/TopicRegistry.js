@@ -29,14 +29,18 @@ angular.module('GreatMath.topic-registry', [])
       }else{
         classFilter=filter.class;        
       }
-      if(classFilter!=undefined && (this.classNames.lastIndexOf(classFilter)!=-1)){
+      if(classFilter==undefined){
         result = this.registeredTopics[classFilter];        
-      }else{
-        var self=this;
-        this.classNames.forEach(function(className){
-          result = result.concat(self.registeredTopics[className])
-        });
-      }
+      }else{        
+        if(this.classNames.lastIndexOf(classFilter)==-1){
+          result=[];        
+        }else{
+          var self=this;
+          this.classNames.forEach(function(className){
+            result = result.concat(self.registeredTopics[className])
+          });
+        }
+      }      
       
       setTimeout(function(){
         callback(result);
