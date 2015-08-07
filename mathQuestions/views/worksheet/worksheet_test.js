@@ -4,51 +4,69 @@ var alphabet = ['A','B','C','D','E','F'];
 describe('Worksheet', function() {
   //values used to mock dependencies and to expect in assertions
   var numberOfSheetsPerWeek=5;
-  var mockDistribution = {
-    weeks: [],
-    
-    $setNumberOfWeeks:function(numberOfWeeks){
-      this.weeks=[];
-      var weekNumber=1;
-      while(weekNumber<=numberOfWeeks){        
-        var week = {
-          mentalStrategies:{
-            topics:[] 
-          },
-          timesTable:{
-            questionSpecs:[] 
-          },
-        };
-        this.weeks.push(week);
-        weekNumber++;
-      }
-    },
-    $setNumberOfTimesTableQuestions:function(numberOfQuestions){
-      this.weeks.forEach(function(week){
-        var questionNumber=1;
-        while(questionNumber<numberOfQuestions+1){
-          week.timesTable.questionSpecs.push({id:31504,multiplier:1});                    
-          questionNumber++;
+  var mockDistribution;
+  beforeEach(function(){
+      numberOfSheetsPerWeek=5;
+      mockDistribution = {
+      weeks: [],
+      
+      $setNumberOfWeeks:function(numberOfWeeks){
+        this.weeks=[];
+        var weekNumber=1;
+        while(weekNumber<=numberOfWeeks){        
+          var week = {
+            mentalStrategies:{
+              topics:[] 
+            },
+            timesTable:{
+              questionSpecs:[] 
+            },
+            keySkills:{
+              questionSpecs:[]
+            }
+          };
+          this.weeks.push(week);
+          weekNumber++;
         }
-      });
-    },
-    $setTimesTableMultipliers:function(multiplier){
-      this.weeks.forEach(function(week){
-        week.timesTable.questionSpecs.forEach(function(questionSpec){
-          questionSpec.multiplier=multiplier;
+      },
+      $setNumberOfTimesTableQuestions:function(numberOfQuestions){
+        this.weeks.forEach(function(week){
+          var questionNumber=1;
+          while(questionNumber<numberOfQuestions+1){
+            week.timesTable.questionSpecs.push({id:31504,multiplier:1});                    
+            questionNumber++;
+          }
         });
-      });      
-    },
-    $setNumberOfMentalStrategyQuestions:function(numberOfQuestions){
-      this.weeks.forEach(function(week){
-        var questionNumber=1;
-        while(questionNumber<numberOfQuestions+1){
-          week.mentalStrategies.topics.push({id:''+questionNumber+alphabet[questionNumber-1]});          
-          questionNumber++;
-        }
-      });
-    }
-  };
+      },
+      $setTimesTableMultipliers:function(multiplier){
+        this.weeks.forEach(function(week){
+          week.timesTable.questionSpecs.forEach(function(questionSpec){
+            questionSpec.multiplier=multiplier;
+          });
+        });      
+      },
+      $setNumberOfMentalStrategyQuestions:function(numberOfQuestions){
+        this.weeks.forEach(function(week){
+          var questionNumber=1;
+          while(questionNumber<numberOfQuestions+1){
+            week.mentalStrategies.topics.push({id:'ms'+questionNumber+alphabet[questionNumber-1]});          
+            questionNumber++;
+          }
+        });
+      },
+      $setNumberOfKeySkillsQuestions:function(numberOfQuestions){
+        this.weeks.forEach(function(week){
+          var questionNumber=1;
+          while(questionNumber<numberOfQuestions+1){
+            week.keySkills.questionSpecs.push({id:'ks'+questionNumber+alphabet[questionNumber-1]});          
+            questionNumber++;
+          }
+        });
+      }
+    };
+    
+  });
+  
   
   var mockQuestionGenerator = {
     //would it be cleaner to use spyOn?
@@ -238,7 +256,7 @@ describe('Worksheet', function() {
               week.worksheets.forEach(function(sheet){
                 sheet.mentalStrategies.questions.forEach(function(question,questionIndex){
                   var expectedQuestionNumber=questionIndex+1;
-                  var expectedText = 'question for '+ expectedQuestionNumber;
+                  var expectedText = 'question for ms'+ expectedQuestionNumber;
                   expect(question.question).toEqual(expectedText + alphabet[questionIndex]);
                 });
               });
@@ -359,5 +377,116 @@ describe('Worksheet', function() {
       });
       
     });
+    
+    describe('Key skills',function(){
+      it('has correct number of questions',function(done){
+        mockDistribution.$setNumberOfWeeks(2);        
+        mockDistribution.$setNumberOfKeySkillsQuestions(5);
+        $scope.$apply(function(){        
+          $scope.generate()
+          .then(function(){
+            expect($scope.weeks.length).not.toEqual(0);
+            $scope.weeks.forEach(function(week){
+              week.worksheets.forEach(function(sheet,index){
+                expect(sheet.keySkills.questions.length).toBe(5);
+              });
+            });
+
+            mockDistribution.$setNumberOfWeeks(2);            
+            mockDistribution.$setNumberOfKeySkillsQuestions(2);
+            $scope.$apply(function(){        
+              $scope.generate().then(function(){
+                $scope.weeks.forEach(function(week){
+                  week.worksheets.forEach(function(sheet,index){
+                    expect(sheet.keySkills.questions.length).toBe(2);
+                  });
+                });
+                done();
+              });
+            });
+          });
+        });        
+      });
+      
+      it('correctly numbers questions',function(done){
+        
+        mockDistribution.$setNumberOfKeySkillsQuestions(5);
+        $scope.$apply(function(){        
+          $scope.generate()
+          .then(function(){
+            expect($scope.weeks.length).not.toEqual(0);
+            $scope.weeks.forEach(function(week){
+              expect(week.worksheets.length).not.toEqual(0);
+              week.worksheets.forEach(function(sheet){
+                expect(sheet.keySkills.questions.length).not.toEqual(0);
+                sheet.keySkills.questions.forEach(function(question,questionIndex){
+                  var expectedQuestionNumber=questionIndex+1;
+                  expect(question.number).toBe(expectedQuestionNumber);
+                });
+              });
+            });
+            done();
+          });
+        });
+      });
+      
+      it('places the questions according to the topic distribibutor',function(done){
+        mockDistribution.$setNumberOfWeeks(2);
+        mockDistribution.$setNumberOfKeySkillsQuestions(5);        
+        $scope.$apply(function(){        
+          $scope.generate().then(function(){
+            expect($scope.weeks.length).not.toEqual(0);
+            $scope.weeks.forEach(function(week){
+              expect(week.worksheets.length).not.toEqual(0);
+              week.worksheets.forEach(function(sheet){
+                expect(sheet.keySkills.questions.length).not.toEqual(0);
+                sheet.keySkills.questions.forEach(function(question,questionIndex){
+                  var expectedQuestionNumber=questionIndex+1;
+                  var expectedText = 'question for ks'+ expectedQuestionNumber;
+                  expect(question.question).toEqual(expectedText + alphabet[questionIndex]);
+                });
+              });
+            });
+            done();            
+          });
+        });
+        
+        
+      });
+      
+      xit('uses correct topic id to generate questions',function(done){
+        var topicIds = [42,73,44,104,92,87];
+        mockDistribution.$setNumberOfWeeks(1);
+        mockDistribution.$setNumberOfMentalStrategyQuestions(6);
+        mockDistribution.weeks[0].mentalStrategies.topics.forEach(function(topic,topicIndex){
+          topic.id=topicIds[topicIndex];
+        });
+        $scope.$apply(function(){        
+          $scope.generate().then(function(){
+            var question = $scope.weeks[0].worksheets[0].mentalStrategies.questions.forEach(function(question,questionIndex){//todo use spyOn once I figure out how to assert hasBeenCalled x times with...
+              expect(question.question).toEqual("question for " + topicIds[questionIndex]);            
+            } );            
+            done();            
+          });
+        });
+        
+      });
+      
+      xit('default function does the right thing',function(done){
+        mockQuestionGenerator.defaultFunction(
+          {
+            class : 'TestTopicClass',
+            topicId:'TestTopicID'
+          },
+          function(err,question){
+            expect(question).toEqual('Placeholder for TestTopicClass topic TestTopicID' );
+            done();
+          });
+      });
+      
+      xit('array does not contain any undefined elements');
+            
+    });
+
   });
 });

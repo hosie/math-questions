@@ -44,7 +44,11 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.session-schedule
           });
           week.timesTable.questionSpecs.forEach(function(questionSpec,questionIndex){
             numberOfQuestionsToGenerate = numberOfQuestionsToGenerate + $scope.numberOfWorksheetsPerWeek;
-          });          
+          });
+          week.keySkills.questionSpecs.forEach(function(questionSpec,questionIndex){
+            numberOfQuestionsToGenerate = numberOfQuestionsToGenerate + $scope.numberOfWorksheetsPerWeek;
+          });
+                    
         });
         if(numberOfQuestionsToGenerate==0){
           promise.resolve();
@@ -96,6 +100,32 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.session-schedule
                   function(err,question){
                     $scope.$apply(function(){
                       worksheet.timesTable.questions[questionIndex]=
+                      {
+                        number   : questionIndex+1,
+                        question : question
+                      };  
+                    });
+                    numberOfQuestionsToGenerate--;
+                    if(numberOfQuestionsToGenerate==0){
+                      promise.resolve();
+                    }
+                  }
+                  );  
+                });
+                
+                worksheet.keySkills={
+                  questions:[]                
+                };
+                week.keySkills.questionSpecs.forEach(function(questionSpec,questionIndex){
+  
+                  questionGenerator.generate(
+                  {
+                    class:"keySkills",
+                    topicId:questionSpec.id
+                  },
+                  function(err,question){
+                    $scope.$apply(function(){
+                      worksheet.keySkills.questions[questionIndex]=
                       {
                         number   : questionIndex+1,
                         question : question
