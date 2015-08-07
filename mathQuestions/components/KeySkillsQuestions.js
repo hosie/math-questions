@@ -16,8 +16,19 @@
           callback("" + operand1 + " " + multiplicationSign + " " + operand2 + " =" + box);
         }
       }
+    ).register(
+      {
+        class : "keySkills",
+        description:"Division of whole numbers using Bus Stop",
+        generateQuestion: function(callback){
+          var divisor = mathUtil.randomInteger(9,2);
+          var answer  = mathUtil.randomInteger(99,11);
+          var numerator = divisor * answer;
+          callback("" + numerator + " " + divisionSign + " " + divisor + " =" + box);
+        }
+      }
     )
-    
+    var divisionSign = "÷";
     var multiplicationSign = "\u00D7"
     var box= "\u2610";
 

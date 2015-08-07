@@ -19,10 +19,8 @@ describe('basic (quick) end to end tests',function(){
     it('populates selection box',function(){
       var select = element(by.id('topicDropDown'));
       var allOptions = element.all(by.options('topic.id as topic.description for topic in availableTopics'));
-      expect(allOptions.count()).toBe(15);//TODO this is the total number of topics plus 1  Not sure how to get rid of the plus 1
-    });
-    
-    
+      expect(allOptions.count()).toBe(17);//TODO this is the total number of topics plus 1  Not sure how to get rid of the plus 1
+    });    
   });
 
   describe('worksheet generator',function(){
