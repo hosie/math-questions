@@ -30,15 +30,15 @@ angular.module('GreatMath.topic-registry', [])
         classFilter=filter.class;        
       }
       if(classFilter==undefined){
-        result = this.registeredTopics[classFilter];        
+        var self=this;
+        this.classNames.forEach(function(className){
+          result = result.concat(self.registeredTopics[className])
+        });
       }else{        
         if(this.classNames.lastIndexOf(classFilter)==-1){
           result=[];        
         }else{
-          var self=this;
-          this.classNames.forEach(function(className){
-            result = result.concat(self.registeredTopics[className])
-          });
+          result = this.registeredTopics[classFilter];                  
         }
       }      
       
