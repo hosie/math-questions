@@ -70,7 +70,7 @@
         </tr>
         <tr ng-repeat="question in sheet.keySkills.questions">
           <td>{{question.number}}</td>
-          <td ng-bind-html="question.question">{{question.question}}</td>
+          <td>{{question.question}}</td>
           <td><div ng-if="includeAnswer">{{question.answers}}</div></td>
         </tr>
         <tr class="totalRow">
