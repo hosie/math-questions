@@ -6,7 +6,8 @@ angular.module('MathQuestions', [
   'MathQuestions.worksheet',
   'MathQuestions.questionPreview',
   'GreatMath.mental-strategy-questions',
-  'GreatMath.times-table-questions'
+  'GreatMath.times-table-questions',
+  'GreatMath.key-skills-questions'
 ])
 .config(['$routeProvider', function($routeProvider) {
   
