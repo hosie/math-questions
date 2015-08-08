@@ -49,24 +49,25 @@ angular.module('GreatMath.session-scheduler', ['GreatMath.topic-registry'])
   
   ];
   
-  function scheduleKeySkillsQuestions(schedule,resolve){
+  function scheduleKeySkillsQuestions(week,weekIndex,resolve){
     
     topicRegistry.getTopics({class:'keySkills'},function(topics){
-      distributionTable.forEach(function(row,weekIndex){
-        while(schedule.weeks.length<=weekIndex){
+      //distributionTable.forEach(function(row,weekIndex){
+        /*while(schedule.weeks.length<=weekIndex){
           schedule.weeks.push({});
-        }
-        schedule.weeks[weekIndex].keySkills={questionSpecs:[]};
+        }*/
+        var row=distributionTable[weekIndex];
+        week.keySkills={questionSpecs:[]};
         row.forEach(function(cell,topicIndex){
           if(cell>0){
             var topicId=null;
             if(topicIndex<topics.length){
               topicId=topics[topicIndex].id;
             }
-            schedule.weeks[weekIndex].keySkills.questionSpecs.push({id:topicId});
+            week.keySkills.questionSpecs.push({id:topicId});
           }  
         });
-      });
+      //});
       resolve();  
     });
     
@@ -128,7 +129,7 @@ angular.module('GreatMath.session-scheduler', ['GreatMath.topic-registry'])
                 
               }
               
-              scheduleKeySkillsQuestions(result,
+              scheduleKeySkillsQuestions(week,weekIndex,
               function(){//TODO refactor: use promise pattern
                 setTimeout(function(){
                   callback(result);          
