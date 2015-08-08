@@ -49,31 +49,52 @@ angular.module('GreatMath.session-scheduler', ['GreatMath.topic-registry'])
   
   ];
   
-  function scheduleKeySkillsQuestions(week,weekIndex,resolve){
+  function scheduleKeySkillsQuestions(week,weekIndex,done){
     
     topicRegistry.getTopics({class:'keySkills'},function(topics){
-      //distributionTable.forEach(function(row,weekIndex){
-        /*while(schedule.weeks.length<=weekIndex){
-          schedule.weeks.push({});
-        }*/
-        var row=distributionTable[weekIndex];
-        week.keySkills={questionSpecs:[]};
-        row.forEach(function(cell,topicIndex){
-          if(cell>0){
-            var topicId=null;
-            if(topicIndex<topics.length){
-              topicId=topics[topicIndex].id;
-            }
-            week.keySkills.questionSpecs.push({id:topicId});
-          }  
-        });
-      //});
-      resolve();  
+      var row=distributionTable[weekIndex];
+      week.keySkills={questionSpecs:[]};
+      row.forEach(function(cell,topicIndex){
+        if(cell>0){
+          var topicId=null;
+          if(topicIndex<topics.length){
+            topicId=topics[topicIndex].id;
+          }
+          week.keySkills.questionSpecs.push({id:topicId});
+        }  
+      });      
+      done();  
     });
     
   }
   
-  function scheduleMentalStrategyQuestion(week,weekIndex,callback){
+  function scheduleTimesTableQuestions(week,weekIndex,done){
+    //times tables
+    week.timesTable={
+      questionSpecs:[]
+    };
+    topicRegistry.getTopics({class:'timesTable'},function(ttTopics){
+      var ttTopicId;
+      if(ttTopics.length==0){
+        ttTopicId=null;
+      }else{
+        ttTopicId=ttTopics[0].id;
+      }
+      for(var questionNumber=1;questionNumber<=10;questionNumber++){
+        var multiplier = 2 + Math.floor( 9 * Math.random());
+        
+        week.timesTable.questionSpecs.push(
+        {
+          id         : ttTopicId,
+          multiplier : multiplier
+        });
+        
+      }
+      done();
+    });
+  }
+
+  function scheduleMentalStrategyQuestion(week,weekIndex,done){
     
     topicRegistry.getTopics({class:'mentalStrategies'},function(topics){
       var row = distributionTable[weekIndex];
@@ -86,32 +107,8 @@ angular.module('GreatMath.session-scheduler', ['GreatMath.topic-registry'])
           });  
         }
       });
+      done();
       
-      //times tables
-      week.timesTable={
-        questionSpecs:[]
-      };
-      topicRegistry.getTopics({class:'timesTable'},function(ttTopics){
-        var ttTopicId;
-        if(ttTopics.length==0){
-          ttTopicId=null;
-        }else{
-          ttTopicId=ttTopics[0].id;
-        }
-        for(var questionNumber=1;questionNumber<=10;questionNumber++){
-          var multiplier = 2 + Math.floor( 9 * Math.random());
-          
-          week.timesTable.questionSpecs.push(
-          {
-            id         : ttTopicId,
-            multiplier : multiplier
-          });
-          
-        }
-        callback();
-        
-      
-      });
     });
     
   }
@@ -146,15 +143,21 @@ angular.module('GreatMath.session-scheduler', ['GreatMath.topic-registry'])
               week,
               weekIndex,
               function(){//TODO refactor: use promise pattern
-                scheduleKeySkillsQuestions(
+                scheduleTimesTableQuestions(
                   week,
                   weekIndex,
                   function(){
-                    setTimeout(function(){
-                      callback(result);          
-                    },0);
+                    scheduleKeySkillsQuestions(
+                      week,
+                      weekIndex,
+                      function(){
+                        setTimeout(function(){
+                          callback(result);          
+                        },0);
+                      }
+                    );
                   }
-                );                              
+                );                            
               }
             );    
           })(week,
