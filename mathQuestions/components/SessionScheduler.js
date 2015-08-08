@@ -72,6 +72,50 @@ angular.module('GreatMath.session-scheduler', ['GreatMath.topic-registry'])
     });
     
   }
+  
+  function scheduleMentalStrategyQuestion(week,weekIndex,callback){
+    
+    topicRegistry.getTopics({class:'mentalStrategies'},function(topics){
+      var row = distributionTable[weekIndex];
+      row.forEach(function(cell,topicIndex){
+        //0 means no questions on that topic this week. 
+        //1 ( or anything greater than 0, for that matter) means there is one question on that topic this week
+        if(cell>0 ){
+          week.mentalStrategies.topics.push({
+            id: topicIndex>=topics.length ? null : topics[topicIndex].id //use null as placeholder when there are less than 26 topics
+          });  
+        }
+      });
+      
+      //times tables
+      week.timesTable={
+        questionSpecs:[]
+      };
+      topicRegistry.getTopics({class:'timesTable'},function(ttTopics){
+        var ttTopicId;
+        if(ttTopics.length==0){
+          ttTopicId=null;
+        }else{
+          ttTopicId=ttTopics[0].id;
+        }
+        for(var questionNumber=1;questionNumber<=10;questionNumber++){
+          var multiplier = 2 + Math.floor( 9 * Math.random());
+          
+          week.timesTable.questionSpecs.push(
+          {
+            id         : ttTopicId,
+            multiplier : multiplier
+          });
+          
+        }
+        callback();
+        
+      
+      });
+    });
+    
+  }
+  
   return {
     /*calls the callback with an array of objects.  Each object represents a week and contains 3 arrays of topic ids
     
@@ -87,63 +131,36 @@ angular.module('GreatMath.session-scheduler', ['GreatMath.topic-registry'])
           weeks:[
           ]
         };
-        
-        //mental strategies
-        topicRegistry.getTopics({class:'mentalStrategies'},function(topics){
-          distributionTable.forEach(function(row,weekIndex){
-            var week = {
-              number : weekIndex+1,
-              mentalStrategies:{
-                topics : []
-              }
-            };
-            row.forEach(function(cell,topicIndex){
-              //0 means no questions on that topic this week. 
-              //1 ( or anything greater than 0, for that matter) means there is one question on that topic this week
-              if(cell>0 ){
-                week.mentalStrategies.topics.push({
-                  id: topicIndex>=topics.length ? null : topics[topicIndex].id //use null as placeholder when there are less than 26 topics
-                });  
-              }
-            });
-            week.timesTable={
-              questionSpecs:[]
-            };
-            
-            //times tables
-            topicRegistry.getTopics({class:'timesTable'},function(ttTopics){
-              var ttTopicId;
-              if(ttTopics.length==0){
-                ttTopicId=null;
-              }else{
-                ttTopicId=ttTopics[0].id;
-              }
-              for(var questionNumber=1;questionNumber<=10;questionNumber++){
-                var multiplier = 2 + Math.floor( 9 * Math.random());
-                
-                week.timesTable.questionSpecs.push(
-                {
-                  id         : ttTopicId,
-                  multiplier : multiplier
-                });
-                
-              }
-              
-              scheduleKeySkillsQuestions(week,weekIndex,
+        for(var i=0;i<numberOfWeeks;i++){
+          var weekIndex=i;
+          var week = {
+            number : weekIndex+1,
+            mentalStrategies:{
+              topics : []
+            }
+          };
+          result.weeks.push(week);          
+          //mental strategies
+          (function(week,weekIndex){
+            scheduleMentalStrategyQuestion(
+              week,
+              weekIndex,
               function(){//TODO refactor: use promise pattern
-                setTimeout(function(){
-                  callback(result);          
-                },0);                
-              });
-              
-                                
-            
-            });
-            result.weeks.push(week);          
-          });
+                scheduleKeySkillsQuestions(
+                  week,
+                  weekIndex,
+                  function(){
+                    setTimeout(function(){
+                      callback(result);          
+                    },0);
+                  }
+                );                              
+              }
+            );    
+          })(week,
+            weekIndex);
           
-          
-        });
+        }
         
     }    
   };
