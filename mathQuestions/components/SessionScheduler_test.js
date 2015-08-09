@@ -33,9 +33,12 @@ describe('GreatMath.session-scheduler module', function() {
       });      
     });    
   });
-    
-  beforeEach(inject(function($rootScope, _sessionScheduler_) {
-    
+  
+  var $rootScope;
+  var $q;  
+  beforeEach(inject(function(_$q_,_$rootScope_, _sessionScheduler_) {
+    $rootScope=_$rootScope_;
+    $q=_$q_;
     sessionScheduler=_sessionScheduler_;
   }));
     
@@ -324,5 +327,68 @@ describe('GreatMath.session-scheduler module', function() {
     });    
   });
     
-  
+  describe('Create distributions',function(){
+    
+    it('should simulate promise', function(done) {
+      var deferred = $q.defer();
+      var promise = deferred.promise;
+      var resolvedValue;
+
+      promise.then(function(value) { 
+        done();
+        resolvedValue = value; });
+      //expect(resolvedValue).toBeUndefined();
+
+      // Simulate resolving of promise
+      setTimeout(function(){
+      deferred.resolve(123);
+      $rootScope.$apply();
+        
+      },0);
+      
+      // Note that the 'then' function does not get called synchronously.
+      // This is because we want the promise API to always be async, whether or not
+      // it got called synchronously or asynchronously.
+      //expect(resolvedValue).toBeUndefined();
+
+      // Propagate promise resolution to 'then' functions using $apply().
+      //expect(resolvedValue).toEqual(123);
+    });
+    
+    it('returns a promise',function(done){
+      var promise = sessionScheduler.initialiseDistributions();
+      promise.then(function() {
+        done();
+      }, function(reason) {        
+        expect('promise was rejected').toEqual(false);
+        done();
+      });      
+    });
+
+    it('returns a distribution for mentalStrategies',function(done){
+      sessionScheduler.initialiseDistributions()
+      .then(function(distributions){
+        expect(distributions.mentalStrategies).toBeDefined();
+        done();
+      });
+    });
+
+    describe('Mental strategies distribution',function(){
+      var msDistribution;
+      
+      beforeEach(function(done){
+        sessionScheduler.initialiseDistributions()
+        .then(function(distributions){
+          msDistribution = distributions.mentalStrategies;
+          done();
+        });
+      });
+      
+      it('is a Distribution object',function(){
+        expect(msDistribution).toEqual(jasmine.any(sessionScheduler.Distribution));
+      });
+            
+    });    
+  });  
 });
+

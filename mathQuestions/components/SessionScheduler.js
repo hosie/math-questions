@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('GreatMath.session-scheduler', ['GreatMath.topic-registry'])
-
-.factory('sessionScheduler', ['topicRegistry',function(topicRegistry) {
+.value('default26TopicDistributionTable',
   //rows are weeks,
   //columns are topics
-  var distributionTable=[
+  
+  [
     [1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
     [1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1],
@@ -45,27 +45,51 @@ angular.module('GreatMath.session-scheduler', ['GreatMath.topic-registry'])
     [1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],
     [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1]
-   
+  ]
+)
+
+.factory('sessionScheduler', ['topicRegistry','default26TopicDistributionTable','$q','$rootScope',function(topicRegistry,default26TopicDistributionTable,$q,$rootScope) {
   
-  ];
   
-  function scheduleKeySkillsQuestions(week,weekIndex,done){
+  function Distribution (){
     
-    topicRegistry.getTopics({class:'keySkills'},function(topics){
-      var row=distributionTable[weekIndex];
-      week.keySkills={questionSpecs:[]};
-      row.forEach(function(cell,topicIndex){
+    this.topics=null;
+    
+    this.setTopics=function(topics){
+      this.topics=topics;
+    };
+    
+    this.getTopicsForWeek=function(weekIndex){
+      var distributionRow = this.table[weekIndex];
+      var result = [];
+      var self=this;
+      distributionRow.forEach(function(cell,topicIndex){
         if(cell>0){
           var topicId=null;
-          if(topicIndex<topics.length){
-            topicId=topics[topicIndex].id;
+          if(topicIndex<self.topics.length){
+            topicId=self.topics[topicIndex].id;
           }
-          week.keySkills.questionSpecs.push({id:topicId});
+          result.push(topicId);
         }  
-      });      
-      done();  
+      });
+      return result;
+    };
+  
+  } 
+  Distribution.fromTable = function(table){
+    var result = new Distribution();
+    result.table = table;
+    return result;
+  }
+  
+  
+  function scheduleKeySkillsQuestions(ksDistribution,week,weekIndex){
+    var thisWeeksTopics = ksDistribution.getTopicsForWeek(weekIndex);
+    thisWeeksTopics.forEach(function(topicId){
+      week.keySkills.questionSpecs.push({
+        id: topicId
+      });
     });
-    
   }
   
   function scheduleTimesTableQuestions(week,weekIndex,done){
@@ -94,77 +118,101 @@ angular.module('GreatMath.session-scheduler', ['GreatMath.topic-registry'])
     });
   }
 
-  function scheduleMentalStrategyQuestion(week,weekIndex,done){
-    
-    topicRegistry.getTopics({class:'mentalStrategies'},function(topics){
-      var row = distributionTable[weekIndex];
-      row.forEach(function(cell,topicIndex){
-        //0 means no questions on that topic this week. 
-        //1 ( or anything greater than 0, for that matter) means there is one question on that topic this week
-        if(cell>0 ){
-          week.mentalStrategies.topics.push({
-            id: topicIndex>=topics.length ? null : topics[topicIndex].id //use null as placeholder when there are less than 26 topics
-          });  
-        }
+  function scheduleMentalStrategyQuestion(msDistribution,week,weekIndex){
+        
+    var thisWeeksTopics = msDistribution.getTopicsForWeek(weekIndex);
+    thisWeeksTopics.forEach(function(topicId){
+      week.mentalStrategies.topics.push({
+        id: topicId
       });
-      done();
-      
     });
-    
+      
   }
   
   return {
+    
+    Distribution:Distribution,
+    initialiseDistributions : function(){
+      var deferred = $q.defer();
+      var self=this;
+      setTimeout(function(){
+        var mentalStrategies = Distribution.fromTable(default26TopicDistributionTable);
+        var keySkills        = Distribution.fromTable(default26TopicDistributionTable);
+        topicRegistry.getTopics({class:'mentalStrategies'},function(topics){
+          mentalStrategies.setTopics(topics);
+          topicRegistry.getTopics({class:'keySkills'},function(ksTopics){
+            keySkills.setTopics(ksTopics);
+            
+            deferred.resolve({
+              mentalStrategies :mentalStrategies,
+              keySkills        : keySkills
+            });
+            $rootScope.$apply();
+            
+          });            
+        });
+        
+      
+      },0);
+      return deferred.promise;
+    
+    },
     /*calls the callback with an array of objects.  Each object represents a week and contains 3 arrays of topic ids
     
     */
     createDistribution : function (callback){
-        var numberOfWeeks                             = 39;
-        var numberOfSessionsPerWeek                   =  5;
-        var numberOfTimesTableQuestionsPerSession     = 10;
-        var numberOfKeySkillsQuestionsPerSession      = 10;
-        var i=0;
-        
-        var result = {
-          weeks:[
-          ]
-        };
+      var numberOfWeeks                             = 39;
+      var numberOfSessionsPerWeek                   =  5;
+      var numberOfTimesTableQuestionsPerSession     = 10;
+      var numberOfKeySkillsQuestionsPerSession      = 10;
+      var i=0;
+      var result = {
+        weeks:[
+        ]
+      };
+      
+      this.initialiseDistributions()
+      .then(function(distributions){
         for(var i=0;i<numberOfWeeks;i++){
           var weekIndex=i;
           var week = {
             number : weekIndex+1,
             mentalStrategies:{
               topics : []
+            },
+            keySkills:{
+              questionSpecs:[]
             }
+            
           };
           result.weeks.push(week);          
           //mental strategies
           (function(week,weekIndex){
             scheduleMentalStrategyQuestion(
+              distributions.mentalStrategies,
+              week,
+              weekIndex);
+              
+              
+            scheduleTimesTableQuestions(
               week,
               weekIndex,
-              function(){//TODO refactor: use promise pattern
-                scheduleTimesTableQuestions(
+              function(){
+                scheduleKeySkillsQuestions(
+                  distributions.keySkills,
                   week,
-                  weekIndex,
-                  function(){
-                    scheduleKeySkillsQuestions(
-                      week,
-                      weekIndex,
-                      function(){
-                        setTimeout(function(){
-                          callback(result);          
-                        },0);
-                      }
-                    );
-                  }
-                );                            
+                  weekIndex);
+                  
+                setTimeout(function(){
+                  callback(result);          
+                },0);
               }
             );    
           })(week,
             weekIndex);
-          
         }
-        
+      });
+      
     }    
   };
 }]);
