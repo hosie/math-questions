@@ -140,6 +140,138 @@
         }
       }
     )
+    .register(
+      {
+        class : "mentalStrategies",
+        description:"Add near doubles (compensate)",
+        generateQuestion: function(callback){
+          var operand1    = mathUtil.randomInteger(99,11);
+          var difference  = mathUtil.randomInteger(3,1);
+          var upDown      = mathUtil.randomInteger(2,1);
+          if(upDown==1){
+            difference =  0 - difference;
+          }
+          var operand2 = operand1+difference;
+          
+          callback("" + operand1 + " + " + operand2 + " = " + box);
+        }
+      }
+    )
+    .register(
+      {
+        class : "mentalStrategies",
+        description:"Partitioning single digit numbers",
+        generateQuestion: function(callback){
+          var answer   = mathUtil.randomInteger(9,4);
+          var operand1 = mathUtil.randomInteger(answer-2);
+          var remaining = answer - operand1;
+          var operand2  = mathUtil.randomInteger(remaining-1);
+          callback("" + answer + " = " + operand1 + " + " + operand2 + " + " + box);
+        }
+      }
+    )
+    .register(
+      {
+        class : "mentalStrategies",
+        description:"Partitioning double digit numbers",
+        generateQuestion: function(callback){
+          var answer   = mathUtil.randomInteger(99,14);
+          var operand1 = mathUtil.randomInteger(answer-2);
+          var remaining = answer - operand1;
+          var operand2  = mathUtil.randomInteger(remaining-1);
+          callback("" + answer + " = " + operand1 + " + " + operand2 + " + " + box);
+        }
+      }
+    )
+    .register(
+      {
+        class : "mentalStrategies",
+        description:"Add using number bonds to bridge a multiple of 10 and compensate",
+        generateQuestion: function(callback){
+          var operand1             = 
+            mathUtil.randomInteger(89,1,function(candidate){
+              if(candidate%10==0){
+                return false;
+              }
+              return true;
+            }
+          );
+          
+          var remainder            = operand1 % 10;
+          var previousMultipleOf10 = operand1-remainder;
+          var nextMultipleOf10     = previousMultipleOf10 + 10;
+          var toMultipleOf10       = nextMultipleOf10-operand1;
+          var operand2             = mathUtil.randomInteger(toMultipleOf10+9,toMultipleOf10+1);
+          var hint                 = mathUtil.randomBoolean();
+          if(hint){
+            callback(""+operand1 + " + " + operand2 + " = " + operand1 + " + " + toMultipleOf10 + " + " +  box);            
+          }else{
+            callback(""+operand1 + " + " + operand2 + " = " + box);            
+          }
+        }
+      }
+    )
+    .register(
+      {
+        class : "mentalStrategies",
+        description:"Subtract using number bonds to bridge a multiple of 10 and compensate",
+        generateQuestion: function(callback){
+          var operand1             = 
+            mathUtil.randomInteger(89,11,function(candidate){
+              if(candidate%10==0){
+                return false;
+              }
+              return true;
+            }
+          );
+          
+          var remainder            = operand1 % 10;
+          var previousMultipleOf10 = operand1-remainder;
+          var toMultipleOf10       = operand1-previousMultipleOf10;
+          var operand2             = mathUtil.randomInteger(toMultipleOf10+9,toMultipleOf10+1);
+          var hint                 = mathUtil.randomBoolean();
+          if(hint){
+            callback(""+operand1 + " - " + operand2 + " = " + operand1 + " - " + toMultipleOf10 + " - " +  box);            
+          }else{
+            callback(""+operand1 + " - " + operand2 + " = " + box);            
+          }
+        }
+      }
+    )
+    .register(
+      {
+        class : "mentalStrategies",
+        description:"Count from smallest to biggest in a subtraction",
+        generateQuestion: function(callback){
+          var threeDigit   = mathUtil.randomBoolean();
+          var operand1;
+          if(threeDigit){
+            operand1=mathUtil.randomInteger(999,111);
+          }else{
+            operand1=mathUtil.randomInteger(9999,1111);
+          }
+          var difference=mathUtil.randomInteger(9,2);
+          var operand2=operand1-difference;
+          
+          callback("" + operand1 + " - " + operand2 + " = " +  box);
+        }
+      }
+    )
+    .register(
+      {
+        class : "mentalStrategies",
+        description:"Reorder an addition to make it easier",
+        generateQuestion: function(callback){
+          var operand1 = mathUtil.randomInteger(9,1);
+          var operand2 = mathUtil.randomInteger(999,111);
+          
+          callback("" + operand1 + " + " + operand2 + " = " +  box);
+        }
+      }
+    )
+    
+    
+    
     
     
     
