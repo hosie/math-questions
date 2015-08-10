@@ -4,6 +4,13 @@
 angular.module('GreatMath.math-util', [])
 .factory('mathUtil', function() {
   return {
+    randomBoolean : function(){
+      var randomInt = this.randomInteger(2,1);
+      if(randomInt==1){
+        return true;
+      }
+      return false;
+    },
     randomInteger : function(max,min,criteria){
       if (min==undefined){
         min=1;

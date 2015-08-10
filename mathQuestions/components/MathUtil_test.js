@@ -66,5 +66,19 @@ describe('GreatMath.math-util module', function() {
       expect(actualResults).not.toContain(2);        
       
     });
-  });  
+  });
+
+  describe('random boolean',function(){
+   it('both boolena valies',function(){
+      var actualResults = [];
+      while(actualResults.length<10){
+        actualResults.push(mathUtil.randomBoolean());
+      }
+      expect(actualResults).toContain(true);
+      expect(actualResults).toContain(false);
+    });
+    
+
+  });
+    
 });
