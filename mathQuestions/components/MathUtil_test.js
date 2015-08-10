@@ -46,5 +46,25 @@ describe('GreatMath.math-util module', function() {
       expect(actualResults).not.toContain(11);
       expect(actualResults).not.toContain(4);
     });
+    
+    it('takes an acceptance function',function(){
+      var actualResults = [];
+      while(actualResults.length<100){
+        var result = mathUtil.randomInteger(
+          3,
+          1,
+          function(candidate){
+            if(candidate==2){
+              return false;              
+            }else{
+              return true;
+            }
+          }
+        )
+        actualResults.push(result);
+      }
+      expect(actualResults).not.toContain(2);        
+      
+    });
   });  
 });
