@@ -1,4 +1,7 @@
 
+.header-bar{
+display: none;
+}
   #banner{
     display: none;
   }
@@ -98,7 +101,11 @@
 
    .scoresTable{
      width:100%;     
-     page-break-after: always;
+     
+   }
+   
+   .footer{
+   page-break-after: always;
    }
    
    .scoresTable,.scoresTable>tbody>tr,.scoresTable>tbody>tr>th,.scoresTable>tbody>tr>td{
