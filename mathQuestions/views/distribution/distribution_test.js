@@ -72,44 +72,50 @@ describe('GreatMath.distribution-view module', function() {
     $controller('DistributionController', {$scope: $scope});
   }));
   
-  it('creates a distribution grid',function(){
-    expect($scope.distributionGrid).toBeDefined();    
+  it('populates week numbers',function(){
+    expect($scope.weekNumbers[0]).toBe(1);
+    expect($scope.weekNumbers[1]).toBe(2);
+    expect($scope.weekNumbers[2]).toBe(3);
   });
   
-  describe('Distribution Grid',function(){
+  it('creates a distribution grid',function(){
+    expect($scope.mentalStrategiesDistributionGrid).toBeDefined();    
+  });
+  
+  describe('Mental Strategies Distribution Grid',function(){
       
     it('has correct number of rows',function(){
-      expect($scope.distributionGrid.length).toEqual(mock26TopicDistributionTable.length);    
+      expect($scope.mentalStrategiesDistributionGrid.length).toEqual(mock26TopicDistributionTable.length);    
     });
     
     it('has topics as first column',function(){
       
-      expect($scope.distributionGrid[0][0]).toBe(testTopics[0]);
-      expect($scope.distributionGrid[1][0]).toBe(testTopics[1]);
+      expect($scope.mentalStrategiesDistributionGrid[0].topic).toBe(testTopics[0]);
+      expect($scope.mentalStrategiesDistributionGrid[1].topic).toBe(testTopics[1]);
     });
     
     it('has null for any missing topics',function(){
-      expect($scope.distributionGrid[2][0].description).toEqual('');
+      expect($scope.mentalStrategiesDistributionGrid[2].topic.description).toEqual('');
     });
     
     it('has one column for each week in the distribution table in addition to the topic column',function(){
-      expect($scope.distributionGrid[0].length).toBe(4);
-      expect($scope.distributionGrid[1].length).toBe(4);
-      expect($scope.distributionGrid[2].length).toBe(4);            
+      expect($scope.mentalStrategiesDistributionGrid[0].cells.length).toBe(3);
+      expect($scope.mentalStrategiesDistributionGrid[1].cells.length).toBe(3);
+      expect($scope.mentalStrategiesDistributionGrid[2].cells.length).toBe(3);            
     });
     
     it('has the cells populated with correct values',function(){
-      expect($scope.distributionGrid[0][1]).toBe(true);
-      expect($scope.distributionGrid[0][2]).toBe(false);
-      expect($scope.distributionGrid[0][3]).toBe(false);
+      expect($scope.mentalStrategiesDistributionGrid[0].cells[0]).toBe(true);
+      expect($scope.mentalStrategiesDistributionGrid[0].cells[1]).toBe(false);
+      expect($scope.mentalStrategiesDistributionGrid[0].cells[2]).toBe(false);
       
-      expect($scope.distributionGrid[1][1]).toBe(false);
-      expect($scope.distributionGrid[1][2]).toBe(true);
-      expect($scope.distributionGrid[1][3]).toBe(false);
+      expect($scope.mentalStrategiesDistributionGrid[1].cells[0]).toBe(false);
+      expect($scope.mentalStrategiesDistributionGrid[1].cells[1]).toBe(true);
+      expect($scope.mentalStrategiesDistributionGrid[1].cells[2]).toBe(false);
       
-      expect($scope.distributionGrid[2][1]).toBe(false);
-      expect($scope.distributionGrid[2][2]).toBe(false);
-      expect($scope.distributionGrid[2][3]).toBe(true);            
+      expect($scope.mentalStrategiesDistributionGrid[2].cells[0]).toBe(false);
+      expect($scope.mentalStrategiesDistributionGrid[2].cells[1]).toBe(false);
+      expect($scope.mentalStrategiesDistributionGrid[2].cells[2]).toBe(true);            
     });
   });
   

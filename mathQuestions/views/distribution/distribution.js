@@ -12,14 +12,40 @@ angular.module('MathQuestions.distributionView', ['ngRoute','GreatMath.session-s
 
 .controller('DistributionController', ['$scope','sessionScheduler','default26TopicDistributionTable','topicRegistry',function($scope,sessionScheduler,default26TopicDistributionTable,topicRegistry) {
   
+  $scope.weekNumbers=[];
+  //transpose
+  var mentalStrategiesDistribution =[];
+  default26TopicDistributionTable.forEach(function(row,rowIndex){    
+    row.forEach(function(cell,columnIndex){
+      if(columnIndex>=mentalStrategiesDistribution.length){
+        mentalStrategiesDistribution[columnIndex]=[];
+      }     
+      mentalStrategiesDistribution[columnIndex][rowIndex]=cell;
+    });
+  });
+  
+  for(var i=0;i<default26TopicDistributionTable.length;i++){
+    $scope.weekNumbers.push(i+1);
+  }
+  
   topicRegistry.getTopics({class:'mentalStrategies'},function(topics){
     $scope.$apply(function(){
-      $scope.distributionGrid=[];
-      default26TopicDistributionTable.forEach(function(row,rowIndex){
+      $scope.mentalStrategiesDistributionGrid=[];
+      mentalStrategiesDistribution.forEach(function(row,rowIndex){
         if(rowIndex<topics.length){
-          $scope.distributionGrid.push([topics[rowIndex]].concat(row.map(function(item){return item==1})));  
+          $scope.mentalStrategiesDistributionGrid.push(
+            {
+              topic:topics[rowIndex],
+              cells:row.map(function(item){return item==1;})
+            }
+          );            
         }else{
-          $scope.distributionGrid.push([{description:''}].concat(row.map(function(item){return item==1})));
+          $scope.mentalStrategiesDistributionGrid.push(
+            {
+              topic:{description:''},
+              cells:row.map(function(item){return item==1;})
+            }
+          );
         }        
       });
     });

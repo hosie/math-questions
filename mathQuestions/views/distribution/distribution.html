@@ -1,0 +1,23 @@
+<style>
+.distributionTable, th, td{
+      border: 1px solid black;
+    border-collapse: collapse;
+}
+.dataColumn{
+  width:2em;
+  text-align:center;
+}
+.checkedCell{
+  background-color:green;
+}
+</style>
+<h2>Mental Strategies</h2>
+<table class="distributionTable">
+  <tr>
+    <th>topic</th>
+    <th class="dataColumn" ng-repeat='weekNumber in weekNumbers'>{{weekNumber}}</th>
+  </tr>
+  <tr ng-repeat='row in mentalStrategiesDistributionGrid'>
+    <td>{{row.topic.description}}</td><td class="dataColum" ng-repeat='cell in row.cells track by $index'><div class="checkedCell" ng-if="cell==1">X</td>
+ </tr>
+</table>

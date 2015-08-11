@@ -5,6 +5,7 @@ angular.module('MathQuestions', [
   'ngRoute',
   'MathQuestions.worksheet',
   'MathQuestions.questionPreview',
+  'MathQuestions.distributionView',
   'GreatMath.mental-strategy-questions',
   'GreatMath.times-table-questions',
   'GreatMath.key-skills-questions'
