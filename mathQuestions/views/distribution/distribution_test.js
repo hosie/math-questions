@@ -22,6 +22,13 @@ describe('GreatMath.distribution-view module', function() {
     [0,0,1]
   ];
   
+  var mock33TopicDistributionTable=
+  [
+    [1,0,0,0],
+    [0,1,0,1],
+    [0,0,1,0]
+  ];
+  
   beforeEach(function(){
     
     mockSessionScheduler= {
@@ -57,9 +64,17 @@ describe('GreatMath.distribution-view module', function() {
         
       });
       
+      
+      
       $provide.factory('topicRegistry',function(){
         
         return mockTopicRegistry;
+        
+      });
+      
+      $provide.factory('default33TopicDistributionTable',function(){
+        
+        return mock33TopicDistributionTable;
         
       });
       
@@ -78,14 +93,14 @@ describe('GreatMath.distribution-view module', function() {
     expect($scope.weekNumbers[2]).toBe(3);
   });
   
-  it('creates a distribution grid',function(){
+  it('creates a distribution grid for mental strategies',function(){
     expect($scope.mentalStrategiesDistributionGrid).toBeDefined();    
   });
   
   describe('Mental Strategies Distribution Grid',function(){
       
     it('has correct number of rows',function(){
-      expect($scope.mentalStrategiesDistributionGrid.length).toEqual(mock26TopicDistributionTable.length);    
+      expect($scope.mentalStrategiesDistributionGrid.length).toEqual(3);    
     });
     
     it('has topics as first column',function(){
@@ -116,6 +131,54 @@ describe('GreatMath.distribution-view module', function() {
       expect($scope.mentalStrategiesDistributionGrid[2].cells[0]).toBe(false);
       expect($scope.mentalStrategiesDistributionGrid[2].cells[1]).toBe(false);
       expect($scope.mentalStrategiesDistributionGrid[2].cells[2]).toBe(true);            
+    });
+  });
+
+  it('creates a distribution grid for key skills',function(){
+    expect($scope.keySkillsDistributionGrid).toBeDefined();    
+  });
+  
+  describe('Mental Strategies Distribution Grid',function(){
+      
+    it('has correct number of rows',function(){
+      expect($scope.keySkillsDistributionGrid.length).toEqual(4);    
+    });
+    
+    it('has topics as first column',function(){
+      
+      expect($scope.keySkillsDistributionGrid[0].topic).toBe(testTopics[0]);
+      expect($scope.keySkillsDistributionGrid[1].topic).toBe(testTopics[1]);
+    });
+    
+    it('has null for any missing topics',function(){
+      expect($scope.keySkillsDistributionGrid[2].topic.description).toEqual('');
+      expect($scope.keySkillsDistributionGrid[3].topic.description).toEqual('');
+    });
+    
+    it('has one column for each week in the distribution table in addition to the topic column',function(){
+      expect($scope.keySkillsDistributionGrid[0].cells.length).toBe(3);
+      expect($scope.keySkillsDistributionGrid[1].cells.length).toBe(3);
+      expect($scope.keySkillsDistributionGrid[2].cells.length).toBe(3);            
+      expect($scope.keySkillsDistributionGrid[3].cells.length).toBe(3);            
+    });
+    
+    it('has the cells populated with correct values',function(){
+      expect($scope.keySkillsDistributionGrid[0].cells[0]).toBe(true);
+      expect($scope.keySkillsDistributionGrid[0].cells[1]).toBe(false);
+      expect($scope.keySkillsDistributionGrid[0].cells[2]).toBe(false);
+      
+      expect($scope.keySkillsDistributionGrid[1].cells[0]).toBe(false);
+      expect($scope.keySkillsDistributionGrid[1].cells[1]).toBe(true);
+      expect($scope.keySkillsDistributionGrid[1].cells[2]).toBe(false);
+      
+      expect($scope.keySkillsDistributionGrid[2].cells[0]).toBe(false);
+      expect($scope.keySkillsDistributionGrid[2].cells[1]).toBe(false);
+      expect($scope.keySkillsDistributionGrid[2].cells[2]).toBe(true);            
+      
+      expect($scope.keySkillsDistributionGrid[3].cells[0]).toBe(false);
+      expect($scope.keySkillsDistributionGrid[3].cells[1]).toBe(true);
+      expect($scope.keySkillsDistributionGrid[3].cells[2]).toBe(false);
+
     });
   });
   
