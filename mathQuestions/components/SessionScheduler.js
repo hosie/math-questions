@@ -74,11 +74,22 @@ angular.module('GreatMath.session-scheduler', ['GreatMath.topic-registry'])
       });
       return result;
     };
+    
+    this.getDistributionOfTopicAt=function(topicIndex){
+      return this.table.map(function(item){
+        if(item[topicIndex]==1){
+          return true;
+        }else{
+          return false;
+        }
+      });
+    }
   
   } 
-  Distribution.fromTable = function(table){
+  Distribution.fromTable = function(table,topics){
     var result = new Distribution();
     result.table = table;
+    result.topics=topics;
     return result;
   }
   

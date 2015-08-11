@@ -388,6 +388,55 @@ describe('GreatMath.session-scheduler module', function() {
         expect(msDistribution).toEqual(jasmine.any(sessionScheduler.Distribution));
       });
             
+    });
+
+    describe('Distribution',function(){
+      var testDistributionTable = 
+      [
+        [1,0],
+        [0,1]          
+      ];
+      var testTopics=[
+        {
+          id:1801,
+          description:'testTopic1'
+        },
+        {
+          id:1802,
+          description:'testTopic2'
+        }
+      ];
+      describe('creation',function(){
+        
+        it('can create from a table',function(){
+          var distribution=sessionScheduler.Distribution.fromTable(testDistributionTable,testTopics);
+          expect(distribution).toEqual(jasmine.any(sessionScheduler.Distribution));
+        });
+      });
+      
+      describe('basic behaviour',function(){
+        var distribution;
+      
+        beforeEach(function(){
+          distribution=sessionScheduler.Distribution.fromTable(testDistributionTable,testTopics);
+        });
+        
+        it('lists topics for any week',function(){
+          var topics = distribution.getTopicsForWeek(0);
+          expect(topics).toContain(1801);
+          expect(topics).not.toContain(1802);
+          expect(topics.length).toEqual(1);
+        });
+        
+        it('can get distribution pattern for any topic',function(){
+          var topicDistribution = distribution.getDistributionOfTopicAt(0);
+          expect(topicDistribution.length).toBe(2);
+          expect(topicDistribution[0]).toBe(true);
+          expect(topicDistribution[1]).toBe(false);
+        });
+        
+      });
+      
     });    
   });  
 });
