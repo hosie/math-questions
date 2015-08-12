@@ -28,7 +28,48 @@
         }
       }
     )
-    var divisionSign = "÷";
+    .register(
+      {
+        class : "keySkills",
+        description:"Add whole numbers",
+        generateQuestion: function(callback){
+          var variation = mathUtil.randomInteger(2,1);
+          var operand2  = mathUtil.randomInteger(9999,20);
+          var operand1;
+          if(variation==1){
+            operand1=mathUtil.randomInteger(999,20);
+          }else{
+            operand1=mathUtil.randomInteger(9999,20);
+          }
+          callback("" + operand1 + " + " + operand2);
+        }
+      }
+    )
+    .register(
+      {
+        class : "keySkills",
+        description:"Subtract whole numbers",
+        generateQuestion: function(callback){
+          var variation = mathUtil.randomInteger(2,1);
+          var operand1,operand2,answer;
+          
+          if(variation==1){
+            answer=mathUtil.randomInteger(999,20);
+            operand2=mathUtil.randomInteger(999,answer);
+            
+          }else{
+            answer=mathUtil.randomInteger(9999,20);
+            operand2=mathUtil.randomInteger(9999,answer);
+          }
+          operand1=answer+operand2;
+          
+          callback("" + operand1 + " - " + operand2);
+        }
+      }
+    )
+    ;
+    
+    var divisionSign = "\u00F7";
     var multiplicationSign = "\u00D7"
     var box= "\u2610";
 
