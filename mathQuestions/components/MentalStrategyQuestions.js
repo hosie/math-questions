@@ -269,17 +269,136 @@
         }
       }
     )
-    
-    
-    
-    
-    
-    
-    
+    .register(
+      {
+        class            : "mentalStrategies",
+        description      : "Understand multiplication as repeated addition",
+        generateQuestion : function(callback){
+          var operand1 = mathUtil.randomInteger(9,2);
+          var operand2 = mathUtil.randomInteger(5,2);
+          var lhs = "";
+          for (var i=1;i<operand2;i++){
+            lhs = lhs + operand1 + " + "
+          }
+          lhs = lhs + operand1;
+          var rhs = box + " " + multiplicationSign + " " + operand1;
+          var flip=mathUtil.randomBoolean();
+          if(flip){
+            callback(lhs + " = " + rhs);
+          }else{
+            callback(rhs + " = " + lhs);
+          }
+          
+        }
+      }
+    )
+    .register(
+      {
+        class            : "mentalStrategies",
+        description      : "Understand division as the inverse of multiplication (using times tables)",
+        generateQuestion : function(callback){
+          var operand1 = mathUtil.randomInteger(9,1);
+          var operand2 = mathUtil.randomInteger(
+            9,
+            1,
+            function (candidate){
+              if(candidate==operand1){
+                return false;
+              }else{
+                return true;
+              }            
+            }
+          );
+          var answer = operand1 * operand2;
+          callback("" + operand1 + " " + multiplicationSign + " " + operand2 + " = " + answer + ", so " + answer + " " + divisionSign + " " + (mathUtil.randomBoolean() ? operand1 : operand2 )+ " = " + box);
+        }
+      }
+    )
+    .register(
+      {
+        class:"mentalStrategies",
+        description:"Equivalent calculations to make an addition easier",
+        generateQuestion:function(callback){
+          var operand1 = mathUtil.randomInteger(99,11,function(candidate){return candidate%10==0?false:true;});
+          var operand2 = mathUtil.randomInteger(99,11,function(candidate){return candidate%10==0?false:true;});
+          var pieces = [10 * Math.floor(operand1/10),10 * Math.floor(operand1%10),Math.floor(operand2/10),Math.floor(operand2%10)];
+          pieces=pieces.sort(function(a, b){return b-a});
+          callback("" + operand1 + " + " + operand2 + " =  " + pieces[0] + " + " + pieces[1] + " + " + pieces[2] + " + " + pieces[3] + " = " + box);          
+        }        
+      }
+    )
+    .register(
+      {
+        class:"mentalStrategies",
+        description:"Tell the time 24 hour clock",
+        generateQuestion:function(callback){
+          var reverse = mathUtil.randomBoolean();
+          
+          if(reverse){
+            var hours   = mathUtil.randomInteger(12,1);
+            var minutes = mathUtil.randomInteger(59,1);
+            callback("what is " + hours + ":" + minutes + " pm in 24 hour clock");  
+          }else{
+            var hours   = mathUtil.randomInteger(23,13);
+            var minutes = mathUtil.randomInteger(59,1);
+            callback("what is " + hours + ":" + minutes + " in 12 hour clock");
+          }          
+        }        
+      }
+    )
+    .register(
+      {
+        class:"mentalStrategies",
+        description:"Mins to/ past a time",
+        generateQuestion:function(callback){
+          var bridge = mathUtil.randomBoolean();
+          var questionFormat = mathUtil.randomInteger(3,1);
+          var startHours   = mathUtil.randomInteger(11,1);
+          var startMinutes = mathUtil.randomInteger(49,1);
+          
+          var endHours,endMinutes,difference;
+          if(bridge){
+            endHours   = startHours+1;
+            endMinutes = mathUtil.randomInteger(startMinutes-1,1);
+            difference = endMinutes+(60-startMinutes);
+          }else{
+            endHours   = startHours;
+            endMinutes = mathUtil.randomInteger(59,startMinutes+11);
+            difference = endMinutes - startMinutes;
+          }
+          
+          if(startMinutes<10){
+            startMinutes = "0" + startMinutes;
+          }
+          
+          if(endMinutes<10){
+            endMinutes   = "0" + endMinutes;
+          }
+          
+          switch(questionFormat){
+            case 1://2:15 pm is how many minutes after 1:05
+              callback("" + endHours + ":" + endMinutes + " is how many minutes after " + startHours + ":" + startMinutes);
+            break;
+            case 2://from 8:13 am, how many minutes until 9:05am
+              callback("from " + startHours + ":" + startMinutes + ", how many minutes until " + endHours + ":" + endMinutes);
+            break;
+            case 3://What time will it be 42 minutes after 5:44 pm
+              callback("What time will it be " + difference + " minutes after " + startHours + ":" + startMinutes);
+            break;
+            case 4://What time was it 42 minutes before 5:44 pm
+              callback("What time was it " + difference + " minutes before " + endHours + ":" + endMinutes);
+            break;
+            default:
+            callback("hello");
+          }          
+        }        
+      }
+    )    
     ;
     
     var box= "\u2610";
-
+    var multiplicationSign = "\u00D7"
+    var divisionSign = "\u00F7";
     function generateNumberBonds(answer,callback){
       var operand1 = mathUtil.randomInteger(answer-1);
       var operand2 = answer - operand1;
