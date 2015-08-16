@@ -260,6 +260,27 @@ describe('GreatMath.math-util module', function() {
         
       });
       
+      it('takes an acceptance function',function(){
+        var actualResults = [];
+        while(actualResults.length<100){
+          var result = mathUtil.randomDecimal(
+            3,
+            2,
+            1,
+            function(candidate){
+              if(candidate==2.5){
+                return false;              
+              }else{
+                return true;
+              }
+            }
+          )
+          actualResults.push(result);
+        }
+        expect(actualResults).not.toContain(2.5);        
+        
+      });
+      
     });
     
   });

@@ -42,16 +42,22 @@ angular.module('GreatMath.math-util', [])
       return result;
       
     },
-    randomDecimal : function(max,min,aPrecision){
+    randomDecimal : function(max,min,aPrecision,aAcceptance){
+      var acceptance = aAcceptance || function(){return true;};
+      
       var precision=aPrecision || 1;
       if(precision<0){
         throw {
           reason:INVALID_PRECISION
         }
-      }
+      }      
       var multiplier = Math.pow(10,precision); 
-      var randomInt  = this.randomInteger(max*multiplier,min*multiplier);
-      var result = randomInt/multiplier;
+      var result;
+      do{
+        var randomInt  = this.randomInteger(max*multiplier,min*multiplier);
+        result = randomInt/multiplier;
+        
+      }while(acceptance(result)==false)
       return result;
     },
     floor : function(input,aPrecision){
