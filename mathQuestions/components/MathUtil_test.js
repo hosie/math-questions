@@ -298,5 +298,13 @@ describe('GreatMath.math-util module', function() {
 
   });
   
+  describe('isNotInteger',function(){
+    it('returns true if it is not an integer',function(){
+      expect(mathUtil.isNotInteger(1.1)).toBe(true);
+    });
+    it('returns false if it is an integer',function(){
+      expect(mathUtil.isNotInteger(1.0)).toBe(false);
+    });
+  });
 
 });

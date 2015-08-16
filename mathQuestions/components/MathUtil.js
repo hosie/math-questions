@@ -83,6 +83,13 @@ angular.module('GreatMath.math-util', [])
       var x = input * multiplier;
       x = Math.round(x);
       return x /multiplier;
-    }     
+    },
+    isNotInteger : function(number){
+      if(number==Math.round(number)){
+        return false;
+      }
+      return true;
+    }    
+    
   };
 });
