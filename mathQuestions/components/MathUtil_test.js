@@ -240,8 +240,25 @@ describe('GreatMath.math-util module', function() {
         
       });
       
-      xit('precision defaults to 1',function(){});
-      xit('throws an error if precision is less than 0',function(){});
+      it('precision defaults to 1',function(){
+        var randomDecimal = mathUtil.randomDecimal(9,1);
+        var decimalString = ''+randomDecimal;
+        expect(decimalString).not.toEqual('NaN');
+        expect(decimalString.length).toEqual(3);
+      });
+      
+      
+      it('throws an error if precision is less than 0',function(){
+        try{
+          mathUtil.randomDecimal(10,1,-1);
+          var gotHere=true;
+          expect(gotHere).toBeFalse();
+        }catch(err){
+          expect(err.reason).toBeDefined();
+          expect(err.reason).toEqual(mathUtil.INVALID_PRECISION);
+        }
+        
+      });
       
     });
     

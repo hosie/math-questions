@@ -42,7 +42,13 @@ angular.module('GreatMath.math-util', [])
       return result;
       
     },
-    randomDecimal : function(max,min,precision){
+    randomDecimal : function(max,min,aPrecision){
+      var precision=aPrecision || 1;
+      if(precision<0){
+        throw {
+          reason:INVALID_PRECISION
+        }
+      }
       var multiplier = Math.pow(10,precision); 
       var randomInt  = this.randomInteger(max*multiplier,min*multiplier);
       var result = randomInt/multiplier;
