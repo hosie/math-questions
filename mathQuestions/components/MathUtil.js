@@ -3,7 +3,9 @@
 //A collection of utility functions that build upon the built-in javascript Math module
 angular.module('GreatMath.math-util', [])
 .factory('mathUtil', function() {
+  var INVALID_PRECISION = 'INVALID_PRECISION';
   return {
+    INVALID_PRECISION : INVALID_PRECISION,
     randomBoolean : function(){
       var randomInt = this.randomInteger(2,1);
       if(randomInt==1){
@@ -39,6 +41,36 @@ angular.module('GreatMath.math-util', [])
       
       return result;
       
-    }                
+    },
+    randomDecimal : function(max,min,precision){
+      var multiplier = Math.pow(10,precision); 
+      var randomInt  = this.randomInteger(max*multiplier,min*multiplier);
+      var result = randomInt/multiplier;
+      return result;
+    },
+    floor : function(input,aPrecision){
+      var precision=aPrecision || 0;
+      if(precision<0){
+        throw {
+          reason:INVALID_PRECISION
+        }
+      }
+      var multiplier = Math.pow(10,precision); 
+      var x = input * multiplier;
+      x = Math.floor(x);
+      return x /multiplier;
+    },
+    round : function(input,aPrecision){
+      var precision=aPrecision || 0;
+      if(precision<0){
+        throw {
+          reason:INVALID_PRECISION
+        }
+      }
+      var multiplier = Math.pow(10,precision); 
+      var x = input * multiplier;
+      x = Math.round(x);
+      return x /multiplier;
+    }     
   };
 });
