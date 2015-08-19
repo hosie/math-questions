@@ -105,6 +105,8 @@ angular.module('GreatMath.math-util', [])
       function getName(digit, oom){
         switch(oom){
           case 0:
+          case 3:
+          case 6:          
             return units[digit];
             break;
           case 1:
@@ -113,20 +115,9 @@ angular.module('GreatMath.math-util', [])
             return tens[digit];  
             break;
           case 2:
-            return units[digit] + ' Hundred';
-            break;
-          case 3:
-            return units[digit];
-            break;
           case 5:
             return units[digit] + ' Hundred';            
             break;
-          case 6:
-            return units[digit];
-            
-            break;
-            
-            
         }            
       }
       var spelling='';
@@ -146,20 +137,6 @@ angular.module('GreatMath.math-util', [])
         }
         
         spelling=spelling+getName(multiplier,orderOfMagnitude);
-        
-        //are there any more numbers?
-        var quit=true;
-        for(var i=orderOfMagnitude-1;i>=0;i--){
-          if(digitAt(number,i)>0){
-            quit=false;
-          }
-        }
-        if(quit){
-          //break;
-        }
-        
-        //do we need a space
-        
         
         var commaNeeded=false;
         var spaceNeeded=false;
