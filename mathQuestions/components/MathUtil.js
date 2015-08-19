@@ -4,6 +4,15 @@
 angular.module('GreatMath.math-util', [])
 .factory('mathUtil', function() {
   var INVALID_PRECISION = 'INVALID_PRECISION';
+  function digitAt(number,index){
+      
+    //get rid of all digits to the right
+    var digit = number/(Math.pow(10,index));
+    digit = Math.floor(digit);
+    //get rid of all digits to the left
+    digit = digit % 10;
+    return digit;
+  }
   return {
     INVALID_PRECISION : INVALID_PRECISION,
     randomBoolean : function(){
@@ -89,7 +98,137 @@ angular.module('GreatMath.math-util', [])
         return false;
       }
       return true;
-    }    
+    },
+    spellNumber : function(number){
+      var units = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+      var tens  = ['','Ten','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+      function getName(digit, oom){
+        switch(oom){
+          case 0:
+            return units[digit];
+            break;
+          case 1:
+          case 4:
+          case 7:
+            return tens[digit];  
+            break;
+          case 2:
+            return units[digit] + ' Hundred';
+            break;
+          case 3:
+            return units[digit];
+            break;
+          case 5:
+            return units[digit] + ' Hundred';            
+            break;
+          case 6:
+            return units[digit];
+            
+            break;
+            
+            
+        }            
+      }
+      var spelling='';
+      //order of magnitude is 
+      //     1=>0
+      //     10=>1
+      //100,000=>5
+      for(var orderOfMagnitude=7;orderOfMagnitude>=0;orderOfMagnitude--){
+        var multiplier=digitAt(number,orderOfMagnitude);
+        if (0==multiplier){
+          continue;
+        }
+        if (((orderOfMagnitude%3)==1) && multiplier<2){
+          //we are in the 'teens          
+          orderOfMagnitude--;
+          multiplier=multiplier*10 + digitAt(number,orderOfMagnitude);;
+        }
+        
+        spelling=spelling+getName(multiplier,orderOfMagnitude);
+        
+        //are there any more numbers?
+        var quit=true;
+        for(var i=orderOfMagnitude-1;i>=0;i--){
+          if(digitAt(number,i)>0){
+            quit=false;
+          }
+        }
+        if(quit){
+          //break;
+        }
+        
+        //do we need a space
+        
+        
+        var commaNeeded=false;
+        var spaceNeeded=false;
+        var andNeeded=false;        
+        var largeNumberNameNeeded=false;
+        //do we need an 'and' at this point?
+        if(orderOfMagnitude%3==2){
+          //hundreds
+          if (digitAt(number,orderOfMagnitude-1)>0 || digitAt(number,orderOfMagnitude-2)>0){
+            //have tens and units
+            andNeeded=true;
+          }
+        }
+        if((orderOfMagnitude>0)&&(orderOfMagnitude%3==0)){
+          //thousands ( or other large named number)
+          
+          largeNumberNameNeeded=true;
+        }else if(orderOfMagnitude>1 && (orderOfMagnitude%3==1)){
+          //tens of thousands ( or other large named number)
+          if(digitAt(number,orderOfMagnitude-1)==0){
+            largeNumberNameNeeded=true;
+          }
+          
+        }else if(orderOfMagnitude>2 && (orderOfMagnitude%3==2)){
+          //tens of thousands ( or other large named number)
+          if(digitAt(number,orderOfMagnitude-1)==0 && digitAt(number,orderOfMagnitude-2)==0){
+            largeNumberNameNeeded=true;  
+          }
+          
+        }
+        for(var i=orderOfMagnitude-1;i>=0;i--){
+          if(digitAt(number,i)>0){
+            spaceNeeded=true;
+          }
+        }
+        if(largeNumberNameNeeded){
+          
+        
+          //commas are needed unless the only remaining non zero digits are in the tens or units
+          for(var i=orderOfMagnitude-1;i>=2;i--){
+            if(digitAt(number,i)>0){
+              commaNeeded=true;
+            }
+          }
+          if(!commaNeeded){
+           if((digitAt(number,0)>0) || (digitAt(number,1)>0)){
+             andNeeded=true;
+           }             
+          }
+        }
+        
+        var largeNumberNames=['Thousand','Million']
+        if(largeNumberNameNeeded){
+          spelling=spelling + ' ' + largeNumberNames[Math.floor(orderOfMagnitude/3)-1];            
+        }
+        if(commaNeeded){
+          spelling=spelling + ',';            
+        }
+        if(andNeeded){
+          spelling=spelling + ' and';            
+        }
+        if(spaceNeeded){
+          spelling=spelling + ' ';
+        }
+        
+      }
+      return spelling;
+    },    
+    digitAt : digitAt
     
   };
 });

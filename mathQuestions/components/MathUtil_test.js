@@ -241,7 +241,11 @@ describe('GreatMath.math-util module', function() {
       });
       
       it('precision defaults to 1',function(){
-        var randomDecimal = mathUtil.randomDecimal(9,1);
+        
+        var randomDecimal;
+        do{
+          randomDecimal = mathUtil.randomDecimal(9,1);
+        }while(! mathUtil.isNotInteger(randomDecimal))
         var decimalString = ''+randomDecimal;
         expect(decimalString).not.toEqual('NaN');
         expect(decimalString.length).toEqual(3);
@@ -307,4 +311,181 @@ describe('GreatMath.math-util module', function() {
     });
   });
 
+  describe('digitAt',function(){
+    it('returns digit at a given index, assuming base 10',function(){
+      var number=12345678;
+      expect(mathUtil.digitAt(number,0)).toEqual(8);
+      expect(mathUtil.digitAt(number,1)).toEqual(7);
+      expect(mathUtil.digitAt(number,2)).toEqual(6);
+      expect(mathUtil.digitAt(number,3)).toEqual(5);
+      expect(mathUtil.digitAt(number,4)).toEqual(4);
+      expect(mathUtil.digitAt(number,5)).toEqual(3);
+      expect(mathUtil.digitAt(number,6)).toEqual(2);
+      expect(mathUtil.digitAt(number,7)).toEqual(1);      
+    });
+  });
+  
+  describe('spellNumber',function(){
+    
+    it('units',function(){
+      var number=8;
+      var spelling = mathUtil.spellNumber(number);
+      var spellingArray = spelling.split(" ");
+      expect(spellingArray[spellingArray.length-1]).toEqual("Eight");
+    });
+    
+    it('teens',function(){
+      var number=13;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("Thirteen");
+      
+    });
+    
+    it('tens',function(){
+      var number=30;
+      var spelling = mathUtil.spellNumber(number);
+      var spellingArray = spelling.split(" ");
+      expect(spellingArray[spellingArray.length-1]).toEqual("Thirty");
+    });
+    
+    it('tens and units',function(){
+      var number=34;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("Thirty Four");
+    });
+    
+    it('hundreds',function(){
+      var number=400;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("Four Hundred");
+    });
+    
+    it('hundreds and units',function(){
+      var number=401;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("Four Hundred and One");
+    });
+    
+    it('hundreds and tens',function(){
+      var number=450;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("Four Hundred and Fifty");
+    });
+    
+    it('hundreds and tens and units',function(){
+      var number=678;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("Six Hundred and Seventy Eight");
+    });
+    
+    it('Thousands',function(){
+      var number=5000;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("Five Thousand");
+    });
+    
+    it('Thousands and hundreds',function(){
+      var number=5300;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("Five Thousand, Three Hundred");
+    });
+    
+    it('Thousands and tens',function(){
+      var number=1080;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("One Thousand and Eighty");
+    });
+    
+    it('Thousands and units',function(){
+      var number=1008;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("One Thousand and Eight");
+    });
+    
+    it('Thousands and hundreds and units',function(){
+      var number=1808;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("One Thousand, Eight Hundred and Eight");
+    });
+    
+    it('Thousands and hundreds and tens',function(){
+      var number=1880;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("One Thousand, Eight Hundred and Eighty");
+    });
+    
+    it('Thousands and hundreds and tens and units',function(){
+      var number=1888;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("One Thousand, Eight Hundred and Eighty Eight");
+    });
+    
+    it('Tens of Thousands',function(){
+      var number=50000;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("Fifty Thousand");
+    });
+    
+    it('Teen Thousands',function(){
+      var number=18000;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("Eighteen Thousand");
+    });
+
+    it('Tens and units of Thousands',function(){
+      var number=53000;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("Fifty Three Thousand");
+    });    
+    it('Hundreds of Thousands',function(){
+      var number=400000;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual("Four Hundred Thousand");
+    });
+    
+    it('handles 8 digit numbers',function(){
+      var number=12345678;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual('Twelve Million, Three Hundred and Forty Five Thousand, Six Hundred and Seventy Eight');
+    });
+    
+    it('includes and when tens is zero',function(){
+      var number=12345608;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual('Twelve Million, Three Hundred and Forty Five Thousand, Six Hundred and Eight');
+    });
+    
+    it('no and if units and tens are zero',function(){
+      var number=12345600;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual('Twelve Million, Three Hundred and Forty Five Thousand, Six Hundred');
+    });
+    
+    it('no and if units, tens and hundreds are zero',function(){
+      var number=12345000;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual('Twelve Million, Three Hundred and Forty Five Thousand');
+    });
+    
+    it('includes and when ten thousands is zero',function(){
+      var number=12305678;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual('Twelve Million, Three Hundred and Five Thousand, Six Hundred and Seventy Eight');
+    });
+    
+    it('does not include thousand if there are no thousands, ten thousands or hundred thousands',function(){
+      var number=12000008;
+      var spelling = mathUtil.spellNumber(number);
+      var spellingArray = spelling.split(" ");
+      expect(spellingArray).not.toContain('Thousand');
+      expect(spellingArray).not.toContain('Thousand,');
+    });
+    
+    it('includes and when all digits bar either extreme are zero',function(){
+      var number=10000008;
+      var spelling = mathUtil.spellNumber(number);
+      expect(spelling).toEqual('Ten Million and Eight');
+    });
+    
+  });
 });
