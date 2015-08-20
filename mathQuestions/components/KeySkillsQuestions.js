@@ -359,6 +359,126 @@
         }  
       }
     )
+    .register(
+      {
+        class : "keySkills",
+        description:"Add decimal numbers",
+        generateQuestion: function(callback){
+          var operand1; 
+          var operand2; 
+          var choice = mathUtil.randomInteger(3);
+          switch(choice){
+            case 1:
+              operand1 = mathUtil.randomInteger(20,2);
+              operand2 = mathUtil.randomDecimal(10,1,2);
+              break;
+            case 2:
+              operand1 = mathUtil.randomDecimal(100,1,2);
+              operand2 = mathUtil.randomDecimal(10,1,2);
+              break;
+            case 3:
+              operand1 = mathUtil.randomDecimal(10,1,2);
+              operand2 = mathUtil.randomDecimal(100,1,2);
+              break;
+            
+          }
+          
+          callback("" + operand1 + " + " + operand2);
+        }
+      }
+    )
+    .register(
+      {
+        class : "keySkills",
+        description:"Subtract decimal numbers",
+        generateQuestion: function(callback){
+          var operand1; 
+          var operand2 = mathUtil.randomDecimal(10,1,2);
+          var choice = mathUtil.randomInteger(2);
+          switch(choice){
+            case 1:
+              operand1 = mathUtil.randomInteger(99,11);              
+              break;
+            case 2:
+              operand1 = mathUtil.randomDecimal(100,Math.ceil(operand2),2);              
+              break;
+          }          
+          callback("" + operand1 + " - " + operand2);
+          
+        }
+      }
+    )
+    .register(
+      {
+        class : "keySkills",
+        description:"Mult negative numbers",
+        generateQuestion: function(callback){
+          var operand1 = mathUtil.randomInteger(10); 
+          var operand2 = mathUtil.randomInteger(10); 
+          var operand1Text = "" + operand1;
+          var operand2Text = "" + operand2;
+          var choice = mathUtil.randomInteger(3);
+          switch(choice){
+            case 1:
+              operand1 = -operand1;
+              operand1Text = "("+operand1+")";
+              break;
+            case 2:
+        
+              operand2 = -operand2;              
+              operand2Text = "("+operand2+")";
+              break;
+            case 3:
+              operand1 = -operand1;
+              operand2 = -operand2;
+              operand1Text = "("+operand1+")";
+              operand2Text = "("+operand2+")";
+
+              break;
+              
+          }          
+          callback("" + operand1Text + " "+ multiplicationSign+ " " + operand2Text);
+          
+        }
+      }
+    )
+    .register(
+      {
+        class : "keySkills",
+        description:"Divide negative numbers",
+        generateQuestion: function(callback){
+          var answer = mathUtil.randomInteger(10); 
+          var operand2 = mathUtil.randomInteger(10); 
+          var operand2Text = "" + operand2;
+          var choice = mathUtil.randomInteger(3);
+          switch(choice){
+            case 1:
+              answer = -answer;
+              break;
+            case 2:
+              operand2 = -operand2;              
+              operand2Text = "("+operand2+")";
+              break;
+            case 3:
+              answer = -answer;
+              operand2 = -operand2;
+              operand2Text = "("+operand2+")";
+
+              break;
+              
+          }
+          var operand1=answer * operand2;
+          
+          var operand1Text = "" + operand1;
+          if(operand1<0){
+            operand1Text = "(" + operand1 + ")";            
+          }          
+          callback("" + operand1Text + " "+ divisionSign+ " " + operand2Text);
+          
+        }
+      }
+    )
+    
     ;
     function fdpTenths(callback){
       var numerator = mathUtil.randomInteger(10,1);
