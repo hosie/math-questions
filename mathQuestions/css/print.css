@@ -22,7 +22,8 @@ display: none;
 
    
   body {
-    font: 10pt Georgia, "Times New Roman", Times, serif;
+    /*font: 10pt avenir, "Times New Roman", Times, serif;*/
+    font-family: avenir;
     line-height: 1.3;
        
   }
