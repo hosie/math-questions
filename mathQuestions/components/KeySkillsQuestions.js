@@ -659,6 +659,56 @@
         }
       }
     )
+    .register(
+      {
+        class : "keySkills",
+        description:"Factors",
+        generateQuestion: function(callback){
+          var choice = mathUtil.randomInteger(3);
+          switch(choice){
+            case 1:
+              var number=mathUtil.randomInteger(40,2);
+              callback("List all the factors of " + number);
+              break;
+            case 2:
+              var number=mathUtil.randomInteger(40,2);
+              var factor = mathUtil.randomInteger(Math.floor(number/2),1);
+              callback("Is " + factor + " a factor of " + number +"?");
+              break;
+            case 3:
+              var number1 = mathUtil.randomInteger(30,2);
+              var number2 = mathUtil.randomInteger(30,2,function(candidate){return candidate!=number1;});
+              callback("What is the highest common factor of " + number1 + " and " + number2 + "?");
+              break;              
+          }
+        }
+      }
+    )
+    .register(
+      {
+        class : "keySkills",
+        description:"Multiples",
+        generateQuestion: function(callback){
+          var choice = mathUtil.randomInteger(3);
+          switch(choice){
+            case 1:
+              var number=mathUtil.randomInteger(15,2);
+              callback("List the first 4 multiples of " + number);
+              break;
+            case 2:
+              var number=mathUtil.randomInteger(10,2);
+              var multiple = mathUtil.randomInteger(50,number);
+              callback("Is " + multiple + " a multiple of " + number +"?");
+              break;
+            case 3:
+              var number1 = mathUtil.randomInteger(7,2);
+              var number2 = mathUtil.randomInteger(8,number1+1 );
+              callback("What is the lowest common multiple of " + number1 + " and " + number2 + "?");
+              break;              
+          }
+        }
+      }
+    )
     ;
     function fdpTenths(callback){
       var numerator = mathUtil.randomInteger(10,1);
