@@ -478,7 +478,64 @@
         }
       }
     )
-    
+    .register(
+      {
+        class : "keySkills",
+        description:"Simplify fractions",
+        generateQuestion: function(callback){
+          var simpleDenominator = mathUtil.randomInteger(10,2);
+          var simpleNumerator   = mathUtil.randomInteger(simpleDenominator-1,1);
+          var multiplier        = mathUtil.randomInteger(10,2);
+          var denominator       = multiplier * simpleDenominator;
+          var numerator         = multiplier * simpleNumerator;
+          if(mathUtil.randomBoolean()){
+              callback("Simplify " + numerator + "/" + denominator);
+          }else{
+            callback("Write " + numerator + "/" + denominator + " in its simplest form");
+          }
+          
+        }
+      }
+    )
+    .register(
+      {
+        class : "keySkills",
+        description:"Round to dp",
+        generateQuestion: function(callback){
+          var choice=mathUtil.randomInteger(3);
+          var number;
+          switch(choice){
+            case 1:
+            number=mathUtil.randomDecimal(1,0,4);
+            break;
+            case 2:
+            number=mathUtil.randomDecimal(10,1,4);
+            break;
+            case 3:
+            number=mathUtil.randomDecimal(100,10,4);
+            break;
+          }
+          var dps=mathUtil.randomInteger(3,1);
+          callback("Round " + number + " to " + dps + " decimal places");
+          
+        }
+      }
+    )
+    .register(
+      {
+        class : "keySkills",
+        description:"Substitution",
+        generateQuestion: function(callback){
+          var a = mathUtil.randomInteger(10);
+          var b = mathUtil.randomInteger(10);
+          var c = mathUtil.randomInteger(10);
+          var x = mathUtil.randomInteger(10);
+          var y = mathUtil.randomInteger(10);
+          var z = mathUtil.randomInteger(10);
+          callback("If a = " + a + " b = " + b + " and c = " + c + ", what is the value of " + x + " " + multiplicationSign + " a " + " + " + y + " " + multiplicationSign + " b " + " + " + z + " " + multiplicationSign + " c");
+        }
+      }
+    )
     ;
     function fdpTenths(callback){
       var numerator = mathUtil.randomInteger(10,1);
