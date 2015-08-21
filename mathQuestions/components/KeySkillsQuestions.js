@@ -605,7 +605,60 @@
         }
       }
     )    
+    .register(
+      {
+        class : "keySkills",
+        description:"Subtract negative numbers",
+        generateQuestion: function(callback){
+          var operand1 = mathUtil.randomInteger(10);
+          var operand2 = mathUtil.randomInteger(10);
+          if(mathUtil.randomBoolean()){
+            callback("" + operand1 + " - (-" + operand2 + ")");
+          }else{
+            callback("(-" + operand1 + ") - (-" + operand2 + ")");            
+          }
+        }
+      }
+    )
+    .register(
+      {
+        class : "keySkills",
+        description:"Round to sf",
+        generateQuestion: function(callback){
+          var significantFigures = mathUtil.randomInteger(3);
+          var number;
+          var choice = mathUtil.randomInteger(8);
+          switch(choice){
+            case 1:
+              number = mathUtil.randomDecimal(10,1,4);
+              break;
+            case 2:
+              number = mathUtil.randomDecimal(100,11,4);
+              break;
+            case 3:
+              number = mathUtil.randomDecimal(1,0,4);
+              break;
+            case 4:
+              number = mathUtil.randomDecimal(0.01,0,6);
+              break;
+            case 5:
+              number = mathUtil.randomInteger(10,1);
+              break;
+            case 6:
+              number = mathUtil.randomInteger(100,10);
+              break;
+            case 7:
+              number = mathUtil.randomInteger(1000,100);
+              break;
+            case 8:
+              number = mathUtil.randomInteger(10000,1000);
+              break;              
 
+          }
+          callback("Round " + number + " to " + significantFigures + " s.f.");
+        }
+      }
+    )
     ;
     function fdpTenths(callback){
       var numerator = mathUtil.randomInteger(10,1);
