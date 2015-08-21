@@ -536,6 +536,76 @@
         }
       }
     )
+    .register(
+      {
+        class : "keySkills",
+        description:"Simple directed number",
+        generateQuestion: function(callback){
+          var operand1 = mathUtil.randomInteger(10);
+          var operand2 = mathUtil.randomInteger(10);
+          var choice = mathUtil.randomInteger(10);
+          switch(choice){
+            case 1:
+              callback("(-"+ operand1 +")" + " + " + operand2);
+              break;
+            case 2:
+              callback("(-"+ operand1 +")" + " - " + operand2);
+              break;
+            case 3:
+              if(operand1==10){
+                operand1=9;
+              }
+              operand2 = mathUtil.randomInteger(10,operand1+1);
+              callback("" + operand1 + " - " + operand2);
+              break;
+            case 4:
+              callback("Difference between -" + operand1 + " and " + operand2);
+              break;
+            case 5:
+              callback("Difference between " + operand1 + " and -" + operand2);
+              break;
+            case 6:
+              var operand1 = mathUtil.randomInteger(10,2);
+              var operand2 = mathUtil.randomInteger(operand1-1,1);
+          
+              callback("Difference between -" + operand1 + " and -" + operand2);
+              break;
+            case 7:
+              callback("Which is the lowest number, " + operand1 + " or -" + operand2 + "?");
+              break;
+            case 8:
+              var operand1 = mathUtil.randomInteger(10,2);
+              var operand2 = mathUtil.randomInteger(operand1-1,1);
+              callback("Which is the lowest number, -" + operand1 + " or -" + operand2 + "?");
+              break;
+            case 9:
+            callback("Which is the highest number, " + operand1 + " or -" + operand2 + "?");
+              break;
+            case 10:
+              var operand1 = mathUtil.randomInteger(10,2);
+              var operand2 = mathUtil.randomInteger(operand1-1,1);
+              callback("Which is the highest number, -" + operand1 + " or -" + operand2 + "?");
+              break;              
+          }
+        }
+      }
+    )
+    .register(
+      {
+        class : "keySkills",
+        description:"Add negative numbers",
+        generateQuestion: function(callback){
+          var operand1 = mathUtil.randomInteger(10);
+          var operand2 = mathUtil.randomInteger(10);
+          if(mathUtil.randomBoolean()){
+            callback("" + operand1 + " + (-" + operand2 + ")");
+          }else{
+            callback("(-" + operand1 + ") + (-" + operand2 + ")");            
+          }
+        }
+      }
+    )    
+
     ;
     function fdpTenths(callback){
       var numerator = mathUtil.randomInteger(10,1);
