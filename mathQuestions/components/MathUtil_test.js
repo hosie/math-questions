@@ -157,6 +157,18 @@ describe('GreatMath.math-util module', function() {
         expect(actualResults).not.toContain(4);
       });
       
+      it('can swap max and min arguments',function(){
+        var actualResults = [];
+        while(actualResults.length<100){
+          actualResults.push(mathUtil.randomInteger(5,10));
+        }
+        for(var exectedResult=5;exectedResult<=10;exectedResult++){
+          expect(actualResults).toContain(exectedResult);        
+        }      
+        expect(actualResults).not.toContain(11);
+        expect(actualResults).not.toContain(4);
+      });
+      
       
       it('can generate all integers up to a maximum of 100',function(){
         var actualResults = [];

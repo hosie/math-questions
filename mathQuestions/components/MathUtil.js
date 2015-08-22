@@ -22,9 +22,14 @@ angular.module('GreatMath.math-util', [])
       }
       return false;
     },
-    randomInteger : function(max,min,criteria){
-      if (min==undefined){
+    randomInteger : function(arg1,arg2,criteria){
+      var min,max;
+      if (arg2==undefined){
         min=1;
+        max=arg1;
+      }else{
+        min=Math.min(arg1,arg2);
+        max=Math.max(arg1,arg2);
       }
       var range=max-min+1;//inclusive
       var result;
