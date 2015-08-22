@@ -157,7 +157,7 @@ describe('QuestionPreviewController',function(){
           if(oldVal==newVal){
             return;
           }
-          expect($scope.diagram).toEqual(testSvg);
+          expect($scope.diagram.$$unwrapTrustedValue()).toEqual(testSvg);
           expect($scope.hasDiagram).toEqual(true);
           done();        
           cancel();

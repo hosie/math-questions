@@ -10,7 +10,7 @@ angular.module('MathQuestions.questionPreview', ['ngRoute','GreatMath.question-g
   });
 }])
 
-.controller('QuestionPreviewController', ['$scope','questionGenerator','topicRegistry',function($scope,questionGenerator,topicRegistry) {
+.controller('QuestionPreviewController', ['$scope','$sce','questionGenerator','topicRegistry',function($scope,$sce,questionGenerator,topicRegistry) {
   $scope.topicId=1;
   topicRegistry.getTopics(function(topics){
     $scope.$apply(function(){
@@ -29,7 +29,7 @@ angular.module('MathQuestions.questionPreview', ['ngRoute','GreatMath.question-g
         $scope.question=question;
         
         if(diagram != undefined){
-          $scope.diagram=diagram;
+          $scope.diagram=$sce.trustAsHtml(diagram);
           $scope.hasDiagram=true;
           
         }else{
