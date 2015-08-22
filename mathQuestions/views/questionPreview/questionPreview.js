@@ -24,9 +24,12 @@ angular.module('MathQuestions.questionPreview', ['ngRoute','GreatMath.question-g
       class : "mentalStrategies",
       topicId    : $scope.selectedTopic
     },
-    function(err,question){
+    function(err,question,diagram){
       $scope.$apply(function(){
         $scope.question=question;
+        if(diagram != undefined){
+          $scope.diagram=diagram;
+        }
       });      
     });
   }

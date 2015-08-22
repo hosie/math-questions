@@ -83,6 +83,33 @@ describe('QuestionPreviewController',function(){
       $scope.$apply(function (){
         $scope.selectedTopic=42;        
       });
+    });
+
+    it('includes a diagram if one is provided',function(done){
+      var testSvg = '<svg width="100" height="100"><rect cx="50" cy="50" width="80" height="80"></rect></svg>';
+      mockQuestionGenerator.generate = function(questionSpec,callback){
+        setTimeout(function(){
+          callback(null,"look at the diagram",testSvg);
+        },0);
+        
+      };
+      $scope.$watch(
+        function(){
+          return $scope.diagram;
+        },
+        function(oldVal,newVal){
+          if(oldVal==newVal){
+            return;
+          }
+          expect($scope.diagram).toEqual(testSvg);
+          done();        
+        },
+        true
+      );
+      $scope.$apply(function (){
+        $scope.selectedTopic=42;        
+      });
+    
     });    
   });
 });
