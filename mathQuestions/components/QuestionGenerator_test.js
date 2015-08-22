@@ -51,6 +51,26 @@ describe('GreatMath.question-generator module', function() {
     });
   });
   
+  it('passes diagram if provided',function(done){
+    var testDiagram='<svg width="100" height="100"><rect cx="50" cy="50" width="80" height="80"></rect></svg>';
+    mockTopicRegistry.testTopic = {
+      //TODO use - but how can we expect the callback to be async? callback:jasmine.createSpy('generateQuestion')
+      generateQuestion:function(callback){
+        callback("testQuestion",testDiagram);
+      }
+    }
+    
+    questionGenerator.generate({
+      class : "testClass",
+      topicId    : 1
+    },function(err,question,diagram){
+      expect(err).toBeNull();
+      expect(diagram).toEqual(testDiagram);            
+      done();
+    });
+  });
+  
+  
   it('looks up topics from registry using correct id',function(done){
     spyOn(mockTopicRegistry,'getTopic').and.callThrough();
     questionGenerator.generate({

@@ -17,8 +17,8 @@ angular.module('GreatMath.question-generator', ['GreatMath.topic-registry'])
           try{
             
             generatorFunction(
-              function(question){//success handler
-                callback(null,question);
+              function(question,diagram){//success handler
+                callback(null,question,diagram);
               },              
               function(err){//async error handler
                 callback(err,null);                                
