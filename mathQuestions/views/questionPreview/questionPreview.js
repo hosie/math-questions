@@ -27,8 +27,13 @@ angular.module('MathQuestions.questionPreview', ['ngRoute','GreatMath.question-g
     function(err,question,diagram){
       $scope.$apply(function(){
         $scope.question=question;
+        
         if(diagram != undefined){
           $scope.diagram=diagram;
+          $scope.hasDiagram=true;
+          
+        }else{
+          $scope.hasDiagram=false;
         }
       });      
     });

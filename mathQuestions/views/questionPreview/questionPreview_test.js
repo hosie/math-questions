@@ -85,6 +85,62 @@ describe('QuestionPreviewController',function(){
       });
     });
 
+    it('adds question to scope',function(done){
+             
+      var testQuestion = 'this is a question?';
+      mockQuestionGenerator.generate = function(questionSpec,callback){
+        setTimeout(function(){
+          callback(null,testQuestion);
+        },0);
+        
+      };
+      var cancel = $scope.$watch(
+        function(){
+          return $scope.question;
+        },
+        function(oldVal,newVal){
+          if(oldVal==newVal){
+            return;
+          }
+          expect($scope.question).toEqual(testQuestion);          
+          done();        
+          cancel();
+        },
+        true
+      );
+      $scope.$apply(function (){
+        $scope.selectedTopic=42;        
+      });
+    });
+    
+    it('hasDigaram is false',function(done){
+             
+      
+      mockQuestionGenerator.generate = function(questionSpec,callback){
+        setTimeout(function(){
+          callback(null,"..?");
+        },0);
+        
+      };
+      var cancel = $scope.$watch(
+        function(){
+          return $scope.question;
+        },
+        function(oldVal,newVal){
+          if(oldVal==newVal){
+            return;
+          }
+          expect($scope.hasDiagram).toEqual(false);          
+          done();        
+          cancel();
+        },
+        true
+      );
+      $scope.$apply(function (){
+        $scope.selectedTopic=42;        
+      });
+    });
+    
     it('includes a diagram if one is provided',function(done){
       var testSvg = '<svg width="100" height="100"><rect cx="50" cy="50" width="80" height="80"></rect></svg>';
       mockQuestionGenerator.generate = function(questionSpec,callback){
@@ -93,7 +149,7 @@ describe('QuestionPreviewController',function(){
         },0);
         
       };
-      $scope.$watch(
+      var cancel = $scope.$watch(
         function(){
           return $scope.diagram;
         },
@@ -102,7 +158,9 @@ describe('QuestionPreviewController',function(){
             return;
           }
           expect($scope.diagram).toEqual(testSvg);
+          expect($scope.hasDiagram).toEqual(true);
           done();        
+          cancel();
         },
         true
       );
