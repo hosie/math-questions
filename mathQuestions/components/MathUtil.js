@@ -35,12 +35,11 @@ angular.module('GreatMath.math-util', [])
       }
       do{
         var randomDecimal0To1   = Math.random();
-        var randomDecimal0To1   = Math.random();
         var randomDecimal0ToRange  =  range * randomDecimal0To1;
         var randomInteger0ToRangeMinus1   = Math.floor(randomDecimal0ToRange);
         //Math.random never generates exactly 1 but just in case...
-        if(randomInteger0ToRangeMinus1==max){
-          randomInteger0ToRangeMinus1--;      
+        if(randomInteger0ToRangeMinus1==range){
+          randomInteger0ToRangeMinus1--; 
         }
         
         var randomIntegerMinToMax = min + randomInteger0ToRangeMinus1;

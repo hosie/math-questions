@@ -201,8 +201,63 @@ describe('GreatMath.math-util module', function() {
         expect(actualResults).not.toContain(2);        
         
       });
-    
       
+      it('short range',function(){
+        var actualResults = [];
+        while(actualResults.length<10){
+          var result = mathUtil.randomInteger(
+            2,
+            1
+          )
+          actualResults.push(result);
+        }
+        expect(actualResults).toContain(1);
+        expect(actualResults).toContain(2);        
+        
+      });
+      
+      it('allows zero',function(){
+        var actualResults = [];
+        while(actualResults.length<10){
+          var result = mathUtil.randomInteger(
+            1,
+            0
+          )
+          actualResults.push(result);
+        }
+        expect(actualResults).toContain(0);
+        expect(actualResults).toContain(1);        
+        
+      });
+    
+      it('allows negative numbers',function(){
+        var actualResults = [];
+        while(actualResults.length<10){
+          var result = mathUtil.randomInteger(
+            -1,
+            -2
+          )
+          actualResults.push(result);
+        }
+        expect(actualResults).toContain(-1);
+        expect(actualResults).toContain(-2);
+        
+      });
+      
+      it('can bridge 0',function(){
+        var actualResults = [];
+        while(actualResults.length<100){
+          var result = mathUtil.randomInteger(
+            1,
+            -1
+          )
+          actualResults.push(result);
+        }
+        expect(actualResults).toContain(-1);
+        expect(actualResults).toContain(0);
+        expect(actualResults).toContain(1);
+        
+      });
     });
   
     describe('random decimals',function(){
