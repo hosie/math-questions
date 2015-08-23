@@ -330,6 +330,49 @@
     .register(
       {
         class:"mentalStrategies",
+        description:"Tell the time 12 hour clock",
+        generateQuestion:function(callback){
+          
+          var hours = mathUtil.randomInteger(12);
+          var minutes = 5 * mathUtil.randomInteger(11,0);
+
+          function minuteX(minute){
+            var radians = 2*Math.PI * (minute/60);
+            return Math.sin(radians );
+          }
+
+          function minuteY(minute){
+            var radians = 2*Math.PI * (minute/60);
+            return Math.cos(radians + Math.PI);
+          }
+
+          function hourHandX(hour,minute){
+            var radians = 2 * Math.PI * ( (hour +(minute/60))/12);
+            return Math.sin(radians );
+          }
+
+          function hourHandY(hour,minute){
+            var radians = 2 * Math.PI * ( (hour +(minute/60))/12);
+            return Math.cos(radians + Math.PI);
+          }
+
+          var svg = '<svg id="canvas" width="215" height="215"><defs><marker style="overflow:visible" id="Arrow" refX="0" refY="0" orient="auto">  <path d="M -3,-2 L 0,0 L -3,2 " style="stroke-width:0.625;stroke-linejoin:round;stroke:blue;stroke-opacity:1;fill:none;" orient="auto" id="path4942"></path></marker></defs><g class="clock" transform="translate(110,110)"><circle r="100" cx="0" cy="0"></circle><g class="hour"><line class="hour-tick" x1="0" x2="0" y1="-100" y2="-90"></line><g transform="translate(-5,5)"><text class="hour-label" x="0" y="-80">12</text></g></g><g class="hour"><line class="hour-tick" x1="49.99999999999999" x2="44.99999999999999" y1="-86.60254037844388" y2="-77.9422863405995"></line><g transform="translate(-5,5)"><text class="hour-label" x="39.99999999999999" y="-69.28203230275511">1</text></g></g><g class="hour"><line class="hour-tick" x1="86.60254037844386" x2="77.94228634059948" y1="-50.00000000000004" y2="-45.00000000000004"></line><g transform="translate(-5,5)"><text class="hour-label" x="69.28203230275508" y="-40.000000000000036">2</text></g></g><g class="hour"><line class="hour-tick" x1="100" x2="90" y1="-1.8369701987210297e-14" y2="-1.6532731788489267e-14"></line><g transform="translate(-5,5)"><text class="hour-label" x="80" y="-1.4695761589768237e-14">3</text></g></g><g class="hour"><line class="hour-tick" x1="86.60254037844388" x2="77.94228634059948" y1="49.999999999999936" y2="44.99999999999994"></line><g transform="translate(-5,5)"><text class="hour-label" x="69.2820323027551" y="39.99999999999994">4</text></g></g><g class="hour"><line class="hour-tick" x1="49.99999999999999" x2="44.99999999999999" y1="86.60254037844388" y2="77.9422863405995"></line><g transform="translate(-5,5)"><text class="hour-label" x="39.99999999999999" y="69.28203230275511">5</text></g></g><g class="hour"><line class="hour-tick" x1="1.2246467991473532e-14" x2="1.1021821192326179e-14" y1="100" y2="90"></line><g transform="translate(-5,5)"><text class="hour-label" x="9.797174393178826e-15" y="80">6</text></g></g><g class="hour"><line class="hour-tick" x1="-50.000000000000014" x2="-45.00000000000001" y1="86.60254037844386" y2="77.94228634059948"></line><g transform="translate(-5,5)"><text class="hour-label" x="-40.00000000000001" y="69.28203230275508">7</text></g></g><g class="hour"><line class="hour-tick" x1="-86.60254037844383" x2="-77.94228634059945" y1="50.00000000000006" y2="45.00000000000005"></line><g transform="translate(-5,5)"><text class="hour-label" x="-69.28203230275507" y="40.00000000000004">8</text></g></g><g class="hour"><line class="hour-tick" x1="-100" x2="-90" y1="3.061616997868383e-14" y2="2.755455298081545e-14"></line><g transform="translate(-5,5)"><text class="hour-label" x="-80" y="2.4492935982947064e-14">9</text></g></g><g class="hour"><line class="hour-tick" x1="-86.60254037844386" x2="-77.94228634059948" y1="-50.00000000000008" y2="-45.00000000000007"></line><g transform="translate(-5,5)"><text class="hour-label" x="-69.28203230275508" y="-40.000000000000064">10</text></g></g><g class="hour"><line class="hour-tick" x1="-50.00000000000004" x2="-45.00000000000004" y1="-86.60254037844388" y2="-77.9422863405995"></line><g transform="translate(-5,5)"><text class="hour-label" x="-40.000000000000036" y="-69.28203230275511">11</text></g></g>';
+          
+          var svg = svg + '<line class="minute-hand" x1="0" x2="'+(65*minuteX(minutes))+'" y1="0" y2="'+(65*minuteY(minutes))+'" style="marker-end: url(#Arrow);"></line>';
+          var svg = svg + '<line class="hour-hand" x1="0" x2="'+(50*hourHandX(hours,minutes))+'" y1="0" y2="'+(50*hourHandY(hours,minutes))+'" style="marker-end: url(#Arrow);"></line>';
+          svg = svg + '<circle class="center" cx="0" cy="0" r="5"></circle></g></svg>';
+          callback(
+            "What time is shown on the clock?",
+            svg
+          );
+          
+        }
+        
+      }
+    )
+    .register(
+      {
+        class:"mentalStrategies",
         description:"Tell the time 24 hour clock",
         generateQuestion:function(callback){
           var reverse = mathUtil.randomBoolean();
