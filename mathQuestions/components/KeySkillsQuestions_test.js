@@ -1,7 +1,7 @@
 'use strict';
 
 describe('GreatMath.key-skills-questions module', function() {
-  var EXPECTED_NUMBER_OF_TOPICS=29;
+  var EXPECTED_NUMBER_OF_TOPICS=30;
   beforeEach(module('GreatMath.key-skills-questions'));
   var mockTopicRegistry =   {
     registeredTopics:[],

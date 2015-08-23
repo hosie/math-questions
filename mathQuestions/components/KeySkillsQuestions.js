@@ -149,7 +149,7 @@
               operand2 = mathUtil.randomInteger(5,1);
               operand3 = mathUtil.randomInteger(5,1);
               var answer = ((operand1 * operand1) + operand2) * operand3;
-              callback("" + operand1 + squared + " + " + operand2 + " " + symbol.multiplicationSign + " " + operand3 + " = " + answer);
+              callback("" + operand1 + symbol.squared + " + " + operand2 + " " + symbol.multiplicationSign + " " + operand3 + " = " + answer);
               break;
             case 6:
               operand1 = mathUtil.randomInteger(10,1);
@@ -157,7 +157,7 @@
               operand3 = mathUtil.randomInteger(5,1);
               var operand4 = mathUtil.randomInteger(5,1);
               var answer = ((operand1-operand2) * (operand1-operand2)) + (operand3 * operand4);
-              callback("(" + operand1 + " - " + operand2 + ")" + squared + " + " + operand3 + " " + symbol.multiplicationSign + " " + operand4);
+              callback("(" + operand1 + " - " + operand2 + ")" + symbol.squared + " + " + operand3 + " " + symbol.multiplicationSign + " " + operand4);
               break;
             case 7:
               var squareRootOperand1 = mathUtil.randomInteger(10,1);
@@ -778,6 +778,18 @@
           var amount = otherFactor * denominator;
           var numerator = mathUtil.randomInteger(1,denominator-1);
           callback("What is "+numerator+"/"+denominator+" of "+amount+"?");
+        }        
+      }
+    )
+    .register(
+      {
+        class : "keySkills",
+        description : "Percentage of an amount",
+        generateQuestion : function(callback){
+          
+          var amount = 10 * mathUtil.randomInteger(40);
+          var percent = 5 * mathUtil.randomInteger(30);
+          callback("What is "+percent+"% of £"+amount+"?");
         }        
       }
     )
