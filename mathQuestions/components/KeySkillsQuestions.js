@@ -532,7 +532,7 @@
           var x = mathUtil.randomInteger(10);
           var y = mathUtil.randomInteger(10);
           var z = mathUtil.randomInteger(10);
-          callback("If a = " + a + " b = " + b + " and c = " + c + ", what is the value of " + x + " " + symbol.multiplicationSign + " a " + " + " + y + " " + symbol.multiplicationSign + " b " + " + " + z + " " + symbol.multiplicationSign + " c");
+          callback("If a = " + a + " b = " + b + " and c = " + c + ", what is the value of " + x + " " + symbol.multiplicationSign + " a " + " + " + y + " " + symbol.multiplicationSign + " b " + " + " + z + " " + symbol.multiplicationSign + " c?");
         }
       }
     )
