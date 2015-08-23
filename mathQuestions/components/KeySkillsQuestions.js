@@ -751,6 +751,36 @@
         }        
       }
     )
+    .register(
+      {
+        class : "keySkills",
+        description : "Equivalent fractions",
+        generateQuestion : function(callback){
+          var numerator=mathUtil.randomInteger(10);
+          var denominator=mathUtil.randomInteger(10,1,function(x){return x!=numerator;});
+          var multiplier = mathUtil.randomInteger(10,2);
+          if(mathUtil.randomBoolean()){
+            callback(""+numerator+"/"+denominator+" = "+(numerator*multiplier)+"/"+ symbol.box);
+          }else{
+            callback(""+numerator+"/"+denominator+" = "+symbol.box+"/"+ (denominator*multiplier));            
+          }
+        }        
+      }
+    )
+    .register(
+      {
+        class : "keySkills",
+        description : "Fraction of an amount",
+        generateQuestion : function(callback){
+          
+          var denominator = mathUtil.randomInteger(10,2);
+          var otherFactor = mathUtil.randomInteger(10);
+          var amount = otherFactor * denominator;
+          var numerator = mathUtil.randomInteger(1,denominator-1);
+          callback("What is "+numerator+"/"+denominator+" of "+amount+"?");
+        }        
+      }
+    )
     ;
     function fdpTenths(callback){
       var numerator = mathUtil.randomInteger(10,1);
