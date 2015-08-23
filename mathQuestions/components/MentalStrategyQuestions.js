@@ -333,14 +333,15 @@
         description:"Tell the time 24 hour clock",
         generateQuestion:function(callback){
           var reverse = mathUtil.randomBoolean();
-          
+          var minutes = mathUtil.randomInteger(59,1);
+          if(minutes<10){
+            minutes = "0" + minutes;
+          }  
           if(reverse){
             var hours   = mathUtil.randomInteger(12,1);
-            var minutes = mathUtil.randomInteger(59,1);
             callback("what is " + hours + ":" + minutes + " pm in 24 hour clock");  
           }else{
             var hours   = mathUtil.randomInteger(23,13);
-            var minutes = mathUtil.randomInteger(59,1);
             callback("what is " + hours + ":" + minutes + " in 12 hour clock");
           }          
         }        
