@@ -279,10 +279,9 @@ describe('GreatMath.session-scheduler module', function() {
             }            
           });          
         });
-        //with 39 weeks, 10 questions each week and 33 topics,
-        //an even distribution would mean that each topic has 11 or 12 questions in total
-        expect(numberOfOccurances).toBeGreaterThan(10);        
-        expect(numberOfOccurances).toBeLessThan(13);        
+        //with 39 weeks, 10 questions each week and 30 topics,
+        //an even distribution would mean that each topic has 13 questions in total
+        expect(numberOfOccurances).toEqual(13);        
         
       });
       done();      

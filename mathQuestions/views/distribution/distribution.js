@@ -11,7 +11,7 @@ angular.module('MathQuestions.distributionView', ['ngRoute','GreatMath.session-s
   });
 }])
 
-.controller('DistributionController', ['$scope','sessionScheduler','default26TopicDistributionTable','default33TopicDistributionTable','topicRegistry',function($scope,sessionScheduler,default26TopicDistributionTable,default33TopicDistributionTable,topicRegistry) {
+.controller('DistributionController', ['$scope','sessionScheduler','default26TopicDistributionTable','default30TopicDistributionTable','topicRegistry',function($scope,sessionScheduler,default26TopicDistributionTable,default30TopicDistributionTable,topicRegistry) {
   
   $scope.weekNumbers=[];
   function transposeArray(inputArray){
@@ -55,7 +55,7 @@ angular.module('MathQuestions.distributionView', ['ngRoute','GreatMath.session-s
     });
   });
   
-  var keySkillsDistributionTable = transposeArray(default33TopicDistributionTable);
+  var keySkillsDistributionTable = transposeArray(default30TopicDistributionTable);
   $scope.keySkillsDistributionGrid =[];
   topicRegistry.getTopics({class:'keySkills'},function(topics){
     $scope.$apply(function(){
