@@ -165,7 +165,7 @@
               operand3 = mathUtil.randomInteger(5,1);
               operand2 = operand3 * squareRootOperand1;
               var answer = Math.sqrt(operand1) + (operand2/operand3);
-              callback(squareRoot+operand1 + " + " +  operand2 + " " + symbol.divisionSign + " " + operand3 + " = " + answer);
+              callback(symbol.squareRoot+operand1 + " + " +  operand2 + " " + symbol.divisionSign + " " + operand3 + " = " + answer);
           }           
         }
       }
