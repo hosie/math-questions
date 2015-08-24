@@ -228,6 +228,17 @@ describe('GreatMath.math-util module', function() {
         
       });
       
+      it('zero range',function(){  
+        
+        var result = mathUtil.randomInteger(
+          2,
+          2
+        );
+        
+        expect(result).toEqual(2);        
+        
+      });
+      
       it('allows zero',function(){
         var actualResults = [];
         while(actualResults.length<10){
