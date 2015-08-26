@@ -684,6 +684,62 @@
     .register(
       {
         class : "keySkills",
+        description : "Read a number off a numberline",
+        generateQuestion : function(callback){
+          var numberLinesData=[
+            {
+              min:0,
+              max:10,
+              increments:5
+            },
+            {
+              min:0,
+              max:30,
+              increments:10
+            },
+            {
+              min:0,
+              max:20,
+              increments:8
+            },
+            {
+              min:25,
+              max:75,
+              increments:5
+            }
+          ];
+          function xPos(tickPosition,numberLine){
+            return 10 + (tickPosition * 150/numberLine.increments);
+          }
+          var choice          = mathUtil.randomInteger(0,3);
+          var numberLine      = numberLinesData[choice];
+          var position        = mathUtil.randomInteger(1,numberLine.increments-1);
+          var incrementSize   = (numberLine.max-numberLine.min)/numberLine.increments;
+          var answer          = numberLine.min + (position * incrementSize);
+          var dotXPosition    = xPos(position,numberLine);
+          var svg = '<style>.numberLine>line{  stroke:#777777;} .numberLine > text{  text-anchor:middle;} .dot{fill:#777777}</style>';
+          
+          svg = svg + '<svg id="canvas" width="170" height="320">';
+          svg = svg + '<g class="numberLine" ><line x1="10" y1="30" x2="160" y2="30"></line><text x="10" y="60">';
+          svg = svg + numberLine.min;
+          svg = svg + '</text><text x="160" y="60">';
+          svg = svg + numberLine.max;
+          svg = svg + '</text>';
+          for(var nextTick=0; nextTick<=numberLine.increments; nextTick++){
+            var nextTickXPos = xPos(nextTick,numberLine);
+            svg = svg + '<line class="tick" x1="' + nextTickXPos + '" x2="'+nextTickXPos+'" y1="30" y2="50"></line>';
+          }
+          //put in the circle
+          svg = svg + '<circle class="dot" r="5" cx="' + dotXPosition + ' " cy="20"></circle>';
+          svg = svg + '</g></svg>';
+          callback('Value of the dot',svg);
+        }
+        
+      }
+    )
+    .register(
+      {
+        class : "keySkills",
         description:"Round to sf",
         generateQuestion: function(callback){
           var significantFigures = mathUtil.randomInteger(3);
