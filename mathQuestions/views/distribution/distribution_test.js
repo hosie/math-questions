@@ -22,7 +22,7 @@ describe('GreatMath.distribution-view module', function() {
     [0,0,1]
   ];
   
-  var mock30TopicDistributionTable=
+  var mock32TopicDistributionTable=
   [
     [1,0,0,0],
     [0,1,0,1],
@@ -72,9 +72,9 @@ describe('GreatMath.distribution-view module', function() {
         
       });
       
-      $provide.factory('default30TopicDistributionTable',function(){
+      $provide.factory('default32TopicDistributionTable',function(){
         
-        return mock30TopicDistributionTable;
+        return mock32TopicDistributionTable;
         
       });
       

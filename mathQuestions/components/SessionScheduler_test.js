@@ -69,11 +69,11 @@ describe('GreatMath.session-scheduler module', function() {
       expect(distribution).not.toBeNull();      
     });
     
-    it("there are 39 weeks",function(){
-      expect(distribution.weeks.length).toBe(39);      
+    it("there are 40 weeks",function(){
+      expect(distribution.weeks.length).toBe(40);      
     });
     
-    for(var weekNumber=1;weekNumber<=39;weekNumber++){
+    for(var weekNumber=1;weekNumber<=40;weekNumber++){
       var weekIndex=weekNumber-1;
       it("week " + weekNumber + " has 10 questions",function(){
         var week=distribution.weeks[weekIndex];
@@ -98,9 +98,10 @@ describe('GreatMath.session-scheduler module', function() {
             }            
           });          
         });
-        //with 39 weeks, 10 questions each week and 26 topics,
-        //an even distribution would mean that each topic has 15 questions in total
-        expect(numberOfOccurances).toBe(15);        
+        //with 40 weeks, 10 questions each week and 26 topics,
+        //an even distribution would mean that each topic has 15 or 16 questions in total
+        expect(numberOfOccurances).toBeGreaterThan(14);
+        expect(numberOfOccurances).toBeLessThan(17);        
       })
     };
     
@@ -158,7 +159,8 @@ describe('GreatMath.session-scheduler module', function() {
           }
         });
       });
-      expect(numberOfNulls).toEqual(expectedNumberOfNulls);      
+      expect(numberOfNulls).toBeGreaterThan ( (25 * 15) - 1);      
+      expect(numberOfNulls).toBeLessThan    ( (25 * 16) + 1);      
     });
     
   });
@@ -279,9 +281,10 @@ describe('GreatMath.session-scheduler module', function() {
             }            
           });          
         });
-        //with 39 weeks, 10 questions each week and 30 topics,
-        //an even distribution would mean that each topic has 13 questions in total
-        expect(numberOfOccurances).toEqual(13);        
+        //with 40 weeks, 10 questions each week and 32 topics,
+        //an even distribution would mean that each topic has 12 or 13 questions in total
+        expect(numberOfOccurances).toBeGreaterThan(11);        
+        expect(numberOfOccurances).toBeLessThan(14);        
         
       });
       done();      
