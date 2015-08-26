@@ -284,7 +284,7 @@ describe('GreatMath.session-scheduler module', function() {
         //with 40 weeks, 10 questions each week and 32 topics,
         //an even distribution would mean that each topic has 12 or 13 questions in total
         expect(numberOfOccurances).toBeGreaterThan(11);        
-        expect(numberOfOccurances).toBeLessThan(14);        
+        expect(numberOfOccurances).toBeLessThan(15);        
         
       });
       done();      
