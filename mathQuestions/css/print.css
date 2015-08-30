@@ -21,7 +21,9 @@
    width:21cm; 
    height:27.5cm; 
    margin-left:auto; 
-   margin-right:auto; box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75); 
+   margin-right:auto; 
+   box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75); 
+   page-break-after: always;
  }
  
 
@@ -31,7 +33,9 @@
     font-family: Avenir, Calibri, sans-serif; 
     line-height: 2;
     letter-spacing: 1px;
-       
+ 
+    
+   
   }
   
 .A4Portrait table,.A4Portrait th,.A4Portrait tr,.A4Portrait td{
@@ -89,11 +93,6 @@
    margin-right:auto; box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75); 
  }
 
- 
- .footer{
-   page-break-after: always;
- }
- 
  .questionTableContainer {
     margin-top: 20px;
     margin-bottom: 20px;
