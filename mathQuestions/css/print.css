@@ -147,12 +147,21 @@
   .totalBox, .totalText{
     
     border:1px solid black;    
+    border-top: none;
+    
+    border-bottom: 1px solid black;
+    
   }
-  
+  .totalBox{
+    border-right: 1px solid black;
+    border-left: none;
+  }
   .totalText{
     flex:1;
     text-align: right;
     padding-right:10px;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
   }
 
   .sheetHeading{
