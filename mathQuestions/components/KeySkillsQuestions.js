@@ -266,7 +266,7 @@
         class : "keySkills",
         description:"Convert FDP",
         generateQuestion: function(callback){
-          var choice = mathUtil.randomInteger(11);
+          var choice = mathUtil.randomInteger(10);
           switch(choice){
               case 1:
               fdpTenths(callback);

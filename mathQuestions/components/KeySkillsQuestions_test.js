@@ -30,19 +30,50 @@ describe('GreatMath.key-skills-questions module', function() {
   
   
   describe('generateQuestion functions',function(){
+    
     for(var i=0;i<EXPECTED_NUMBER_OF_TOPICS;i++){
       (function(topicIndex){
-        it('topic number ' + topicIndex + ' has a generateQuestion function',function(){
-          var topic = mockTopicRegistry.registeredTopics[topicIndex];
-          expect(topic.generateQuestion).toEqual(jasmine.any(Function));
-        });
-
-        it('topic number ' + topicIndex + ' generateQuestion function callsback with a question',function(){
-          var topic = mockTopicRegistry.registeredTopics[topicIndex];
-          topic.generateQuestion(function(question){
-            expect(question).toEqual(jasmine.any(String));
+        
+        describe('topic number ' + topicIndex,function(){
+          
+          var topic;
+          
+          beforeEach(function(){
+              topic = mockTopicRegistry.registeredTopics[topicIndex];          
           });
-        });        
+                    
+          it('topic ' + topicIndex + ' has a generateQuestion function',function(){
+            expect(topic.generateQuestion).toEqual(jasmine.any(Function));
+          });
+
+          it('topic ' + topicIndex + ' generateQuestion function callsback with a question',function(done){
+            topic.generateQuestion(function(question){
+              expect(question).toEqual(jasmine.any(String));
+              done();
+            });
+          });
+
+          it('topic ' + topicIndex + ' generateQuestion function callsback with a question every time',function(done){
+            var numberOfInvokes=20;
+            var numberOfCallbacksRemaining = numberOfInvokes;
+            var topic = mockTopicRegistry.registeredTopics[topicIndex];
+
+            for(var i=1;i<=numberOfInvokes;i++){
+              topic.generateQuestion(function(question){
+                
+                expect(question).toEqual(jasmine.any(String));
+                expect(question.length)
+                numberOfCallbacksRemaining--;
+                if(numberOfCallbacksRemaining==0){
+                  done();
+                }
+              });  
+            }          
+          });
+          
+        });
+          
+                
       })(i);      
     }        
   });
