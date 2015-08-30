@@ -4,6 +4,12 @@
       <div class="col-md6">    
         <select class="topic-preview-selection" id="topicDropDown" ng-model="selectedTopic" ng-options="topic.id as topic.description for topic in availableTopics"></select>
       </div>
+    
+    </div>
+    <div ng-if="selectedTopic" class="row">
+      <div class="col-md4">
+        <button type="button" class="btn btn-primary btn-lg" ng-click="regenerate();">New Question</button>
+      </div>      
     </div>
     <div class="row">
       <div class="col-md6">

@@ -61,7 +61,12 @@ describe('QuestionPreviewController',function(){
   });
   
   describe('generated question',function(){
-    mockQuestionGenerator.generate = jasmine.createSpy('generate');
+    
+    beforeEach(function(){
+      mockQuestionGenerator.generate = jasmine.createSpy('generate');
+      
+    });
+    
     it('calls the question generator for the selected topic id',function(done){
              
       $scope.$watch(
@@ -167,6 +172,36 @@ describe('QuestionPreviewController',function(){
         $scope.selectedTopic=42;        
       });
     
-    });    
+    });
+
+    it('regenerates when asked to',function(done){
+      var someNumber=0;
+      mockQuestionGenerator.generate = function(questionSpec,callback){
+        setTimeout(function(){
+          callback(null,"" + (++someNumber));
+        },0)
+      }
+      var gennedOnce=false;
+      //set up a watcher, should be called once anyway
+      $scope.$watch(
+        function(){
+          return $scope.question;
+        },
+        function(){
+          if(gennedOnce){
+            //this is the second time
+            done();
+          }else{
+            gennedOnce=true;
+            $scope.regenerate();
+          }      
+        },
+        true
+      );
+      $scope.$apply(function (){
+        $scope.selectedTopic=42;        
+      });
+      
+    });  
   });
 });

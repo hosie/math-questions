@@ -45,6 +45,8 @@ angular.module('MathQuestions.questionPreview', ['ngRoute','GreatMath.question-g
       populateQuestion();
     }
   );
-  
-  setInterval(populateQuestion,500);
+  $scope.regenerate=function(){
+    populateQuestion();
+  }
+  //setInterval(populateQuestion,500);
 }]);
