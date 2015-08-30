@@ -54,30 +54,31 @@ describe('GreatMath.times-table-questions module', function() {
 
   });
   
-  it('reports error if multiplier is not provided',function(done){
+  it('multiplier is optional',function(done){
     var topic = mockTopicRegistry.registeredTopics[0];
     topic.generateQuestion(
       function(question){
-        expect(false).toBe(true);
+        expect(question).toEqual(jasmine.any(String));
+        done();
       },
       function(err){
-        expect(err).toEqual(jasmine.any(String));
-        done();
+        expect(false).toEqual(true);
+        
       },
       {        
       }
     );
   });
   
-  it('reports error if options is not provided',function(done){
+  it('options parameter is optional',function(done){
     var topic = mockTopicRegistry.registeredTopics[0];
     topic.generateQuestion(
       function(question){
-        expect(false).toBe(true);
+        expect(question).toEqual(jasmine.any(String));
+        done();
       },
       function(err){
-        expect(err).toEqual(jasmine.any(String));
-        done();
+        expect(false).toBe(true);        
       }
     );
   });

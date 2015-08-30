@@ -9,7 +9,7 @@
         description: "Times table",
         generateQuestion : function(callback,errcallback,options){
           if((options== undefined) || (options.multiplier == undefined)){
-            errcallback("Multiplier missing");
+            generateTimestable(mathUtil.randomInteger(2,10),callback);  
           }else{
             generateTimestable(options.multiplier,callback);  
           }          
@@ -20,25 +20,34 @@
 
     var box= "\u2610";
     var multiplicationSign = "\u00D7"
-    
+    var divisionSign = "\u00F7";
 
     function generateTimestable(multiplier,callback){
-      var multiplier2 = mathUtil.randomInteger(12,2);
-      var missingDigit = mathUtil.randomInteger(2,1);
-      var answer       = multiplier * multiplier2;
-      if(missingDigit==1){
-        multiplier2=box;
+      var multiplier1 = multiplier;
+      var multiplier2 = mathUtil.randomInteger(10,2);
+      var missingDigit = mathUtil.randomInteger(3);
+      var product       = multiplier1 * multiplier2;
+      var answer;
+      switch(missingDigit){
+        case 1:
+          answer      = multiplier1;
+          multiplier1 = box;          
+        break;
+        case 2:
+          answer      = multiplier2;
+          multiplier2 = box;
+        break;
+        case 3:
+          answer  = product;
+          product = box;
+        break;
       }
-      if(missingDigit==2){
-        answer=box;
+      
+      if(mathUtil.randomBoolean()){
+        callback(" "+multiplier1+" "+multiplicationSign+" "+multiplier2+" = " + product);
+      }else{
+        callback("" + product + " " + divisionSign + " " + multiplier1 + " = " + multiplier2);        
       }
-      var reverse = mathUtil.randomInteger(2);
-      
-      var question = "" + multiplier + multiplicationSign + multiplier2 + " = " + answer; 
-      
-       
-      callback(question);
-    
     }
   });
 })();

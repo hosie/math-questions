@@ -45,7 +45,12 @@
         description:"Doubling single digit",
         generateQuestion : function(callback){
           var theDigit=mathUtil.randomInteger(9);
-          callback("What is double " + theDigit + "?");
+          if(mathUtil.randomBoolean()){
+            callback("Double " + theDigit);
+          }else{
+            callback("What is double " + theDigit + "?");
+          }
+          
         }
       }
     )
@@ -54,8 +59,12 @@
         class : "mentalStrategies",
         description:"Doubling two digit",
         generateQuestion: function(callback){
-        var theDigit=mathUtil.randomInteger(99,10);
-        callback("What is double " + theDigit + "?");
+          var theDigit=mathUtil.randomInteger(99,10);
+          if(mathUtil.randomBoolean()){
+            callback("Double " + theDigit);
+          }else{
+            callback("What is double " + theDigit + "?");
+          }
         }
       }
     )
@@ -65,7 +74,11 @@
         description:"Halving single digit",
         generateQuestion : function(callback){
           var theDigit=mathUtil.randomInteger(9);
-          callback("Halve " + theDigit);
+          if(mathUtil.randomBoolean()){
+            callback("What is half of " + theDigit + "?");
+          }else{
+            callback("Halve " + theDigit);
+          }
         }
       }
     )
@@ -75,7 +88,11 @@
         description:"Halving two digit",
         generateQuestion: function(callback){
           var theDigit=mathUtil.randomInteger(99,10);
-          callback("Halve " + theDigit);
+          if(mathUtil.randomBoolean()){
+            callback("What is half of " + theDigit + "?");
+          }else{
+            callback("Halve " + theDigit);
+          }
         }
       }
     )
@@ -84,8 +101,8 @@
         class : "mentalStrategies",
         description:"Add 10",
         generateQuestion: function(callback){
-          var theDigit=mathUtil.randomInteger(99,1);
-          callback("10 + " + theDigit + " = " + box);
+          var theDigit=mathUtil.randomInteger(200,10);
+          callback("" + theDigit + " + 10 = " + box);
         }
       }
     )
@@ -94,7 +111,7 @@
         class : "mentalStrategies",
         description:"Subtracting 10",
         generateQuestion: function(callback){
-          var theDigit=mathUtil.randomInteger(99,11);
+          var theDigit=mathUtil.randomInteger(10,200);
           callback("" + theDigit + " - 10 = " + box);
         }
       }
@@ -105,9 +122,9 @@
         description:"Adding multiples of 10",
         generateQuestion: function(callback){
           var multiplier = mathUtil.randomInteger(9);
-          var operand1  = mathUtil.randomInteger(99,1);
+          var operand1  = mathUtil.randomInteger(10,200);
           var multipleOfTen = 10 * multiplier;
-          callback("" + operand1 + " + " + multipleOfTen + "=" + box);
+          callback("" + operand1 + " + " + multipleOfTen + " = " + box);
         }
       }
     )
@@ -122,7 +139,7 @@
           
           var operand1  = answer + multipleOfTen;
           
-          callback("" + operand1 + " - " + multipleOfTen + " =" + box);
+          callback("" + operand1 + " - " + multipleOfTen + " = " + box);
         }
       }
     )
@@ -131,12 +148,12 @@
         class : "mentalStrategies",
         description:"How many to a multiple of 10",
         generateQuestion: function(callback){
-          var multiplier = mathUtil.randomInteger(9);
+          var multiplier = mathUtil.randomInteger(19);
           var multipleOfTen = 10 * multiplier;
           var operand2  = mathUtil.randomInteger(9);
           var operand1  = multipleOfTen - operand2;
           
-          callback("" + operand1 + " + " + box + "=" + multipleOfTen);
+          callback("" + operand1 + " + " + box + " = " + multipleOfTen);
         }
       }
     )
@@ -162,11 +179,10 @@
         class : "mentalStrategies",
         description:"Partitioning single digit numbers",
         generateQuestion: function(callback){
-          var answer   = mathUtil.randomInteger(9,4);
-          var operand1 = mathUtil.randomInteger(answer-2);
-          var remaining = answer - operand1;
-          var operand2  = mathUtil.randomInteger(remaining-1);
-          callback("" + answer + " = " + operand1 + " + " + operand2 + " + " + box);
+          var lhs   = mathUtil.randomInteger(9,3);
+          var operand1 = mathUtil.randomInteger(lhs-1);
+          var answer = lhs - operand1;
+          callback("" + lhs + " = " + operand1 + " + " + box);
         }
       }
     )
@@ -175,11 +191,23 @@
         class : "mentalStrategies",
         description:"Partitioning double digit numbers",
         generateQuestion: function(callback){
-          var answer   = mathUtil.randomInteger(99,14);
-          var operand1 = mathUtil.randomInteger(answer-2);
-          var remaining = answer - operand1;
-          var operand2  = mathUtil.randomInteger(remaining-1);
-          callback("" + answer + " = " + operand1 + " + " + operand2 + " + " + box);
+          var lhs   = mathUtil.randomInteger(20,200);
+          var operand1;
+          var tensDigitOfLhs = Math.floor(lhs/10);
+          var tensDigitOfOp1 = mathUtil.randomInteger(tensDigitOfLhs-1);
+            
+          if(mathUtil.randomBoolean()){
+            //operand1 has the same unit digit of lhs
+            var unitsDigitOfLhs = lhs - 10 * tensDigitOfLhs;
+            operand1 = 10 * tensDigitOfOp1 + unitsDigitOfLhs;
+            
+          }else{
+            //operand1 is a multiple of 10
+            operand1 = 10 * tensDigitOfOp1;
+          }
+          var answer = lhs - operand1;
+          
+          callback("" + lhs + " = " + operand1 + " + " + box);
         }
       }
     )
@@ -202,12 +230,8 @@
           var nextMultipleOf10     = previousMultipleOf10 + 10;
           var toMultipleOf10       = nextMultipleOf10-operand1;
           var operand2             = mathUtil.randomInteger(toMultipleOf10+9,toMultipleOf10+1);
-          var hint                 = mathUtil.randomBoolean();
-          if(hint){
-            callback(""+operand1 + " + " + operand2 + " = " + operand1 + " + " + toMultipleOf10 + " + " +  box);            
-          }else{
-            callback(""+operand1 + " + " + operand2 + " = " + box);            
-          }
+          callback(""+operand1 + " + " + operand2 + " = " + operand1 + " + " + toMultipleOf10 + " + " +  box);            
+          
         }
       }
     )
@@ -229,12 +253,8 @@
           var previousMultipleOf10 = operand1-remainder;
           var toMultipleOf10       = operand1-previousMultipleOf10;
           var operand2             = mathUtil.randomInteger(toMultipleOf10+9,toMultipleOf10+1);
-          var hint                 = mathUtil.randomBoolean();
-          if(hint){
-            callback(""+operand1 + " - " + operand2 + " = " + operand1 + " - " + toMultipleOf10 + " - " +  box);            
-          }else{
-            callback(""+operand1 + " - " + operand2 + " = " + box);            
-          }
+          callback(""+operand1 + " - " + operand2 + " = " + operand1 + " - " + toMultipleOf10 + " - " +  box);            
+          
         }
       }
     )
@@ -321,9 +341,16 @@
         generateQuestion:function(callback){
           var operand1 = mathUtil.randomInteger(99,11,function(candidate){return candidate%10==0?false:true;});
           var operand2 = mathUtil.randomInteger(99,11,function(candidate){return candidate%10==0?false:true;});
-          var pieces = [10 * Math.floor(operand1/10),10 * Math.floor(operand1%10),Math.floor(operand2/10),Math.floor(operand2%10)];
-          pieces=pieces.sort(function(a, b){return b-a});
-          callback("" + operand1 + " + " + operand2 + " =  " + pieces[0] + " + " + pieces[1] + " + " + pieces[2] + " + " + pieces[3] + " = " + box);          
+          var pieces = [];
+          if(mathUtil.randomBoolean()){
+            pieces.push(operand1);            
+            pieces.push(10 * Math.floor(operand2/10));//floor of operand2 to nearest multiple of 10
+          }else{
+            pieces.push(10 * Math.floor(operand1/10));//floor of operand1 to nearest multiple of 10
+            pieces.push(10 * Math.floor(operand2/10));//floor of operand2 to nearest multiple of 10                      
+          }
+          
+          callback("" + operand1 + " + " + operand2 + " =  " + pieces[0] + " + " + pieces[1] + " + " + box);          
         }        
       }
     )
@@ -382,10 +409,10 @@
           }  
           if(reverse){
             var hours   = mathUtil.randomInteger(12,1);
-            callback("what is " + hours + ":" + minutes + " pm in 24 hour clock");  
+            callback("What is " + hours + ":" + minutes + " pm in 24 hour clock format?");  
           }else{
             var hours   = mathUtil.randomInteger(23,13);
-            callback("what is " + hours + ":" + minutes + " in 12 hour clock");
+            callback("What is " + hours + ":" + minutes + " in 12 hour clock format?");
           }          
         }        
       }
@@ -396,7 +423,7 @@
         description:"Mins to/ past a time",
         generateQuestion:function(callback){
           var bridge = mathUtil.randomBoolean();
-          var questionFormat = mathUtil.randomInteger(3,1);
+          var questionFormat = mathUtil.randomInteger(4);
           var startHours   = mathUtil.randomInteger(11,1);
           var startMinutes = mathUtil.randomInteger(49,1);
           
@@ -421,19 +448,18 @@
           
           switch(questionFormat){
             case 1://2:15 pm is how many minutes after 1:05
-              callback("" + endHours + ":" + endMinutes + " is how many minutes after " + startHours + ":" + startMinutes);
+              callback("" + endHours + ":" + endMinutes + " is how many minutes after " + startHours + ":" + startMinutes +"?");
             break;
             case 2://from 8:13 am, how many minutes until 9:05am
-              callback("from " + startHours + ":" + startMinutes + ", how many minutes until " + endHours + ":" + endMinutes);
+              callback("From " + startHours + ":" + startMinutes + ", how many minutes until " + endHours + ":" + endMinutes+"?");
             break;
             case 3://What time will it be 42 minutes after 5:44 pm
-              callback("What time will it be " + difference + " minutes after " + startHours + ":" + startMinutes);
+              callback("What time will it be " + difference + " minutes after " + startHours + ":" + startMinutes+"?");
             break;
             case 4://What time was it 42 minutes before 5:44 pm
-              callback("What time was it " + difference + " minutes before " + endHours + ":" + endMinutes);
+              callback("What time was it " + difference + " minutes before " + endHours + ":" + endMinutes+"?");
             break;
-            default:
-            callback("hello");
+            
           }          
         }        
       }
