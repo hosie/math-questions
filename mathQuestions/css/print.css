@@ -159,3 +159,17 @@
     font-size:14pt;
   }
 
+  .scoresTable{
+     width:100%;     
+     
+   }
+   
+   .scoresTable,.scoresTable>tbody>tr,.scoresTable>tbody>tr>th,.scoresTable>tbody>tr>td{
+    border: none;
+    
+  }
+
+   .scoreBox{
+     font-size: 60pt;
+     text-align:center;
+   }
