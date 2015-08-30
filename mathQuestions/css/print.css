@@ -24,9 +24,13 @@
    margin-right:auto; 
    box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75); 
    page-break-after: always;
+   display: flex;
+   flex-direction:column;
  }
  
-
+ .spacer{
+  flex: 1;
+ }
 
 .A4Portrait body {
     /*font: 10pt avenir, "Times New Roman", Times, serif;*/
