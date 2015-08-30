@@ -1,7 +1,10 @@
 
-.header-bar{
-display: none;
-}
+
+@media print {
+  .header-bar{
+    display: none;
+  }
+  
   #banner{
     display: none;
   }
@@ -9,24 +12,40 @@ display: none;
   #worksheetToolbar{
     display: none;
   }
+
   
-  table,th,tr,td{
+}
+.A4Portrait {	
+   padding:30px; 
+   background-color:white; 
+   width:21cm; 
+   height:27.5cm; 
+   margin-left:auto; 
+   margin-right:auto; box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75); 
+ }
+ 
+
+
+.A4Portrait body {
+    /*font: 10pt avenir, "Times New Roman", Times, serif;*/
+    font-family: Avenir, Calibri, sans-serif; 
+    line-height: 2;
+    letter-spacing: 1px;
+       
+  }
+  
+.A4Portrait table,.A4Portrait th,.A4Portrait tr,.A4Portrait td{
     border: 1px solid black;
     border-collapse: collapse;
   }
 
-  th, td {
-    padding: 1px;
+  .A4Portrait th,.A4Portrait td {
+    padding: 5px;
     text-align: left;
   }
 
    
-  body {
-    /*font: 10pt avenir, "Times New Roman", Times, serif;*/
-    font-family: avenir;
-    line-height: 1.3;
-       
-  }
+  
   
   h1 {
     font-size: 20pt;
@@ -45,90 +64,99 @@ display: none;
     margin-top: 5px;
     margin-bottom: 5px;
   }
-  aside h2 {
-    font-size: 18pt;
-  }
   
   .questionTable {
     border: 1px solid black;
-    width: 100%;
+    width:100%;
+    
   }
   
-  .keySkillsTable {
-    width: 100%;
-  }
-
   .wrapperTable{
 
     border: none;
     width:100%;
-    padding: 5px;
-  }
-  .wrapperTable>tbody>tr,.wrapperTable>tbody>tr>th,.wrapperTable>tbody>tr>td{
-    border: none;
-    padding: 5px;
-  }
-
-/*}*/ 
-
-
-   .A4Landscape {	
-     padding:30px; 
-     background-color:white; 
-     width:27.5cm; 
-     height:21cm; 
-     margin-left:auto; 
-     margin-right:auto; box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75); 
-   }
-
-   .A4Portrait {	
-     padding:30px; 
-     background-color:white; 
-     width:21cm; 
-     height:27.5cm; 
-     margin-left:auto; 
-     margin-right:auto; box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75); 
-   }
-
-   .leftPage{
-     width:50%;
-     heigth:50%;
-   }
-
-   .rightPage{
-     width:50%;
-     heigth:50%;
-   }
-
-   .scoresTable{
-     width:100%;     
-     
-   }
-   
-   .footer{
-   page-break-after: always;
-   }
-   
-   .scoresTable,.scoresTable>tbody>tr,.scoresTable>tbody>tr>th,.scoresTable>tbody>tr>td{
-    border: none;
     
   }
+  
+  
 
-   .scoreBox{
-     font-size: 60pt;
-     text-align:center;
-   }
+ .A4Landscape {	
+   padding:30px; 
+   background-color:white; 
+   width:27.5cm; 
+   height:21cm; 
+   margin-left:auto; 
+   margin-right:auto; box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75); 
+ }
 
-   .summaryOperator{
-     font-size: 30pt;
-     text-align:center;
-   }
+ 
+ .footer{
+   page-break-after: always;
+ }
+ 
+ .questionTableContainer {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    /*background: #ededed;*/
+    display:flex;
+    flex-direction:column;
+    /*border: 1px solid black;*/
+    
+    
+  }
+  
+  
+  .wrapperTableRow{
+    display:inline-flex;
+  }
+  
+  .questionTableContainer.mentalStrategies{
+    flex:30%;
+    
+    
+  }
+  .questionTableContainer.timesTable{
+    flex:30%;
+    padding-left:10;
+    padding-right:10;
+    
+  }
+  .questionTableContainer.keySkills{
+    flex:40%;
+        
+  }
+  
+  .totalRow{
+    display:flex;
+    flex-direction:row;
+    justify-content: flex-end;
+    /*border:1px solid black;*/
+  }
+  
+  .answerColumn{
+    padding-left:10px;
+  }
+  
+  .answerColumn, .totalBox{
+    width:80px;    
+  }
+  
+  .totalBox, .totalText{
+    
+    border:1px solid black;    
+  }
+  
+  .totalText{
+    flex:1;
+    text-align: right;
+    padding-right:10px;
+  }
 
-   .answerColumn{
-     width: 25%;
-   }
+  .sheetHeading{
+    font-size:12pt;
+  }
+  
+  .sheetTitle{
+    font-size:14pt;
+  }
 
-   .totalRow>td,.totalRow{
-     text-align: right;
-     padding: 10px;
-   }
