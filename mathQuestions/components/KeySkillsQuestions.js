@@ -622,67 +622,6 @@
     .register(
       {
         class : "keySkills",
-        description: "Simple directed number",
-        generateQuestion : function(callback){
-          var choice = mathUtil.randomInteger(10);
-          switch(choice){
-            case 1:
-              var operand1 = mathUtil.randomInteger(-1,-10);
-              var operand2 = mathUtil.randomInteger(1,10);
-              callback("("+operand1+") + " + operand2);
-              break;
-            case 2:
-              var operand1 = mathUtil.randomInteger(-1,-10);
-              var operand2 = mathUtil.randomInteger(1,10);
-              callback("("+operand1+") - " + operand2);
-              break;
-            case 3:
-              var operand1 = mathUtil.randomInteger(1,10);
-              var operand2 = mathUtil.randomInteger(operand1,10);
-              callback("" + operand1 +" - " + operand2);
-              break;
-            case 4:
-              var operand1 = mathUtil.randomInteger(-1,-10);
-              var operand2 = mathUtil.randomInteger(1,10);
-              callback("Difference between " + operand1 + " and " + operand2);
-              break;
-            case 5:
-              var operand1 = mathUtil.randomInteger(1,10);
-              var operand2 = mathUtil.randomInteger(-1,-10);
-              callback("Difference between " + operand1 + " and " + operand2);
-              break;
-            case 6:
-              var operand1 = mathUtil.randomInteger(-2,-10);
-              var operand2 = mathUtil.randomInteger(-1,operand1+1);
-              callback("Difference between " + operand1 + " and " + operand2);
-              break;
-            case 7:
-              var operand1 = mathUtil.randomInteger(1,10);
-              var operand2 = mathUtil.randomInteger(-1,-10);
-              callback("Which is the lowest number, "+operand1+" or "+operand2+"?");
-              break;
-            case 8:
-              var operand1 = mathUtil.randomInteger(-2,-10);
-              var operand2 = mathUtil.randomInteger(operand1+1,-1);
-              callback("Which is the lowest number, "+operand1+" or "+operand2+"?");
-              break;              
-            case 9:
-              var operand1 = mathUtil.randomInteger(1,10);
-              var operand2 = mathUtil.randomInteger(-10,-1);
-              callback("Which is the lowest number, "+operand1+" or "+operand2+"?");
-              break;                            
-            case 10:
-              var operand1 = mathUtil.randomInteger(-2,-10);
-              var operand2 = mathUtil.randomInteger(operand1+1,-1);
-              callback("Which is the lowest number, "+operand1+" or "+operand2+"?");
-              break;                                          
-          }
-        }
-      }
-    )
-    .register(
-      {
-        class : "keySkills",
         description:"Simple directed number",
         generateQuestion: function(callback){
           var operand1 = mathUtil.randomInteger(10);
