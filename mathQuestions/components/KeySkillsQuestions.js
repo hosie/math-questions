@@ -573,6 +573,55 @@
     .register(
       {
         class : "keySkills",
+        description:"Substitution",
+        generateQuestion: function(callback){
+          var a = mathUtil.randomInteger(10);
+          var b = mathUtil.randomInteger(10);
+          var c = mathUtil.randomInteger(10);
+          var x = mathUtil.randomInteger(10);
+          var y = mathUtil.randomInteger(10);
+          var z = mathUtil.randomInteger(10);
+          var question = "If a = " + a + " b = " + b + " and c = " + c + ", what is the value of ";
+          var variation = 6;//mathUtil.randomInteger(7);
+          switch(variation){
+            case 1:
+              //xa + yb + zc
+              question += x + "a " + " + " + y + "b " + " + " + z + "c"            
+              break;
+            case 2:
+              // (xa+b)^2
+              question += "(" + x + "a + b)"+symbol.squared;
+              break;
+            case 3:
+              // xa - b^2
+              question += x + "a - b" + symbol.squared;
+              break;
+            case 4:
+              // yb^2
+              question += y + "b" + symbol.squared;
+              break;
+            case 5:
+              // xab - zc
+              question += x + "ab - " + z + "c";
+              break;
+            case 6:
+              // xbc/a  where x=a/x
+              question += a +"bc" + symbol.divisionSign + "a";
+              break;
+            case 7:
+              // yb^3
+              question += y +"b" + symbol.cubed;
+              break;
+          
+          }          
+          question +="?";
+          callback(question);
+        }
+      }
+    )    
+    .register(
+      {
+        class : "keySkills",
         description: "Simple directed number",
         generateQuestion : function(callback){
           var choice = mathUtil.randomInteger(10);
@@ -628,59 +677,6 @@
               callback("Which is the lowest number, "+operand1+" or "+operand2+"?");
               break;                                          
           }
-        }
-      }
-    )
-    .register(
-      {
-        class : "keySkills",
-        description:"Substitution",
-        generateQuestion: function(callback){
-          var a = mathUtil.randomInteger(10);
-          var b = mathUtil.randomInteger(10);
-          var c = mathUtil.randomInteger(10);
-          var x = mathUtil.randomInteger(10);
-          var y = mathUtil.randomInteger(10);
-          var z = mathUtil.randomInteger(10);
-          var question = "If a = " + a + " b = " + b + " and c = " + c + ", what is the value of ";
-          var variation = 6;//mathUtil.randomInteger(7);
-          switch(variation){
-            case 1:
-              //xa + yb + zc
-              question += x + "a " + " + " + y + "b " + " + " + z + "c"            
-              break;
-            case 2:
-              // (xa+b)^2
-              question += "(" + x + "a + b)"+symbol.squared;
-              break;
-            case 3:
-              // xa - b^2
-              question += x + "a - b" + symbol.squared;
-              break;
-            case 4:
-              // yb^2
-              question += y + "b" + symbol.squared;
-              break;
-            case 5:
-              // xab - zc
-              question += x + "ab - " + z + "c";
-              break;
-            case 6:
-              // xbc/a  where x=a/x
-              question += a +"bc" + symbol.divisionSign + "a";
-              break;
-            case 7:
-              // yb^3
-              question += y +"b" + symbol.cubed;
-              break;
-          
-          }
-          
-          
-          
-          
-          question +="?";
-          callback(question);
         }
       }
     )
@@ -771,6 +767,45 @@
     .register(
       {
         class : "keySkills",
+        description:"Round to sf",
+        generateQuestion: function(callback){
+          var significantFigures = mathUtil.randomInteger(3);
+          var number;
+          var choice = mathUtil.randomInteger(8);
+          switch(choice){
+            case 1:
+              number = mathUtil.randomDecimal(10,1,4);
+              break;
+            case 2:
+              number = mathUtil.randomDecimal(100,11,4);
+              break;
+            case 3:
+              number = mathUtil.randomDecimal(1,0,4);
+              break;
+            case 4:
+              number = mathUtil.randomDecimal(0.01,0,6);
+              break;
+            case 5:
+              number = mathUtil.randomInteger(10,1);
+              break;
+            case 6:
+              number = mathUtil.randomInteger(100,10);
+              break;
+            case 7:
+              number = mathUtil.randomInteger(1000,100);
+              break;
+            case 8:
+              number = mathUtil.randomInteger(10000,1000);
+              break;              
+
+          }
+          callback("Round " + number + " to " + significantFigures + " s.f.");
+        }
+      }
+    )
+    .register(
+      {
+        class : "keySkills",
         description : "Read a number off a numberline",
         generateQuestion : function(callback){
           var numberLinesData=[
@@ -822,45 +857,6 @@
           callback('Value of the dot',svg);
         }
         
-      }
-    )
-    .register(
-      {
-        class : "keySkills",
-        description:"Round to sf",
-        generateQuestion: function(callback){
-          var significantFigures = mathUtil.randomInteger(3);
-          var number;
-          var choice = mathUtil.randomInteger(8);
-          switch(choice){
-            case 1:
-              number = mathUtil.randomDecimal(10,1,4);
-              break;
-            case 2:
-              number = mathUtil.randomDecimal(100,11,4);
-              break;
-            case 3:
-              number = mathUtil.randomDecimal(1,0,4);
-              break;
-            case 4:
-              number = mathUtil.randomDecimal(0.01,0,6);
-              break;
-            case 5:
-              number = mathUtil.randomInteger(10,1);
-              break;
-            case 6:
-              number = mathUtil.randomInteger(100,10);
-              break;
-            case 7:
-              number = mathUtil.randomInteger(1000,100);
-              break;
-            case 8:
-              number = mathUtil.randomInteger(10000,1000);
-              break;              
-
-          }
-          callback("Round " + number + " to " + significantFigures + " s.f.");
-        }
       }
     )
     .register(
@@ -955,6 +951,37 @@
         }        
       }
     )
+    .register(
+      {
+        class : "keySkills",
+        description : "Cubes and roots",
+        generateQuestion : function(callback){
+          var cubedRoot=mathUtil.randomInteger(6);
+          if(cubedRoot==6){
+            cubedRoot=10;
+          }
+          var cubed = cubedRoot * cubedRoot * cubedRoot;
+          var choice = mathUtil.randomInteger(5);
+          switch (choice){
+            case 1:
+              callback("What is the value of " + cubedRoot + " cubed?");
+              break;
+            case 2:
+              callback("What is the cube root of " + cubed + "?")
+              break;
+            case 3:
+              callback("What is the value of (-" + cubedRoot + ") cubed?");
+              break;
+            case 4:
+              callback("What is the value of "+cubedRoot+symbol.cubed+"?");
+              break;
+            case 5:
+              callback("What is the value of "+symbol.cubedRoot+cubed+"?");
+              break;
+          }            
+        }        
+      }
+    )    
     .register(
       {
         class : "keySkills",
@@ -1061,7 +1088,8 @@
       box : "\u2610",
       squared : "\u00B2",
       squareRoot: "\u221A",
-      cubed :  "\u00B3"
+      cubed :  "\u00B3",
+      cubedRoot : "\u221B"
     }
     
   });  
