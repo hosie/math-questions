@@ -9,11 +9,13 @@
         generateQuestion: function(callback){
           var numberOfDigits = mathUtil.randomInteger(3,2);
           var operand1 = numberOfDigits==2 ? mathUtil.randomInteger(99,11) : mathUtil.randomInteger(999,101);
-          numberOfDigits = mathUtil.randomInteger(3,2);
+          if(numberOfDigits==3){
+            numberOfDigits=2;
+          }else{
+            numberOfDigits = mathUtil.randomInteger(3,2);          
+          }
           var operand2 = numberOfDigits==2 ? mathUtil.randomInteger(99,11) : mathUtil.randomInteger(999,101);
-          
-          
-          callback("" + operand1 + " " + symbol.multiplicationSign + " " + operand2 + " =" + symbol.box);
+          callback("" + operand1 + " " + symbol.multiplicationSign + " " + operand2 + " = " + symbol.box);
         }
       }
     ).register(
@@ -24,7 +26,7 @@
           var divisor = mathUtil.randomInteger(9,2);
           var answer  = mathUtil.randomInteger(99,11);
           var numerator = divisor * answer;
-          callback("" + numerator + " " + symbol.divisionSign + " " + divisor + " =" + symbol.box);
+          callback("" + numerator + " " + symbol.divisionSign + " " + divisor + " = " + symbol.box);
         }
       }
     )
@@ -72,36 +74,70 @@
         class : "keySkills",
         description:"BIDMAS easy",
         generateQuestion: function(callback){
-          var variation = mathUtil.randomInteger(4,1);
-          var operand1,operand2,operand3; 
+          var variation = mathUtil.randomInteger(8);
+          var a,b,c;
+          
           switch(variation){
             case 1:
-              operand1 =  mathUtil.randomInteger(10,1);
-              operand2 = mathUtil.randomInteger(10,1);
-              operand3 = mathUtil.randomInteger(5,1);
-              callback("" + operand1 + " + " + operand2 + " " + symbol.multiplicationSign + " " + operand3);
-              break;
             case 2:
-              operand2 = mathUtil.randomInteger(10,1);
-              operand3 = mathUtil.randomInteger(5,1);
-              operand1 =  mathUtil.randomInteger(100,operand2*operand3);
-              
-              callback("" + operand1 + " - " + operand2 + " " + symbol.multiplicationSign + " " + operand3);
+              //a + b * c or b * c + a 
+              a =  mathUtil.randomInteger(10,1);
+              b = mathUtil.randomInteger(10,1);
+              c = mathUtil.randomInteger(5,1);
+              if(variation==1){
+                callback("" + a + " + " + b + " " + symbol.multiplicationSign + " " + c);                
+              }else{
+                callback("" + b + " " + symbol.multiplicationSign + " " + c + " + " + a);              
+              }
               break;
             case 3:
-              operand1 = mathUtil.randomInteger(10,1);              
-              operand3 = mathUtil.randomInteger(5,1);
-              operand2 = mathUtil.randomInteger(5,1) * operand3;
-                            
-              callback("" + operand1 + " + " + operand2 + " " + symbol.divisionSign + " " + operand3);
-              break;  
+              // a - b * c  
+              b = mathUtil.randomInteger(10,1);
+              c = mathUtil.randomInteger(5,1);
+              //a must be larger enough that the answer is greater than 0
+              a =  mathUtil.randomInteger(100,b*c);
+              callback("" + a + " - " + b + " " + symbol.multiplicationSign + " " + c);
+              
+              break;
             case 4:
-              operand3 = mathUtil.randomInteger(5,1);
-              operand2 = mathUtil.randomInteger(5,1) * operand3;
-              operand1 =  mathUtil.randomInteger(100,operand2*operand3);
+              // a * b - c
+              a = mathUtil.randomInteger(10,1);
+              b = mathUtil.randomInteger(10,1);
+              //c must be less than the product of a and b so that it can be subtracted to leave a positive number
+              c =  mathUtil.randomInteger(a*b);
+              callback("" + a + " " + symbol.multiplicationSign + " " + b + " - " + c );
+              break;
+            case 5:
+            case 6:
+              //a + b / c  or b / c + a
+              a = mathUtil.randomInteger(10);
+              //b must be a multiple of c so lets create c first
+              c = mathUtil.randomInteger(5);
+              b = mathUtil.randomInteger(5) * c;
+              if(variation==5){
+                callback("" + a + " + " + b + " " + symbol.divisionSign + " " + c);  
+              }else{
+                callback("" + b + " " + symbol.divisionSign + " " + c + " + " + a);  
+              }
+              break;
+            case 7:
+              //a - b / c
+              //a must be higher than b/c so lets create those first
+              //b must be a multiple of c
+              c = mathUtil.randomInteger(5);
+              b = mathUtil.randomInteger(5) * c;
+              a =  mathUtil.randomInteger(b*c,100);
                             
-              callback("" + operand1 + " - " + operand2 + " " + symbol.divisionSign + " " + operand3);
+              callback("" + a + " - " + b + " " + symbol.divisionSign + " " + c);
               break;  
+            case 8:
+              // a / b - c
+              b = mathUtil.randomInteger(5);
+              a = mathUtil.randomInteger(5) * b;
+              //c must be less than a/b
+              c = mathUtil.randomInteger(a/b);
+              callback("" + a + " " + symbol.divisionSign + " " + b + " - " + c);              
+              break;
             
           }           
         }
@@ -149,7 +185,7 @@
               operand2 = mathUtil.randomInteger(5,1);
               operand3 = mathUtil.randomInteger(5,1);
               var answer = ((operand1 * operand1) + operand2) * operand3;
-              callback("" + operand1 + symbol.squared + " + " + operand2 + " " + symbol.multiplicationSign + " " + operand3 + " = " + answer);
+              callback("" + operand1 + symbol.squared + " + " + operand2 + " " + symbol.multiplicationSign + " " + operand3);
               break;
             case 6:
               operand1 = mathUtil.randomInteger(10,1);
@@ -165,7 +201,7 @@
               operand3 = mathUtil.randomInteger(5,1);
               operand2 = operand3 * squareRootOperand1;
               var answer = Math.sqrt(operand1) + (operand2/operand3);
-              callback(symbol.squareRoot+operand1 + " + " +  operand2 + " " + symbol.divisionSign + " " + operand3 + " = " + answer);
+              callback(symbol.squareRoot+operand1 + " + " +  operand2 + " " + symbol.divisionSign + " " + operand3);
           }           
         }
       }
@@ -255,7 +291,7 @@
           if(mathUtil.randomBoolean()){
             callback("Write " + spelling + " in digits");
           }else{
-            callback("Write " + number + " in words");
+            callback("Write " + number + " in words. Use the opposite page for your answer.");
           }
           
         }  
@@ -338,20 +374,27 @@
         class : "keySkills",
         description:"Div by 10, 100 and 1000",
         generateQuestion: function(callback){
-          var powerOfTen = mathUtil.randomInteger(3,1);
+          var powerOfTen = mathUtil.randomInteger(3);
           
           var operand2   = Math.pow(10,powerOfTen);
-          var choice     = mathUtil.randomInteger(3,1);
+          var choice     = mathUtil.randomInteger(5);
+          var precision  = mathUtil.randomInteger(3);
           var operand1;
           switch(choice){
             case 1:
-            operand1= mathUtil.randomDecimal(1,0,2);
+            operand1= mathUtil.randomDecimal(1,0,precision);
             break;
             case 2:
-            operand1= mathUtil.randomDecimal(10,1,2);
+            operand1= mathUtil.randomDecimal(10,1,precision);
             break;
             case 3:
-            operand1= mathUtil.randomDecimal(100,10,3);
+            operand1= mathUtil.randomDecimal(100,10,precision);
+            break;
+            case 4:
+            operand1= mathUtil.randomDecimal(1000,100,precision);
+            break;
+            case 5:
+            operand1= mathUtil.randomDecimal(10000,1000,precision);
             break;
           }
           
@@ -393,13 +436,15 @@
         description:"Subtract decimal numbers",
         generateQuestion: function(callback){
           var operand1; 
-          var operand2 = mathUtil.randomDecimal(10,1,2);
+          var operand2;
           var choice = mathUtil.randomInteger(2);
           switch(choice){
             case 1:
+              operand2 = mathUtil.randomDecimal(10,1,2);
               operand1 = mathUtil.randomInteger(99,11);              
               break;
             case 2:
+              operand2 = mathUtil.randomDecimal(99,1,2);
               operand1 = mathUtil.randomDecimal(100,Math.ceil(operand2),2);              
               break;
           }          
@@ -516,7 +561,11 @@
             break;
           }
           var dps=mathUtil.randomInteger(3,1);
-          callback("Round " + number + " to " + dps + " decimal places");
+          var question = "Round " + number + " to " + dps + " decimal place";
+          if(dps>1){
+            question=question+"s";
+          }
+          callback(question);
           
         }
       }
@@ -593,7 +642,45 @@
           var x = mathUtil.randomInteger(10);
           var y = mathUtil.randomInteger(10);
           var z = mathUtil.randomInteger(10);
-          callback("If a = " + a + " b = " + b + " and c = " + c + ", what is the value of " + x + " " + symbol.multiplicationSign + " a " + " + " + y + " " + symbol.multiplicationSign + " b " + " + " + z + " " + symbol.multiplicationSign + " c?");
+          var question = "If a = " + a + " b = " + b + " and c = " + c + ", what is the value of ";
+          var variation = 6;//mathUtil.randomInteger(7);
+          switch(variation){
+            case 1:
+              //xa + yb + zc
+              question += x + "a " + " + " + y + "b " + " + " + z + "c"            
+              break;
+            case 2:
+              // (xa+b)^2
+              question += "(" + x + "a + b)"+symbol.squared;
+              break;
+            case 3:
+              // xa - b^2
+              question += x + "a - b" + symbol.squared;
+              break;
+            case 4:
+              // yb^2
+              question += y + "b" + symbol.squared;
+              break;
+            case 5:
+              // xab - zc
+              question += x + "ab - " + z + "c";
+              break;
+            case 6:
+              // xbc/a  where x=a/x
+              question += a +"bc" + symbol.divisionSign + "a";
+              break;
+            case 7:
+              // yb^3
+              question += y +"b" + symbol.cubed;
+              break;
+          
+          }
+          
+          
+          
+          
+          question +="?";
+          callback(question);
         }
       }
     )
@@ -833,7 +920,7 @@
         generateQuestion : function(callback){
           var x = mathUtil.randomInteger(-2,2);
           var y = mathUtil.randomInteger(-2,2);
-          callback("What is the letter at (" + x + "," + y + ")",
+          callback("What is the letter at (" + x + "," + y + ")?",
           '<svg id="canvas"><defs><marker style="overflow:visible" id="Arrow" refX="0" refY="0" orient="auto"><path d="M -3,-3 L 0,0 L -3,3 " style="stroke-width:0.625;stroke-linejoin:round;stroke:#000000;stroke-opacity:1;fill:none;" orient="auto" id="path4942"></path></marker></defs><path d="M45,110L45,15" class="axis" style="marker-end: url(#Arrow);"></path><path d="M5,70L100,70" class="axis" style="marker-end: url(#Arrow);"></path><path d="M5,30L5,110" class="line"></path><path d="M5,30L85,30" class="line"></path><path d="M25,30L25,110" class="line"></path><path d="M5,50L85,50" class="line"></path><path d="M45,30L45,110" class="line"></path><path d="M5,70L85,70" class="line"></path><path d="M65,30L65,110" class="line"></path><path d="M5,90L85,90" class="line"></path><path d="M85,30L85,110" class="line"></path><path d="M5,110L85,110" class="line"></path><g class="letter"><text x="5" y="35">A</text></g><g class="letter"><text x="25" y="35">B</text></g><g class="letter"><text x="45" y="35">C</text></g><g class="letter"><text x="65" y="35">D</text></g><g class="letter"><text x="85" y="35">E</text></g><g class="letter"><text x="5" y="55">F</text></g><g class="letter"><text x="25" y="55">G</text></g><g class="letter"><text x="45" y="55">H</text></g><g class="letter"><text x="65" y="55">I</text></g><g class="letter"><text x="85" y="55">J</text></g><g class="letter"><text x="5" y="75">K</text></g><g class="letter"><text x="25" y="75">L</text></g><g class="letter"><text x="45" y="75">M</text></g><g class="letter"><text x="65" y="75">N</text></g><g class="letter"><text x="85" y="75">P</text></g><g class="letter"><text x="5" y="95">Q</text></g><g class="letter"><text x="25" y="95">R</text></g><g class="letter"><text x="45" y="95">S</text></g><g class="letter"><text x="65" y="95">T</text></g><g class="letter"><text x="85" y="95">U</text></g><g class="letter"><text x="5" y="115">V</text></g><g class="letter"><text x="25" y="115">W</text></g><g class="letter"><text x="45" y="115">X</text></g><g class="letter"><text x="65" y="115">Y</text></g><g class="letter"><text x="85" y="115">Z</text></g><text class="label" y="72.5" x="102.5">x</text><text class="label" x="45" y="12.5">y</text></svg>'
           );
         }
@@ -957,12 +1044,12 @@
     function fdpDecimalAsPercent(callback){
       var precision=mathUtil.randomInteger(3,2);
       var decimal = mathUtil.randomDecimal(2,0,precision)
-      callback("" + decimal + " =" + symbol.box + "%");
+      callback("" + decimal + " = " + symbol.box + "%");
     }
     function fdpPercentAsDecimal(callback){
-      var precision=mathUtil.randomInteger(3,2);
-      var decimal = mathUtil.randomDecimal(2,0,precision)
-      var percent = decimal * 100;
+      var precision=mathUtil.randomInteger(0,1);
+      var percent = mathUtil.randomDecimal(200,0,precision)
+            
       callback("" + percent + "% as a decimal number");
     }
   
@@ -973,7 +1060,8 @@
       multiplicationSign : "\u00D7",
       box : "\u2610",
       squared : "\u00B2",
-      squareRoot: "\u221A"  
+      squareRoot: "\u221A",
+      cubed :  "\u00B3"
     }
     
   });  
