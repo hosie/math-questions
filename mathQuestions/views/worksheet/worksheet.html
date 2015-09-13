@@ -59,7 +59,10 @@
             <div class="totalRow">
               <div class="totalText">Total out of {{sheet.timesTable.questions.length}}</div>
               <div class="totalBox"></div>
-            </div>                        
+            </div>
+            
+            <div class="mental-strategies-diagram" ng-if="sheet.mentalStrategies.hasDiagram" ng-bind-html="sheet.mentalStrategies.diagram"></div>
+            
           </div>
         
       

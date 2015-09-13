@@ -81,7 +81,7 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.session-schedule
                       };
                       if(diagram!=undefined){
                         worksheet.mentalStrategies.hasDiagram=true;
-                        worksheet.mentalStrategies.diagram=diagram;
+                        worksheet.mentalStrategies.diagram=$sce.trustAsHtml(diagram);
                       }
                       if(answerTemplate==undefined){
                         worksheet.mentalStrategies.questions[topicIndex].answer={hasTemplate:false};                        

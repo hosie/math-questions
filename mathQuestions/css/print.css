@@ -139,7 +139,12 @@
     justify-content: flex-end;
     /*border:1px solid black;*/
   }
-  
+  .mental-strategies-diagram{
+    margin-right:10px;
+  }
+  .mental-strategies-diagram>svg{
+    width:100%;
+  }
   .answerColumn{
     padding-left:10px;
   }
@@ -190,3 +195,39 @@
      font-size: 60pt;
      text-align:center;
    }
+/* Clock SVG */
+.clock{
+  stroke-width:4px;
+  fill:none;
+  stroke:red;
+}
+.hour-label{
+  /*text-align:center;
+  text-anchor:middle;*/
+  font-family:avenir;
+  font-size:10pt;
+  fill:black;
+  stroke:black;
+  stroke-width:1px;
+  
+
+}
+.hour-tick{
+  stroke-width:1px;
+  stroke:red;
+  
+}
+
+.minute-hand{
+  stroke:blue;
+  stroke-width:2px;
+}
+
+.hour-hand{
+  stroke:blue;
+  stroke-width:5px;
+}
+
+.center{
+  fill:red;
+}

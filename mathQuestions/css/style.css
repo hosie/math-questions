@@ -60,39 +60,3 @@ font-size:7pt;
     height:100%;
 }
 
-/* Clock SVG */
-.clock{
-  stroke-width:4px;
-  fill:none;
-  stroke:red;
-}
-.hour-label{
-  /*text-align:center;
-  text-anchor:middle;*/
-  font-family:avenir;
-  font-size:10pt;
-  fill:black;
-  stroke:black;
-  stroke-width:1px;
-  
-
-}
-.hour-tick{
-  stroke-width:1px;
-  stroke:red;
-  
-}
-
-.minute-hand{
-  stroke:blue;
-  stroke-width:2px;
-}
-
-.hour-hand{
-  stroke:blue;
-  stroke-width:5px;
-}
-
-.center{
-  fill:red;
-}

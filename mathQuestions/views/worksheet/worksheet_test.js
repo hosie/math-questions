@@ -375,7 +375,7 @@ describe('Worksheet', function() {
             $scope.weeks.forEach(function(week){
               week.worksheets.forEach(function(sheet){
                 expect(sheet.mentalStrategies.hasDiagram).toEqual(true);
-                expect(sheet.mentalStrategies.diagram).toEqual('<svg></svg>');                
+                expect(sheet.mentalStrategies.diagram.$$unwrapTrustedValue()).toEqual('<svg></svg>');                
               });
             });
             mockQuestionGenerator.generate=generate;
