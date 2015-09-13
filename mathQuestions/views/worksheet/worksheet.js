@@ -79,9 +79,10 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.session-schedule
                         question: question                        
                       };  
                       if(answerTemplate==undefined){
-                        //worksheet.mentalStrategies.questions[topicIndex].answer={hasTemplate:false};                        
+                        worksheet.mentalStrategies.questions[topicIndex].answer={hasTemplate:false};                        
                       }else{
                         worksheet.mentalStrategies.questions[topicIndex].answer={
+                          hasTemplate:true,
                           template:{
                             postfix:answerTemplate.postfix
                           }

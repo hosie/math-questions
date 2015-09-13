@@ -314,12 +314,30 @@ describe('Worksheet', function() {
             $scope.weeks.forEach(function(week){
               week.worksheets.forEach(function(sheet){
                 sheet.mentalStrategies.questions.forEach(function(question,questionIndex){
-                  var expectedQuestionNumber=questionIndex+1;
                   expect(question.answer.template.postfix).toEqual('testPostFix');
+                  expect(question.answer.hasTemplate).toEqual(true);
                 });
               });
             });
             mockQuestionGenerator.generate=generate;
+            done();
+          });
+        });
+      });
+      
+      it('hasAnswerTemplate is false',function(done){
+        mockDistribution.$setNumberOfMentalStrategyQuestions(1);
+        
+        $scope.$apply(function(){        
+          $scope.generate()
+          .then(function(){
+            $scope.weeks.forEach(function(week){
+              week.worksheets.forEach(function(sheet){
+                sheet.mentalStrategies.questions.forEach(function(question,questionIndex){                  
+                  expect(question.answer.hasTemplate).toEqual(false);
+                });
+              });
+            });
             done();
           });
         });
