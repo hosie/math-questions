@@ -23,7 +23,7 @@ angular.module('MathQuestions.questionPreview', ['ngRoute','GreatMath.question-g
     {
       topicId    : $scope.selectedTopic
     },
-    function(err,question,diagram){
+    function(err,question,diagram,answerTemplate){
       $scope.$apply(function(){
         $scope.question=question;
         
@@ -33,6 +33,13 @@ angular.module('MathQuestions.questionPreview', ['ngRoute','GreatMath.question-g
           
         }else{
           $scope.hasDiagram=false;
+        }
+        
+        if(answerTemplate != undefined){
+          $scope.answerTemplate= {postfix:answerTemplate.postfix};
+          $scope.hasAnswerTemplate=true;
+        }else{
+          $scope.hasAnswerTemplate=false;
         }
       });      
     });

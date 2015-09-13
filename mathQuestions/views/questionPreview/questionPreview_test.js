@@ -174,6 +174,62 @@ describe('QuestionPreviewController',function(){
     
     });
 
+    it('includes a postfix in template, if provided',function(done){
+      var testTemplate = {postfix:"testPostFix"};
+      mockQuestionGenerator.generate = function(questionSpec,callback){
+        setTimeout(function(){
+          callback(null,"answer with postfix",'',testTemplate);
+        },0);
+        
+      };
+      var cancel = $scope.$watch(
+        function(){
+          return $scope.answerTemplate;
+        },
+        function(oldVal,newVal){
+          if(oldVal==newVal){
+            return;
+          }
+          expect($scope.answerTemplate.postfix).toEqual('testPostFix');
+          expect($scope.hasAnswerTemplate).toEqual(true);
+          cancel();
+          done();
+        },
+        true
+      );
+      $scope.$apply(function (){
+        $scope.selectedTopic=42;        
+      });
+    
+    });
+    
+    it('hasAnswerTemplate is false',function(done){
+      mockQuestionGenerator.generate = function(questionSpec,callback){
+        setTimeout(function(){
+          callback(null,"answer with postfix");
+        },0);
+        
+      };
+      var cancel = $scope.$watch(
+        function(){
+          return $scope.question;
+        },
+        function(oldVal,newVal){
+          if(oldVal==newVal){
+            return;
+          }
+          expect($scope.hasAnswerTemplate).toEqual(false);
+          cancel();
+          done();
+        },
+        true
+      );
+      $scope.$apply(function (){
+        $scope.selectedTopic=42;        
+      });
+    
+    });
+    
     it('regenerates when asked to',function(done){
       var someNumber=0;
       mockQuestionGenerator.generate = function(questionSpec,callback){
