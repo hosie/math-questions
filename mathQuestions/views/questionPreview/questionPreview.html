@@ -7,19 +7,24 @@
     
     </div>
     <div ng-if="selectedTopic" class="row">
-      <div class="col-md4">
+      <div class="col-md-4">
         <button type="button" class="btn btn-primary btn-lg" ng-click="regenerate();">New Question</button>
       </div>      
     </div>
     <div class="row">
-      <div class="col-md6">
+      <div class="col-md-12">
         <div class="question-preview">{{question}}</div>
       </div>  
     </div>
     <div class="row">
-      <div class="col-md6">
+      <div class="col-md-6">
         <div ng-if="hasDiagram" ng-bind-html="diagram"></div>
       </div>  
+    </div>
+    <div ng-if="hasAnswerTemplate" class="row question-preview-answer">
+      <div class="col-md-3">Answer</div>  
+      <div class="col-md-3 answer-space"></div>  
+      <div class="col-md-2">{{answerTemplate.postfix}}</div>
     </div>    
   </div>  
 </div>

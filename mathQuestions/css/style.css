@@ -50,6 +50,16 @@ font-size:7pt;
   font-size:35pt;
 }
 
+.question-preview-answer{
+  font-size:40pt;
+  height: 1.5em;
+}
+.question-preview-answer>.answer-space{
+    border-style: solid;
+    border-width: 5px;
+    height:100%;
+}
+
 /* Clock SVG */
 .clock{
   stroke-width:4px;
