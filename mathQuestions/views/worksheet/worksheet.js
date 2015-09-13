@@ -71,13 +71,22 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.session-schedule
                     class : "mentalStrategies",
                     topicId    : topic.id
                   },              
-                  function(err,question){
+                  function(err,question,diagram,answerTemplate){
                     $scope.$apply(function(){
                       worksheet.mentalStrategies.questions[topicIndex]=
                       {
                         number:topicIndex+1,
-                        question: question
+                        question: question                        
                       };  
+                      if(answerTemplate==undefined){
+                        //worksheet.mentalStrategies.questions[topicIndex].answer={hasTemplate:false};                        
+                      }else{
+                        worksheet.mentalStrategies.questions[topicIndex].answer={
+                          template:{
+                            postfix:answerTemplate.postfix
+                          }
+                        };                      
+                      }
                     });
                     numberOfQuestionsToGenerate--;
                     if(numberOfQuestionsToGenerate==0){

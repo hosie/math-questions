@@ -298,6 +298,33 @@ describe('Worksheet', function() {
           });
       });
       
+      it('includes answer template',function(done){
+        mockDistribution.$setNumberOfMentalStrategyQuestions(1);
+        var generate = mockQuestionGenerator.generate;
+        mockQuestionGenerator.generate=function(questionSpec,callback){
+          setTimeout(
+            function(){
+              callback(null,"question for " + questionSpec.topicId,null,{postfix:'testPostFix'});
+            },0
+          );
+        }
+        $scope.$apply(function(){        
+          $scope.generate()
+          .then(function(){
+            $scope.weeks.forEach(function(week){
+              week.worksheets.forEach(function(sheet){
+                sheet.mentalStrategies.questions.forEach(function(question,questionIndex){
+                  var expectedQuestionNumber=questionIndex+1;
+                  expect(question.answer.template.postfix).toEqual('testPostFix');
+                });
+              });
+            });
+            mockQuestionGenerator.generate=generate;
+            done();
+          });
+        });
+      });
+      
       xit('array does not contain any undefined elements');
             
     });
