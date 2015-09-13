@@ -25,7 +25,9 @@
               <tr class="questionRow" ng-repeat="question in sheet.mentalStrategies.questions">
                 <td class="questionNumber"> {{question.number}}</td>
                 <td>{{question.question}}</td>
-                <td><div ng-if="includeAnswer">{{question.answers}}</div></td>
+                <td>
+                  <div ng-if="question.answer.hasTemplate" class="answer-postfix">{{question.answer.template.postfix}}</div>
+                </td>
               </tr>                  
             </table>
             <div class="totalRow">
