@@ -76,7 +76,7 @@
               </tr>
               <tr ng-repeat="question in sheet.keySkills.questions">
                 <td>{{question.number}}</td>
-                <td>{{question.question}}</td>
+                <td>{{question.question}}<span ng-if='question.hasDiagram' ng-bind-html='question.diagram'></span></td>
                 <td class="answerColumn"><div ng-if="includeAnswer">{{question.answers}}</div></td>
               </tr>                          
             </table>
