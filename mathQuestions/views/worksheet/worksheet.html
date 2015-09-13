@@ -13,12 +13,12 @@
             <p><strong>MENTAL STRATEGIES - </strong><br>do these in your head</p>
             
             <table id="mentalStrategiesTable" class="mentalStrategiesTable questionTable">
-              <col>
+              <col class="questionNumber">
               <col>
               <col class="answerColumn">
       
               <tr>
-                <th>Q</th>
+                <th class="questionNumber">Q</th>
                 <th>Question</th>
                 <th class="answerColumn">Answer</th>
               </tr>
@@ -42,11 +42,11 @@
             
             <table class="timesTableTable questionTable">            
 
-              <col>
+              <col class="questionNumber">
               <col>
               <col class="answerColumn">
               <tr>
-                <th>Q</th>
+                <th class="questionNumber">Q</th>
                 <th>Question</th>
                 <th class="answerColumn">Answer</th>
               </tr>
@@ -70,12 +70,12 @@
             <p><strong>KEY SKILLS - </strong> you may use written calculations for these questions</p>
             <table class="questionTable keySkillsTable">
               <tr>
-                <th>Q</th>
+                <th class="questionNumber">Q</th>
                 <th>Question</th>
                 <th class="answerColumn">Answer</th>
               </tr>
               <tr ng-repeat="question in sheet.keySkills.questions">
-                <td>{{question.number}}</td>
+                <td class="questionNumber">{{question.number}}</td>
                 <td>{{question.question}}<span ng-if='question.hasDiagram' ng-bind-html='question.diagram'></span></td>
                 <td class="answerColumn"><div ng-if="includeAnswer">{{question.answers}}</div></td>
               </tr>                          
