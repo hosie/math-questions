@@ -343,6 +343,47 @@ describe('Worksheet', function() {
         });
       });
       
+      it('hasMentalStrategiesDiagram is false',function(done){
+        mockDistribution.$setNumberOfMentalStrategyQuestions(1);
+        
+        $scope.$apply(function(){        
+          $scope.generate()
+          .then(function(){
+            $scope.weeks.forEach(function(week){
+              week.worksheets.forEach(function(sheet){
+                expect(sheet.mentalStrategies.hasDiagram).toEqual(false);               
+              });
+            });
+            done();
+          });
+        });
+      });
+      
+      it('includes diagram',function(done){
+        mockDistribution.$setNumberOfMentalStrategyQuestions(1);
+        var generate = mockQuestionGenerator.generate;
+        mockQuestionGenerator.generate=function(questionSpec,callback){
+          setTimeout(
+            function(){
+              callback(null,"question for " + questionSpec.topicId,'<svg></svg>');
+            },0
+          );
+        }
+        $scope.$apply(function(){        
+          $scope.generate()
+          .then(function(){
+            $scope.weeks.forEach(function(week){
+              week.worksheets.forEach(function(sheet){
+                expect(sheet.mentalStrategies.hasDiagram).toEqual(true);
+                expect(sheet.mentalStrategies.diagram).toEqual('<svg></svg>');                
+              });
+            });
+            mockQuestionGenerator.generate=generate;
+            done();
+          });
+        });
+      });
+      
       xit('array does not contain any undefined elements');
             
     });

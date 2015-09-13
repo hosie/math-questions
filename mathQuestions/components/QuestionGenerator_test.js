@@ -70,6 +70,44 @@ describe('GreatMath.question-generator module', function() {
     });
   });
   
+  it('if diagram is null, it is passed as undefined',function(done){
+    
+    mockTopicRegistry.testTopic = {
+      //TODO use - but how can we expect the callback to be async? callback:jasmine.createSpy('generateQuestion')
+      generateQuestion:function(callback){
+        callback("testQuestion",null);
+      }
+    }
+    
+    questionGenerator.generate({
+      class : "testClass",
+      topicId    : 1
+    },function(err,question,diagram){
+      expect(err).toBeNull();
+      expect(diagram).not.toBeDefined();            
+      done();
+    });
+  });
+  
+  it('if diagram is 0, it is passed as undefined',function(done){
+    
+    mockTopicRegistry.testTopic = {
+      //TODO use - but how can we expect the callback to be async? callback:jasmine.createSpy('generateQuestion')
+      generateQuestion:function(callback){
+        callback("testQuestion",0);
+      }
+    }
+    
+    questionGenerator.generate({
+      class : "testClass",
+      topicId    : 1
+    },function(err,question,diagram){
+      expect(err).toBeNull();
+      expect(diagram).not.toBeDefined();            
+      done();
+    });
+  });
+  
   it('answer template if provided',function(done){
     var testTemplate={postfix:'test postfix'};
     mockTopicRegistry.testTopic = {

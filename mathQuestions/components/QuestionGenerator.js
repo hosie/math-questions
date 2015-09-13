@@ -18,6 +18,9 @@ angular.module('GreatMath.question-generator', ['GreatMath.topic-registry'])
             
             generatorFunction(
               function(question,diagram,template){//success handler
+                if(null==diagram || diagram==0){
+                  diagram=undefined;
+                }
                 callback(null,question,diagram,template);
               },              
               function(err){//async error handler
