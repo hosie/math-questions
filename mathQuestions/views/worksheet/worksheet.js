@@ -116,8 +116,8 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.session-schedule
                     $scope.$apply(function(){
                       worksheet.timesTable.questions[questionIndex]=
                       {
-                        number   : questionIndex+1,
-                        question : question
+                        number     : questionIndex+1,
+                        question   : question
                       };  
                     });
                     numberOfQuestionsToGenerate--;
@@ -138,13 +138,19 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.session-schedule
                     class:"keySkills",
                     topicId:questionSpec.id
                   },
-                  function(err,question){
+                  function(err,question,diagram){
                     $scope.$apply(function(){
                       worksheet.keySkills.questions[questionIndex]=
                       {
                         number   : questionIndex+1,
                         question : question
-                      };  
+                      };
+                      if(diagram==undefined){
+                        worksheet.keySkills.questions[questionIndex].hasDiagram = false;
+                      }else{
+                        worksheet.keySkills.questions[questionIndex].hasDiagram = true;
+                        worksheet.keySkills.questions[questionIndex].diagram=$sce.trustAsHtml(diagram);
+                      }
                     });
                     numberOfQuestionsToGenerate--;
                     if(numberOfQuestionsToGenerate==0){

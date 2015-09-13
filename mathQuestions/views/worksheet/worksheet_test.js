@@ -540,6 +540,51 @@ describe('Worksheet', function() {
         
       });
       
+      it('hasDiagram is false',function(done){
+        mockDistribution.$setNumberOfKeySkillsQuestions(1);
+        
+        $scope.$apply(function(){        
+          $scope.generate()
+          .then(function(){
+            $scope.weeks.forEach(function(week){
+              week.worksheets.forEach(function(sheet){
+                sheet.keySkills.questions.forEach(function(question){
+                  expect(question.hasDiagram).toEqual(false);
+                });                
+              });
+            });
+            done();
+          });
+        });
+      });
+      
+      it('includes diagram',function(done){
+        mockDistribution.$setNumberOfKeySkillsQuestions(1);
+        var generate = mockQuestionGenerator.generate;
+        mockQuestionGenerator.generate=function(questionSpec,callback){
+          setTimeout(
+            function(){
+              callback(null,"question for " + questionSpec.topicId,'<svg></svg>');
+            },0
+          );
+        }
+        $scope.$apply(function(){        
+          $scope.generate()
+          .then(function(){
+            $scope.weeks.forEach(function(week){
+              week.worksheets.forEach(function(sheet){
+                sheet.keySkills.questions.forEach(function(question){
+                  expect(question.hasDiagram).toEqual(true);
+                  expect(question.diagram.$$unwrapTrustedValue()).toEqual('<svg></svg>');
+                });                
+              });
+            });
+            mockQuestionGenerator.generate=generate;
+            done();
+          });
+        });
+      });
+      
       xit('uses correct topic id to generate questions',function(done){
         var topicIds = [42,73,44,104,92,87];
         mockDistribution.$setNumberOfWeeks(1);
