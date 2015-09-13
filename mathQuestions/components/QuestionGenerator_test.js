@@ -70,6 +70,24 @@ describe('GreatMath.question-generator module', function() {
     });
   });
   
+  it('answer template if provided',function(done){
+    var testTemplate={postfix:'test postfix'};
+    mockTopicRegistry.testTopic = {
+      //TODO use - but how can we expect the callback to be async? callback:jasmine.createSpy('generateQuestion')
+      generateQuestion:function(callback){
+        callback("testQuestion",0,testTemplate);
+      }
+    }
+    
+    questionGenerator.generate({
+      class : "testClass",
+      topicId    : 1
+    },function(err,question,diagram,template){
+      expect(err).toBeNull();
+      expect(template).toEqual(testTemplate);            
+      done();
+    });
+  });
   
   it('looks up topics from registry using correct id',function(done){
     spyOn(mockTopicRegistry,'getTopic').and.callThrough();
