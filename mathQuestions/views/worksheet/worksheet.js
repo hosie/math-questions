@@ -30,6 +30,8 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.session-schedule
           resolve:function(){
             var self=this;
             setTimeout(function(){
+              $scope.$digest();
+            
               if(self.callback){
                 self.callback();
               }
@@ -73,7 +75,6 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.session-schedule
                     topicId    : topic.id
                   },              
                   function(err,question,diagram,answerTemplate){
-                    $scope.$apply(function(){
                       worksheet.mentalStrategies.questions[topicIndex]=
                       {
                         number:topicIndex+1,
@@ -93,7 +94,6 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.session-schedule
                           }
                         };                      
                       }
-                    });
                     numberOfQuestionsToGenerate--;
                     if(numberOfQuestionsToGenerate==0){
                       promise.resolve();
@@ -113,13 +113,11 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.session-schedule
                     multiplier:questionSpec.multiplier
                   },
                   function(err,question){
-                    $scope.$apply(function(){
                       worksheet.timesTable.questions[questionIndex]=
                       {
                         number     : questionIndex+1,
                         question   : question
                       };  
-                    });
                     numberOfQuestionsToGenerate--;
                     if(numberOfQuestionsToGenerate==0){
                       promise.resolve();
@@ -139,7 +137,6 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.session-schedule
                     topicId:questionSpec.id
                   },
                   function(err,question,diagram){
-                    $scope.$apply(function(){
                       worksheet.keySkills.questions[questionIndex]=
                       {
                         number   : questionIndex+1,
@@ -151,7 +148,6 @@ angular.module('MathQuestions.worksheet', ['ngRoute','GreatMath.session-schedule
                         worksheet.keySkills.questions[questionIndex].hasDiagram = true;
                         worksheet.keySkills.questions[questionIndex].diagram=$sce.trustAsHtml(diagram);
                       }
-                    });
                     numberOfQuestionsToGenerate--;
                     if(numberOfQuestionsToGenerate==0){
                       promise.resolve();
