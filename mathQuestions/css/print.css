@@ -31,10 +31,13 @@
  .spacer{
   flex: 1;
  }
-
+body{
+  font-family: Avenir, Nunito, Calibri, sans-serif; 
+    
+}
 .A4Portrait body {
     /*font: 10pt avenir, "Times New Roman", Times, serif;*/
-    font-family: Avenir, Calibri, sans-serif; 
+    font-family: Avenir, Nunito, Calibri, sans-serif; 
     line-height: 2;
     letter-spacing: 1px;
  
@@ -222,7 +225,6 @@
 .hour-label{
   /*text-align:center;
   text-anchor:middle;*/
-  font-family:avenir;
   font-size:10pt;
   fill:black;
   stroke:black;

@@ -18,7 +18,6 @@ stroke-width:0.5px;
 stroke-width:0px;
 stroke:white;
 stroke-opacity:0.4;
-font-family:avenir;
 font-weight:normal;
 text-align:center;
 text-anchor:middle;
@@ -27,7 +26,6 @@ text-anchor:middle;
 .label{
 text-align:center;
 text-anchor:middle;
-font-family:avenir;
 font-size:7pt;
 }
 
