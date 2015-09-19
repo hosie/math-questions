@@ -10,7 +10,7 @@
       
       <div class="wrapperTableRow">        
           <div class="questionTableContainer mentalStrategies">
-            <p><strong>MENTAL STRATEGIES - </strong><br>do these in your head</p>
+            <p><span class="questionTableHeading">MENTAL STRATEGIES - </span><br><span class="questionTableSubHeading">do these in your head</span></p>
             
             <table id="mentalStrategiesTable" class="mentalStrategiesTable questionTable">
               <col class="questionNumber">
@@ -38,7 +38,7 @@
         
       
           <div class="questionTableContainer timesTable">
-            <p><strong>TIMESTABLES - </strong><br> do these in your head</p>
+            <p><span class="questionTableHeading">TIMESTABLES </span><br><span class="questionTableSubHeading">do these in your head</span></p>
             
             <table class="timesTableTable questionTable">            
 
@@ -67,7 +67,8 @@
         
       
           <div class="questionTableContainer keySkills">
-            <p><strong>KEY SKILLS - </strong> you may use written calculations for these questions</p>
+            <p><span class="questionTableHeading">KEY SKILLS - </span><span class="questionTableSubHeading"> you may use written calculations for these questions</span></p>
+            
             <table class="questionTable keySkillsTable">
               <tr>
                 <th class="questionNumber">Q</th>
@@ -76,7 +77,7 @@
               </tr>
               <tr ng-repeat="question in sheet.keySkills.questions">
                 <td class="questionNumber">{{question.number}}</td>
-                <td>{{question.question}}<span ng-if='question.hasDiagram' ng-bind-html='question.diagram'></span></td>
+                <td>{{question.question}}<span class="key-skills-diagram" ng-if='question.hasDiagram' ng-bind-html='question.diagram'></span></td>
                 <td class="answerColumn"><div ng-if="includeAnswer">{{question.answers}}</div></td>
               </tr>                          
             </table>

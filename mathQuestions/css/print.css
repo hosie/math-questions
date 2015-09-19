@@ -15,11 +15,43 @@
 
   
 }
+
+.axis{
+stroke : #777777;
+stroke-width:1px;
+}
+.line{
+stroke : #777777;
+stroke-width:0.5px;
+}
+
+.letter>text{
+stroke-width:0px;
+stroke:white;
+stroke-opacity:0.4;
+font-weight:normal;
+text-align:center;
+text-anchor:middle;
+}
+
+.label{
+text-align:center;
+text-anchor:middle;
+font-size:7pt;
+}
+
+
+.canvas {
+  padding: 30px 20px;
+  
+}
+
+
 .A4Portrait {	
    padding:30px; 
    background-color:white; 
    width:21cm; 
-   height:29.7cm; 
+   height:29cm; 
    margin-left:auto; 
    margin-right:auto; 
    box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75); 
@@ -33,7 +65,7 @@
  }
 body{
   font-family: Avenir, Nunito, Calibri, sans-serif; 
-    
+  font-weight: 300;  
 }
 .A4Portrait body {
     /*font: 10pt avenir, "Times New Roman", Times, serif;*/
@@ -118,7 +150,12 @@ body{
     
   }
   
-  
+  th{
+    font-weight:400;
+  }
+  td{
+    font-weight:300;
+  }
   .wrapperTableRow{
     display:inline-flex;
   }
@@ -129,13 +166,13 @@ body{
     
   }
   .questionTableContainer.timesTable{
-    flex:30%;
+    flex:28%;
     padding-left:10;
     padding-right:10;
     
   }
   .questionTableContainer.keySkills{
-    flex:40%;
+    flex:42%;
         
   }
 
@@ -166,10 +203,11 @@ body{
   }
   
   .answerColumn, .totalBox{
-    width:80px;    
+    width:65px;    
   }
   
-  .totalBox, .totalText{
+  
+   .totalBox, .totalText{
     
     border:1px solid black;    
     border-top: none;
@@ -185,11 +223,11 @@ body{
     flex:1;
     text-align: right;
     padding-right:10px;
-    padding-top: 1em;
+    padding-top: 0.7em;
     border-right: 1px solid black;
     border-left: 1px solid black;
-    font-weight: bold;
-    height: 3.5em;
+    font-weight: 400;
+    height: 3em;
     
     
   }
