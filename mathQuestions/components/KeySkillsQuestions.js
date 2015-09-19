@@ -606,7 +606,7 @@
               break;
             case 6:
               // xbc/a  where x=a/x
-              question += a +"bc" + symbol.divisionSign + "a";
+              question += a +"bc / a";
               break;
             case 7:
               // yb^3
