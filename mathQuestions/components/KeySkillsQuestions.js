@@ -959,7 +959,7 @@
           
           var amount = 10 * mathUtil.randomInteger(40);
           var percent = 5 * mathUtil.randomInteger(30);
-          callback("What is "+percent+"% of £"+amount+"?");
+          callback("What is "+percent+"% of " + symbol.localCurrency +amount+"?");
         }        
       }
     )
@@ -1028,7 +1028,8 @@
       squared : "\u00B2",
       squareRoot: "\u221A",
       cubed :  "\u00B3",
-      cubedRoot : "\u221B"
+      cubedRoot : "\u221B",
+      localCurrency     : "\u00A3"
     }
     
   });  
