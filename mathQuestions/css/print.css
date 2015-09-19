@@ -185,7 +185,13 @@ body{
     flex-direction:row;
     justify-content: flex-end;
     
+    
   }
+  
+  .timesTable .totalRow{
+    margin-right: 1px;
+  }  
+    
   .mental-strategies-diagram{
     margin-right:40px;
     margin-top:20px;    
