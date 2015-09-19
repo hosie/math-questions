@@ -533,6 +533,8 @@
           svg = svg + '<line class="minute-hand" x1="0" x2="'+(65*handsPosition.minuteHand.X)+'" y1="0" y2="'+(65*handsPosition.minuteHand.Y)+'" style="marker-end: url(#Arrow);"></line>';
           svg = svg + '<line class="hour-hand" x1="0" x2="'+(50*handsPosition.hourHand.X)+'" y1="0" y2="'+(50*handsPosition.hourHand.Y)+'" style="marker-end: url(#Arrow);"></line>';
         }
+        //draw box around the clock
+        svg = svg + '<rect class="clock-box" x="-110" y="-110" width="220" height="220"></rect>';
         svg = svg + '<circle class="center" cx="0" cy="0" r="5"></circle></g></svg>';
         return svg;
         

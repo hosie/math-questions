@@ -50,8 +50,8 @@ font-size:7pt;
 .A4Portrait {	
    padding:30px; 
    background-color:white; 
-   width:21cm; 
-   height:29cm; 
+   width:21.52385cm; 
+   height:29.7cm; 
    margin-left:auto; 
    margin-right:auto; 
    box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75); 
@@ -188,10 +188,7 @@ body{
   }
   .mental-strategies-diagram{
     margin-right:40px;
-    margin-top:20px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #777777;
+    margin-top:20px;    
   }
   .mental-strategies-diagram>svg{
     width:100%;
@@ -285,7 +282,12 @@ body{
   stroke:blue;
   stroke-width:5px;
 }
+.clock-box{
+  stroke:#777777;
+  stroke-width:1px;
+  
 
+}
 .center{
   fill:red;
 }
