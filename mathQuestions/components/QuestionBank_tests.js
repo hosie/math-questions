@@ -15,7 +15,11 @@ This is another question?\
       beforeEach(function(){
         module(function($provide){
           $provide.factory('questionList',function(){
-            return testData.split("\n");
+            return {
+              get:function(callback){
+                callback(testData.split("\n"));
+              }
+            };
           });            
         });    
       });
@@ -69,18 +73,20 @@ This is another question?\
     //var testList = ['question1','question2'];
     var testList = "\
 This is a question?\n\
-This is another question?\
+This is another question?\n\
+This is escaped %u00B2\
 ";
     beforeEach(inject(function($injector) {
       
       // Set up the mock http service responses
       $httpBackend = $injector.get('$httpBackend');
       // backend definition common for all tests
-      questionListRequestHandler = $httpBackend.when('GET', '/questionBank/questions.json')
+      questionListRequestHandler = $httpBackend.when('GET', '/questionBank/questions')
                             .respond(testList);
 
      
     }));
+    
     beforeEach(inject(function( _questionList_) {
         questionList = _questionList_;
     }));
@@ -95,7 +101,7 @@ This is another question?\
     it('gets question list from http backend',function(){
       
       //The http request is made during the construction which is at injection time
-      $httpBackend.expectGET('/questionBank/questions.json'); 
+      $httpBackend.expectGET('/questionBank/questions'); 
       
       questionList.get(function(list){
         expect(list[0]).toEqual("This is a question?");        
@@ -103,7 +109,14 @@ This is another question?\
       
       $httpBackend.flush();          
       
-    })
+    });
+    
+    it('handles escape chars',function(){
+      questionList.get(function(list){
+        expect(list[2]).toEqual("This is escaped \u00B2");
+      });
+      $httpBackend.flush();          
+    });
   
   
   });

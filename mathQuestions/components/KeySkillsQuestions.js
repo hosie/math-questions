@@ -1,6 +1,6 @@
 'use strict';
 (function(){
-  angular.module('GreatMath.key-skills-questions', ['GreatMath.topic-registry','GreatMath.math-util'])
+  angular.module('GreatMath.key-skills-questions', ['GreatMath.topic-registry','GreatMath.math-util','GreatMath.question-bank'])
   .run(function(topicRegistry,mathUtil,substitution){
     topicRegistry.register(
       {
@@ -993,52 +993,9 @@
     }
     
   })  
-  .factory('substitution',function(mathUtil){
+  .factory('substitution',function(mathUtil,questionIterator){
     return function(callback){
-
-      var a = mathUtil.randomInteger(10);
-      var b = mathUtil.randomInteger(10);
-      var c = mathUtil.randomInteger(10);
-      var x = mathUtil.randomInteger(10);
-      var y = mathUtil.randomInteger(10);
-      var z = mathUtil.randomInteger(10);
-      var question = "If a = " + a + " b = " + b + " and c = " + c + ", what is the value of ";
-      var variation = 6;//mathUtil.randomInteger(7);
-      switch(variation){
-        case 1:
-          //xa + yb + zc
-          question += x + "a " + " + " + y + "b " + " + " + z + "c"            
-          break;
-        case 2:
-          // (xa+b)^2
-          question += "(" + x + "a + b)"+symbol.squared;
-          break;
-        case 3:
-          // xa - b^2
-          question += x + "a - b" + symbol.squared;
-          break;
-        case 4:
-          // yb^2
-          question += y + "b" + symbol.squared;
-          break;
-        case 5:
-          // xab - zc
-          question += x + "ab - " + z + "c";
-          break;
-        case 6:
-          // xbc/a  where x=a/x
-          question += a +"bc / a";
-          break;
-        case 7:
-          // yb^3
-          question += y +"b" + symbol.cubed;
-          break;
-      
-      }          
-      question +="?";
-      callback(question);
-
-          
+      questionIterator.next(callback);
     }
   });
 })();

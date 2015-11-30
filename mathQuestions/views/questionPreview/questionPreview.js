@@ -17,31 +17,43 @@ angular.module('MathQuestions.questionPreview', ['ngRoute','GreatMath.question-g
       $scope.availableTopics = topics;      
     });
   });
-
+   
   function populateQuestion(){
+    
+    function populateScope(question,diagram,answerTemplate){
+      $scope.question=question;
+        
+      if(diagram != undefined){
+        $scope.diagram=$sce.trustAsHtml(diagram);
+        $scope.hasDiagram=true;
+        
+      }else{
+        $scope.hasDiagram=false;
+      }
+      
+      if(answerTemplate != undefined){
+        $scope.answerTemplate= {postfix:answerTemplate.postfix};
+        $scope.hasAnswerTemplate=true;
+      }else{
+        $scope.hasAnswerTemplate=false;
+      }
+    }
+    
     questionGenerator.generate(
     {
       topicId    : $scope.selectedTopic
     },
     function(err,question,diagram,answerTemplate){
-      $scope.$apply(function(){
-        $scope.question=question;
+      if(!$scope.$$phase) {
+        $scope.$apply(function(){
+          populateScope(question,diagram,answerTemplate);
+        });
         
-        if(diagram != undefined){
-          $scope.diagram=$sce.trustAsHtml(diagram);
-          $scope.hasDiagram=true;
-          
-        }else{
-          $scope.hasDiagram=false;
-        }
         
-        if(answerTemplate != undefined){
-          $scope.answerTemplate= {postfix:answerTemplate.postfix};
-          $scope.hasAnswerTemplate=true;
-        }else{
-          $scope.hasAnswerTemplate=false;
-        }
-      });      
+      }else{
+        populateScope(question,diagram,answerTemplate);
+      }
+            
     });
   }
   $scope.$watch(

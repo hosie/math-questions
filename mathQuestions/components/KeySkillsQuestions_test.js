@@ -3,6 +3,21 @@
 describe('GreatMath.key-skills-questions module', function() {
   var EXPECTED_NUMBER_OF_TOPICS=32;
   beforeEach(module('GreatMath.key-skills-questions'));
+  
+  var mockQuestionIterator = {
+    next:function(callback){
+      callback("Test question");        
+    }
+  };
+
+  beforeEach(function(){
+    module(function($provide){
+      $provide.factory('questionIterator',function(){
+          return mockQuestionIterator;
+      });
+    });    
+  });
+  
   var mockTopicRegistry =   {
     registeredTopics:[],
     register:function(topic){
@@ -19,18 +34,19 @@ describe('GreatMath.key-skills-questions module', function() {
     });    
   });
   
-  beforeEach(function(){
-    inject();
-  });  
+  
   
   it('registers expected number of topics',function(){
+    inject();
     expect(mockTopicRegistry.registeredTopics.length).toEqual(EXPECTED_NUMBER_OF_TOPICS);
     
   });
   
   
   describe('generateQuestion functions',function(){
-    
+    beforeEach(function(){
+      inject();
+    });  
     for(var i=0;i<EXPECTED_NUMBER_OF_TOPICS;i++){
       (function(topicIndex){
         
@@ -79,6 +95,9 @@ describe('GreatMath.key-skills-questions module', function() {
   });
   
   describe('descriptions',function(){
+    beforeEach(function(){
+      inject();
+    });  
     for(var i=0;i<EXPECTED_NUMBER_OF_TOPICS;i++){
       (function(topicIndex){
         it('topic number ' + topicIndex + ' has a valid description',function(){
@@ -90,6 +109,9 @@ describe('GreatMath.key-skills-questions module', function() {
   });
   
   describe('class names',function(){
+    beforeEach(function(){
+      inject();
+    });  
     for(var i=0;i<EXPECTED_NUMBER_OF_TOPICS;i++){
       (function(topicIndex){
         it('topic number ' + topicIndex + ' has a valid classname',function(){
@@ -100,6 +122,26 @@ describe('GreatMath.key-skills-questions module', function() {
     }        
   });
   
+  describe('substitution',function(){
+    beforeEach(module('GreatMath.key-skills-questions'));
+  
+     
+
+    var substitution;
+    beforeEach(function(done){
+      inject(function(_substitution_){
+        substitution = _substitution_;
+        done();
+      })  
+    });
+    
+    it('calls the question bank',function(done){
+      substitution(function(question){
+        expect(question).toEqual("Test question");
+        done();
+      });
+    });
+  });
 });
   
   

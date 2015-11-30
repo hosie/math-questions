@@ -1,6 +1,8 @@
 describe('QuestionPreviewController',function(){
   
   var $scope;
+  var $rootScope;
+  var $browser;
   var mockQuestionGenerator={};
   
   var mockTopicRegistry = {
@@ -40,9 +42,11 @@ describe('QuestionPreviewController',function(){
   }));
 
   
-  beforeEach(inject(function($rootScope, $controller) {
+  beforeEach(inject(function(_$rootScope_, $controller,_$browser_) {
+    $rootScope=_$rootScope_;
     $scope = $rootScope.$new();
     $controller('QuestionPreviewController', {$scope: $scope});
+    $browser=_$browser_;
   }));    
   
   describe('list of topics',function(){
@@ -113,11 +117,14 @@ describe('QuestionPreviewController',function(){
         true
       );
       $scope.$apply(function (){
-        $scope.selectedTopic=42;        
+        $scope.selectedTopic=42;
+        
       });
+      $rootScope.$apply();
+      
     });
     
-    it('hasDigaram is false',function(done){
+    it('hasDiagram is false',function(done){
              
       
       mockQuestionGenerator.generate = function(questionSpec,callback){
@@ -143,6 +150,7 @@ describe('QuestionPreviewController',function(){
       $scope.$apply(function (){
         $scope.selectedTopic=42;        
       });
+      
     });
     
     it('includes a diagram if one is provided',function(done){
@@ -171,6 +179,7 @@ describe('QuestionPreviewController',function(){
       $scope.$apply(function (){
         $scope.selectedTopic=42;        
       });
+      
     
     });
 
@@ -200,6 +209,7 @@ describe('QuestionPreviewController',function(){
       $scope.$apply(function (){
         $scope.selectedTopic=42;        
       });
+      
     
     });
     
@@ -227,6 +237,7 @@ describe('QuestionPreviewController',function(){
       $scope.$apply(function (){
         $scope.selectedTopic=42;        
       });
+      
     
     });
     
@@ -257,6 +268,7 @@ describe('QuestionPreviewController',function(){
       $scope.$apply(function (){
         $scope.selectedTopic=42;        
       });
+      
       
     });  
   });
