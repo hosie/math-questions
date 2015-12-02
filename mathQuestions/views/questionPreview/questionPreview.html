@@ -1,5 +1,7 @@
 <div>
+
   <div class="container">
+  
     <div class="row">
       <div class="col-md6">    
         <select class="topic-preview-selection" id="topicDropDown" ng-model="selectedTopic" ng-options="topic.id as topic.description for topic in availableTopics"></select>
@@ -7,24 +9,34 @@
     
     </div>
     <div ng-if="selectedTopic" class="row">
-      <div class="col-md-4">
-        <button type="button" class="btn btn-primary btn-lg" ng-click="regenerate();">New Question</button>
+    
+      <div class="col-md-6">
+        <form class="form-inline">        
+          <div class="input-group">
+            <div class="input-group-addon">Number of questions</div>
+            <input type="text" ng-model="generator.numberOfQuestions" />
+          </div>
+          <button type="button" class="btn btn-primary btn-lg" ng-click="generator.regenerate();">Regenerate</button>
+        </form>
       </div>      
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="question-preview">{{question}}</div>
-      </div>  
+    <div ng-repeat="question in questions">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="question-preview">{{question.question}}</div>
+        </div>  
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div ng-if="question.hasDiagram" ng-bind-html="question.diagram"></div>
+        </div>  
+      </div>
+      <div ng-if="question.hasAnswerTemplate" class="row question-preview-answer">
+        <div class="col-md-3">Answer</div>  
+        <div class="col-md-3 answer-space"></div>  
+        <div class="col-md-2">{{question.answerTemplate.postfix}}</div>
+      </div>    
+      <hr/>
     </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div ng-if="hasDiagram" ng-bind-html="diagram"></div>
-      </div>  
-    </div>
-    <div ng-if="hasAnswerTemplate" class="row question-preview-answer">
-      <div class="col-md-3">Answer</div>  
-      <div class="col-md-3 answer-space"></div>  
-      <div class="col-md-2">{{answerTemplate.postfix}}</div>
-    </div>    
   </div>  
 </div>

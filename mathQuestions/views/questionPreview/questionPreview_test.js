@@ -75,7 +75,7 @@ describe('QuestionPreviewController',function(){
              
       $scope.$watch(
         function(){
-          return $scope.question;
+          return $scope.questions;
         },
         function(){
           expect(mockQuestionGenerator.generate).toHaveBeenCalledWith(
@@ -104,13 +104,13 @@ describe('QuestionPreviewController',function(){
       };
       var cancel = $scope.$watch(
         function(){
-          return $scope.question;
+          return $scope.questions;
         },
         function(oldVal,newVal){
           if(oldVal==newVal){
             return;
           }
-          expect($scope.question).toEqual(testQuestion);          
+          expect($scope.questions[0].question).toEqual(testQuestion);          
           done();        
           cancel();
         },
@@ -123,7 +123,53 @@ describe('QuestionPreviewController',function(){
       $rootScope.$apply();
       
     });
-    
+ 
+
+    it('adds multiple questions to scope',function(done){
+             
+      var testQuestions = [
+      'one',
+      '2',
+      'tree'
+      ];
+      var nextQuestionIndex=0;
+      mockQuestionGenerator.generate = function(questionSpec,callback){
+        setTimeout(function(){
+          callback(null,testQuestions[nextQuestionIndex++]);
+        },0);
+        
+      };
+      var cancel = $scope.$watch(
+        function(){
+          return $scope.questions;
+        },
+        function(oldVal,newVal){
+          if(oldVal==newVal){
+            return;  
+          }
+          if($scope.questions.length<3){
+            return;
+          }
+          expect($scope.questions.length).toEqual(3);
+          expect($scope.questions[0].question).toEqual(testQuestions[0]);          
+          expect($scope.questions[1].question).toEqual(testQuestions[1]);          
+          expect($scope.questions[2].question).toEqual(testQuestions[2]);          
+          done();        
+          cancel();
+        },
+        true
+      );
+      $scope.$apply(function (){
+        $scope.generator.numberOfQuestions = 3;
+      
+        $scope.selectedTopic=42;
+        
+      });
+      $rootScope.$apply();
+      
+    });
+ 
+ 
     it('hasDiagram is false',function(done){
              
       
@@ -135,13 +181,13 @@ describe('QuestionPreviewController',function(){
       };
       var cancel = $scope.$watch(
         function(){
-          return $scope.question;
+          return $scope.questions;
         },
         function(oldVal,newVal){
           if(oldVal==newVal){
             return;
           }
-          expect($scope.hasDiagram).toEqual(false);          
+          expect($scope.questions[0].hasDiagram).toEqual(false);          
           done();        
           cancel();
         },
@@ -163,14 +209,14 @@ describe('QuestionPreviewController',function(){
       };
       var cancel = $scope.$watch(
         function(){
-          return $scope.diagram;
+          return $scope.questions;
         },
         function(oldVal,newVal){
           if(oldVal==newVal){
             return;
           }
-          expect($scope.diagram.$$unwrapTrustedValue()).toEqual(testSvg);
-          expect($scope.hasDiagram).toEqual(true);
+          expect($scope.questions[0].diagram.$$unwrapTrustedValue()).toEqual(testSvg);
+          expect($scope.questions[0].hasDiagram).toEqual(true);
           done();        
           cancel();
         },
@@ -193,14 +239,14 @@ describe('QuestionPreviewController',function(){
       };
       var cancel = $scope.$watch(
         function(){
-          return $scope.answerTemplate;
+          return $scope.questions;
         },
         function(oldVal,newVal){
           if(oldVal==newVal){
             return;
           }
-          expect($scope.answerTemplate.postfix).toEqual('testPostFix');
-          expect($scope.hasAnswerTemplate).toEqual(true);
+          expect($scope.questions[0].answerTemplate.postfix).toEqual('testPostFix');
+          expect($scope.questions[0].hasAnswerTemplate).toEqual(true);
           cancel();
           done();
         },
@@ -222,13 +268,13 @@ describe('QuestionPreviewController',function(){
       };
       var cancel = $scope.$watch(
         function(){
-          return $scope.question;
+          return $scope.questions;
         },
         function(oldVal,newVal){
           if(oldVal==newVal){
             return;
           }
-          expect($scope.hasAnswerTemplate).toEqual(false);
+          expect($scope.questions[0].hasAnswerTemplate).toEqual(false);
           cancel();
           done();
         },
@@ -252,7 +298,7 @@ describe('QuestionPreviewController',function(){
       //set up a watcher, should be called once anyway
       $scope.$watch(
         function(){
-          return $scope.question;
+          return $scope.questions;
         },
         function(){
           if(gennedOnce){
@@ -260,7 +306,7 @@ describe('QuestionPreviewController',function(){
             done();
           }else{
             gennedOnce=true;
-            $scope.regenerate();
+            $scope.generator.regenerate();
           }      
         },
         true
