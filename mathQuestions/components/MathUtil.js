@@ -13,7 +13,7 @@ angular.module('GreatMath.math-util', [])
     digit = digit % 10;
     return digit;
   }
-  return {
+  var mathUtil = {
     INVALID_PRECISION : INVALID_PRECISION,
     randomBoolean : function(){
       var randomInt = this.randomInteger(2,1);
@@ -209,7 +209,40 @@ angular.module('GreatMath.math-util', [])
       }
       return spelling;
     },    
-    digitAt : digitAt
+    digitAt : digitAt,
+    time:{
+      randomTime : function(){
+        var hour = mathUtil.randomInteger(0,23);
+        var minute = mathUtil.randomInteger(0,59);
+        return new Date(0,0,0,hour,minute);
+      },
+      to24HourFormat : function(date){
+        
+        var hours = date.getHours();
+        hours=hours<10?"0"+hours:""+hours;
+        var minutes = date.getMinutes();
+        minutes=minutes<10?"0"+minutes:""+minutes;
+        
+        return ""+hours+":"+minutes;        
+      },
+      to12HourFormat : function(date){
+        
+        var hours = date.getHours();
+        var period = "am";
+        if (hours>=12){
+            period="pm";
+            hours=hours-12;
+        }
+        if(hours===0){
+          hours=12;
+        }
+        var minutes = date.getMinutes();
+        minutes=minutes<10?"0"+minutes:""+minutes;
+        
+        return ""+hours+":"+minutes + " " + period;        
+      }
+    }
     
   };
+  return mathUtil;
 });

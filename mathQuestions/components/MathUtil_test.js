@@ -167,8 +167,7 @@ describe('GreatMath.math-util module', function() {
         }      
         expect(actualResults).not.toContain(11);
         expect(actualResults).not.toContain(4);
-      });
-      
+      });    
       
       it('can generate all integers up to a maximum of 100',function(){
         var actualResults = [];
@@ -368,7 +367,7 @@ describe('GreatMath.math-util module', function() {
   });
 
   describe('random boolean',function(){
-   it('both boolena valies',function(){
+   it('both boolean valies',function(){
       var actualResults = [];
       while(actualResults.length<10){
         actualResults.push(mathUtil.randomBoolean());
@@ -376,7 +375,6 @@ describe('GreatMath.math-util module', function() {
       expect(actualResults).toContain(true);
       expect(actualResults).toContain(false);
     });
-    
 
   });
   
@@ -565,5 +563,80 @@ describe('GreatMath.math-util module', function() {
       expect(spelling).toEqual('Ten Million and Eight');
     });
     
+  });
+
+  describe('time',function(){
+    describe('random time',function(){
+      
+      it('returns a data object',function(){
+        var time = mathUtil.time.randomTime();
+        expect(time instanceof Date).toEqual(true);
+      });
+      
+      it('has randomness',function(){
+        var actualResultsHours   = [];
+        var actualResultsMinutes = [];
+        var actualResults        = [];
+        while(actualResults.length<500){
+          var result = mathUtil.time.randomTime();
+          actualResults.push(result);
+          actualResultsHours.push(result.getHours());
+          actualResultsMinutes.push(result.getMinutes());          
+        }
+        for(var hour=0;hour<=23;hour++){
+          expect(actualResultsHours).toContain(hour);
+        }
+        for(var minute=0;minute<=59;minute++){
+          expect(actualResultsMinutes).toContain(minute);
+        }
+        
+      });
+      
+    });
+    
+    describe('24 hour format',function(){
+      
+      it('handles times past 1pm correctly',function(){
+        var time = new Date(0,0,0,13,30);
+        var timeString = mathUtil.time.to24HourFormat(time);
+        expect(timeString).toEqual("13:30");
+      });
+      it('has leading zero for earlier than 10 am',function(){
+         var time = new Date(0,0,0,8,5);
+         var timeString = mathUtil.time.to24HourFormat(time);
+         expect(timeString.substring(0,1)).toEqual("0");
+      });
+      it('has leading zero for minutes less than 10',function(){
+         var time = new Date(0,0,0,8,5);
+         var timeString = mathUtil.time.to24HourFormat(time);
+         expect(timeString.substring(3,4)).toEqual("0");
+      });
+      it('12 am is 0:00',function(){
+        var time = new Date(0,0,0,0,0);
+        var timeString = mathUtil.time.to24HourFormat(time);
+        expect(timeString).toEqual("00:00");
+      })
+    });
+    
+     
+    describe('12 hour format',function(){
+      it('handles time past 1pm correctly',function(){
+        var time = new Date(0,0,0,13,30);
+        var timeString = mathUtil.time.to12HourFormat(time);
+        expect(timeString).toEqual("1:30 pm");
+      });
+      
+      it('switches to pm at noon',function(){
+        var time = new Date(0,0,0,12,0);
+        var timeString = mathUtil.time.to12HourFormat(time);
+        expect(timeString).toEqual("12:00 pm");
+      });
+      
+      it('switches to am at midnight',function(){
+        var time = new Date(0,0,0,0,0);
+        var timeString = mathUtil.time.to12HourFormat(time);
+        expect(timeString).toEqual("12:00 am");
+      });
+    });
   });
 });
