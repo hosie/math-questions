@@ -17,13 +17,13 @@ describe('worksheet generator',function(){
 
   it('generates correct number of weeks',function(){
     var weeks = element.all(by.repeater('week in weeks'));
-    expect(weeks.count()).toBe(39);
+    expect(weeks.count()).toBe(40);
   });
 
   it('generates correct number of sheets per week',function(){
     var weeks = element.all(by.repeater('week in weeks'));
     
-    for(var i=0;i<39;i++){
+    for(var i=0;i<40;i++){
       var sheets = weeks.get(i).all(by.repeater('sheet in week.worksheets'));
 
       expect(sheets.count()).toBe(5);

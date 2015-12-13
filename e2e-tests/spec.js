@@ -34,7 +34,7 @@ describe('basic (quick) end to end tests',function(){
 
     it('generates correct number of weeks',function(){
       var weeks = element.all(by.repeater('week in weeks'));
-      expect(weeks.count()).toBe(39);
+      expect(weeks.count()).toBe(40);
     });
 
     it('generates correct number of sheets in week 1',function(){
@@ -98,7 +98,7 @@ describe('basic (quick) end to end tests',function(){
         
       });
 
-      it('each row has a correct question numeber',function(){
+      it('each row has a correct question number',function(){
         var tables = element.all(by.css('.timesTableTable'));
         var table = tables.get(0);
         var rows = table.all(by.css('.questionRow'));
