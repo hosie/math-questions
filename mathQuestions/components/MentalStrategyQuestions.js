@@ -369,16 +369,14 @@
         description:"Tell the time 24 hour clock",
         generateQuestion:function(callback){
           var reverse = mathUtil.randomBoolean();
-          var minutes = mathUtil.randomInteger(59,1);
-          if(minutes<10){
-            minutes = "0" + minutes;
-          }  
+          var time = mathUtil.time.randomTime();
+          var time24HoursFormat = mathUtil.time.to24HourFormat(time);
+          var time12HoursFormat = mathUtil.time.to12HourFormat(time);
+          
           if(reverse){
-            var hours   = mathUtil.randomInteger(12,1);
-            callback("What is " + hours + ":" + minutes + " pm in 24 hour clock format?");  
+            callback("What is " + time12HoursFormat + " in 24 hour clock format?");  
           }else{
-            var hours   = mathUtil.randomInteger(23,13);
-            callback("What is " + hours + ":" + minutes + " in 12 hour clock format?");
+            callback("What is " + time24HoursFormat + " in 12 hour clock format?");
           }          
         }        
       }
