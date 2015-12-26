@@ -386,9 +386,10 @@
         class:"mentalStrategies",
         description:"Mins to/ past a time",
         generateQuestion:function(callback){
+          //50% of the time, we will bridge across an hour boundary
           var bridge = mathUtil.randomBoolean();
-          var questionFormat = mathUtil.randomInteger(4);
-          var startHours   = mathUtil.randomInteger(11,1);
+          var startHours   = mathUtil.randomInteger(1,23);
+          //don't allow **:5* times because... we either bridge an hour or a 10 minute boundary
           var startMinutes = mathUtil.randomInteger(49,1);
           
           var endHours,endMinutes,difference;
@@ -410,18 +411,33 @@
             endMinutes   = "0" + endMinutes;
           }
           
+          var startTime      = new Date(0,0,0,startHours,startMinutes);
+          var endTime        = new Date(0,0,0,endHours,endMinutes);
+          var startTimeString;
+          var endTimeString;
+          
+          if(mathUtil.randomBoolean()){
+            startTimeString = mathUtil.time.to12HourFormat(startTime);
+            endTimeString   = mathUtil.time.to12HourFormat(endTime);
+          }else{
+            startTimeString = mathUtil.time.to24HourFormat(startTime);
+            endTimeString   = mathUtil.time.to24HourFormat(endTime);
+          }
+          
+          //There are 4 different question formats
+          var questionFormat = mathUtil.randomInteger(4);                    
           switch(questionFormat){
             case 1://2:15 pm is how many minutes after 1:05
-              callback("" + endHours + ":" + endMinutes + " is how many minutes after " + startHours + ":" + startMinutes +"?");
+              callback("" + endTimeString + " is how many minutes after " + startTimeString +"?");
             break;
             case 2://from 8:13 am, how many minutes until 9:05am
-              callback("From " + startHours + ":" + startMinutes + ", how many minutes until " + endHours + ":" + endMinutes+"?");
+              callback("From " + startTimeString + ", how many minutes until " + endTimeString+"?");
             break;
             case 3://What time will it be 42 minutes after 5:44 pm
-              callback("What time will it be " + difference + " minutes after " + startHours + ":" + startMinutes+"?");
+              callback("What time will it be " + difference + " minutes after " + startTimeString +"?");
             break;
             case 4://What time was it 42 minutes before 5:44 pm
-              callback("What time was it " + difference + " minutes before " + endHours + ":" + endMinutes+"?");
+              callback("What time was it " + difference + " minutes before " + endTimeString + "?");
             break;
             
           }          
