@@ -1,12 +1,14 @@
 <div class="container game-pad" >
-
+<div class="countdown-timer">
+  {{timeRemaining}}
+</div>
   <div class="row">
     <div  class="col-md-8 question-pad">
       <div class="container">
         <div class="row question-readout">
           {{question}}
         </div>
-        <div class="row answer-box">
+        <div ng-hide="timedout" class="row answer-box">
           <form ng-submit="doCheckAnswer()">
             <input type="string" ng-model="answer" class="form-control" autofocus>
             </input>            

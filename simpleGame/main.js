@@ -23,6 +23,18 @@ angular.module('SimpleMathGame', [
   $routeProvider.otherwise({redirectTo: '/main'});
 }])
 .controller('MainController',function($scope,$timeout,mathUtil,topicRegistry,questionGenerator,ngAudio){
+  $scope.timeRemaining=60;
+  function tick(){
+    $scope.timeRemaining--;
+    if($scope.timeRemaining==0){
+      $scope.sound.stop();
+      $scope.timedout=true;
+      $scope.question="Time up";
+    }else{
+      $timeout(tick,1000);      
+    }
+  };
+  $timeout(tick,1000);
   var topicId;
   $scope.sound = ngAudio.load("https://trello-attachments.s3.amazonaws.com/5622320600234f27486ed577/5657723aa413cbc6f88f8ddf/03063fea79843f088c137d2d0321dd0e/205_full_clap-tap_0102.mp3");
   $scope.sound.play();
