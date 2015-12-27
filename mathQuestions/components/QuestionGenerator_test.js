@@ -1,6 +1,6 @@
 'use strict';
 
-fdescribe('GreatMath.question-generator module', function() {
+describe('GreatMath.question-generator module', function() {
   
   var mockTopicRegistry={
     
