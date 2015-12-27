@@ -19,6 +19,10 @@
     "bootstrap": "~3.3.5",
     "d3": "~3.5.5",
     "angular-route": "~1.4.1",
-    "angular-mocks": "~1.4.1"
+    "angular-mocks": "~1.4.1",
+    "angular-audio": "~1.7.1"
+  },
+  "resolutions": {
+    "angular": "1.4.8"
   }
 }

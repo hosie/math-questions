@@ -4,10 +4,12 @@
 angular.module('SimpleMathGame', [
   'ngRoute',
   'ngKeypad',
+  'ngAudio',
   'GreatMath.topic-registry',
   'GreatMath.math-util',
   'GreatMath.times-table-questions',
   'GreatMath.question-generator'
+  
 ])
 .config(['$routeProvider', function($routeProvider) {
   
@@ -20,8 +22,10 @@ angular.module('SimpleMathGame', [
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/main'});
 }])
-.controller('MainController',function($scope,$timeout,mathUtil,topicRegistry,questionGenerator){
+.controller('MainController',function($scope,$timeout,mathUtil,topicRegistry,questionGenerator,ngAudio){
   var topicId;
+  $scope.sound = ngAudio.load("https://trello-attachments.s3.amazonaws.com/5622320600234f27486ed577/5657723aa413cbc6f88f8ddf/03063fea79843f088c137d2d0321dd0e/205_full_clap-tap_0102.mp3");
+  $scope.sound.play();
   function populateQuestion(){
     questionGenerator.generate(
       {
