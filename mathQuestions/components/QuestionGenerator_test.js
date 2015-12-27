@@ -1,6 +1,6 @@
 'use strict';
 
-describe('GreatMath.question-generator module', function() {
+fdescribe('GreatMath.question-generator module', function() {
   
   var mockTopicRegistry={
     
@@ -195,6 +195,121 @@ describe('GreatMath.question-generator module', function() {
     });
   });
   
+  describe('checkAnswer',function(){
+    
+    it('checkAnswer is null if answer not provided',function(done){
+      mockTopicRegistry.testTopic = {
+        generateQuestion:function(callback){
+          callback("testQuestion");
+        }
+      };
+      
+      questionGenerator.generate({
+        class : "testClass",
+        topicId    : 1
+      },function(err,question,diagram,template,checkAnswer){
+        expect(checkAnswer).toBeNull();
+        done();
+      });      
+    });
+    
+    it('checkAnswer is null if answer is null',function(done){
+      mockTopicRegistry.testTopic = {
+        generateQuestion:function(callback){
+          callback("testQuestion",null,null,null);
+        }
+      };
+      
+      questionGenerator.generate({
+        class : "testClass",
+        topicId    : 1
+      },function(err,question,diagram,template,checkAnswer){
+        expect(checkAnswer).toBeNull();
+        done();
+      });      
+    });
+    
+    it('returns true for correct answer',function(done){
+      mockTopicRegistry.testTopic = {
+        generateQuestion:function(callback){
+          callback("testQuestion",null,null,42);
+        }
+      };
+      
+      questionGenerator.generate({
+        class : "testClass",
+        topicId    : 1
+      },function(err,question,diagram,template,checkAnswer){
+        expect(checkAnswer(42)).toEqual(true);
+        done();
+      });      
+    });
+
+    it('returns false for incorrect answer',function(done){
+      mockTopicRegistry.testTopic = {
+        generateQuestion:function(callback){
+          callback("testQuestion",null,null,42);
+        }
+      };
+      
+      questionGenerator.generate({
+        class : "testClass",
+        topicId    : 1
+      },function(err,question,diagram,template,checkAnswer){
+        expect(checkAnswer(43)).toEqual(false);
+        done();
+      });      
+    });
+    
+    it('answer can be zero',function(done){
+      mockTopicRegistry.testTopic = {
+        generateQuestion:function(callback){
+          callback("testQuestion",null,null,0);
+        }
+      };
+      
+      questionGenerator.generate({
+        class : "testClass",
+        topicId    : 1
+      },function(err,question,diagram,template,checkAnswer){
+        expect(checkAnswer(0)).toEqual(true);
+        done();
+      });      
+    });
+    
+    it('casts string to integer',function(done){
+      mockTopicRegistry.testTopic = {
+        generateQuestion:function(callback){
+          callback("testQuestion",null,null,42);
+        }
+      };
+      
+      questionGenerator.generate({
+        class : "testClass",
+        topicId    : 1
+      },function(err,question,diagram,template,checkAnswer){
+        expect(checkAnswer("42")).toEqual(true);
+        done();
+      });            
+    });
+    
+    it('casts string to decimal',function(done){
+      mockTopicRegistry.testTopic = {
+        generateQuestion:function(callback){
+          callback("testQuestion",null,null,4.2);
+        }
+      };
+      
+      questionGenerator.generate({
+        class : "testClass",
+        topicId    : 1
+      },function(err,question,diagram,template,checkAnswer){
+        expect(checkAnswer("4.2")).toEqual(true);
+        done();
+      });            
+    });
+  });
+  
   describe('default generator',function(){
     
     beforeEach(function(){//TODO refactor, use jasmine.mock or something here?
@@ -252,7 +367,7 @@ describe('GreatMath.question-generator module', function() {
     });
 
   });  
-   
+  
   //Not implemented yet - do we need this?
   xit('registers default generator function on a per topic class basis',function(done){});
     
