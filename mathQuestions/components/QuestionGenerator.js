@@ -17,11 +17,24 @@ angular.module('GreatMath.question-generator', ['GreatMath.topic-registry'])
           try{
             
             generatorFunction(
-              function(question,diagram,template){//success handler
+              function(question,diagram,template,answer){//success handler
                 if(null==diagram || diagram==0){
                   diagram=undefined;
                 }
-                callback(null,question,diagram,template);
+                var checkAnswer;
+                if(typeof answer === 'undefined' || answer==null){
+                  checkAnswer=null;
+                }else{
+                  checkAnswer=function(candidate){
+                    if(candidate==answer){
+                      return true;
+                    }else{
+                      return false;
+                    }
+                  };
+                }
+                
+                callback(null,question,diagram,template,checkAnswer);
               },              
               function(err){//async error handler
                 callback(err,null);                                
