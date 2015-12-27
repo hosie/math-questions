@@ -83,6 +83,21 @@ describe('GreatMath.times-table-questions module', function() {
     );
   });
   
+  it('callsback with answer',function(done){
+    var topic = mockTopicRegistry.registeredTopics[0];
+    topic.generateQuestion(
+      function(question,diagram,template,answer){
+        expect(question).toEqual(jasmine.any(String));
+        expect(answer).toBeDefined();
+        done();
+      },
+      null,
+      {
+        multiplier:1
+      }
+    );    
+  });
+  
   xit('some times the answer is blanked out and sometime it is one of the operands');//need to do this manually for now
   
   xit('operands range from 2 to 12');//need to do this manually for now

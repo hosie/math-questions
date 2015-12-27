@@ -44,9 +44,9 @@
       }
       
       if(mathUtil.randomBoolean()){
-        callback(" "+multiplier1+" "+multiplicationSign+" "+multiplier2+" = " + product);
+        callback(" "+multiplier1+" "+multiplicationSign+" "+multiplier2+" = " + product,null,null,answer);
       }else{
-        callback("" + product + " " + divisionSign + " " + multiplier1 + " = " + multiplier2);        
+        callback("" + product + " " + divisionSign + " " + multiplier1 + " = " + multiplier2,null,null,answer);
       }
     }
   });
