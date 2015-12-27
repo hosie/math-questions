@@ -20,21 +20,18 @@ angular.module('SimpleMathGame', [
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/main'});
 }])
-.controller('MainController',function($scope,mathUtil,topicRegistry,questionGenerator){
+.controller('MainController',function($scope,$timeout,mathUtil,topicRegistry,questionGenerator){
   var topicId;
   function populateQuestion(){
     questionGenerator.generate(
       {
         topicId    : topicId
       },
-      function(err,question,diagram,answerTemplate){
-        if(!$scope.$$phase) {
-          $scope.$apply(function(){
-            $scope.question = question;            
-          });                   
-        }else{
-          $scope.question = question;
-        }              
+      function(err,question,diagram,answerTemplate,checkAnswer){
+        $scope.$apply(function(){
+          $scope.checkAnswer=checkAnswer;
+          $scope.question = question;                        
+        });        
       }
     );
   }
@@ -56,36 +53,36 @@ angular.module('SimpleMathGame', [
   $scope.answer   = "";
   
   function checkAnswer(){
-    $scope.$apply(function(){      
-      if(mathUtil.randomInteger(7)==7){
-        $scope.correct=false;
-        $scope.incorrect=true;
-        $scope.score.incorrect++;
-      }else{
-        $scope.incorrect=false;
-        $scope.correct=true;
-        $scope.score.correct++;
-      }
-      setTimeout(function(){
-        $scope.$apply(function(){      
-          $scope.incorrect = false;
-          $scope.correct   = false;
-        });
-      },1000);
-      $scope.answer="";
-    });
+  
+    if($scope.checkAnswer($scope.answer)){
+      
+      $scope.incorrect=false;
+      $scope.correct=true;
+      $scope.score.correct++;
+    }else{
+      $scope.correct=false;
+      $scope.incorrect=true;
+      $scope.score.incorrect++;
+    }
+    $timeout(function(){      
+      $scope.incorrect = false;
+      $scope.correct   = false;      
+    },1000);
+    $scope.answer="";
     populateQuestion();        
   }
+  $scope.doCheckAnswer=checkAnswer;
   
+  
+  //keypad event listeners do not fire under an apply so we have to do that
   $scope.$on(Keypad.KEY_PRESSED, function(event,data){
-    if(data=="="){
-      checkAnswer();
-    }else{
-      $scope.$apply(function(){
+    $scope.$apply(function(){
+      if(data=="="){
+        checkAnswer();
+      }else{        
         $scope.answer=$scope.answer + data;
-        
-      });      
-    }
+      }
+    });      
   });
 
 });

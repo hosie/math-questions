@@ -7,9 +7,8 @@
           {{question}}
         </div>
         <div class="row answer-box">
-          <form>
+          <form ng-submit="doCheckAnswer()">
             <input type="string" ng-model="answer" class="form-control" autofocus>
-              
             </input>            
           </form>
         </div>
