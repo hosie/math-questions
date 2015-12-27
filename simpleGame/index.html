@@ -1,0 +1,33 @@
+<html ng-app="SimpleMathGame">
+<head>
+  <link rel="stylesheet" href="prereqs/bootstrap/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="prereqs/bootstrap/dist/css/bootstrap-theme.min.css"/>
+  <link rel="stylesheet" href="css/style.css" media="screen"/>
+  <link href='https://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div class="canvas">
+<div ng-view></div>
+
+</div>
+
+<script src="prereqs/jquery/dist/jquery.min.js"></script>
+<script src="prereqs/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="prereqs/angular/angular.js"></script>
+<script src="prereqs/angular-route/angular-route.js"></script>
+<script src="ng-keypad/ngKeypad/ngKey.js"></script>
+<script src="ng-keypad/ngKeypad/ngKeypad.js"></script>
+  
+<script src="main.js"></script>
+<script src="/mathQuestions/components/TopicProvider.js"></script>
+<script src="/mathQuestions/components/MentalStrategyQuestions.js"></script>
+<script src="/mathQuestions/components/TimesTableQuestions.js"></script>
+<script src="/mathQuestions/components/KeySkillsQuestions.js"></script>
+<script src="/mathQuestions/components/QuestionGenerator.js"></script>
+<script src="/mathQuestions/components/TopicRegistry.js"></script>
+<script src="/mathQuestions/components/QuestionBank.js"></script>
+<script src="/mathQuestions/components/MathUtil.js"></script>
+
+
+</body>
+</html>
