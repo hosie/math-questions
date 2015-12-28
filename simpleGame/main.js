@@ -33,19 +33,33 @@ angular.module('SimpleMathGame', [
           correct:0,
           incorrect:0
         },
+        answer:function(){
+          if($scope.timeRemaining>0){
+            if(mathUtil.randomInteger(7)==7){
+              this.score.incorrect++;
+            }else{
+              this.score.correct++;           
+            }
+            var self=this;          
+            this.ticker = $timeout(
+              function(){
+                  self.answer();            
+              },
+              mathUtil.randomInteger(1000,5000)
+            );
+          }
+        },
         start:function(){
           var self=this;
-          this.ticker = $interval(function(){
-            if(mathUtil.randomInteger(7)==7){
-              self.score.incorrect++;
-            }else{
-              self.score.correct++;           
-            }
-          },
-          3000);
+          this.ticker = $timeout(
+            function(){
+                self.answer();            
+            },
+            mathUtil.randomInteger(1000,5000)
+          );
         },
         stop:function(){
-          $interval.cancel(this.ticker);
+          $timeout.cancel(this.ticker);
         },
         ticker:0
         
