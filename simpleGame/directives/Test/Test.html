@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html ng-app="DirectiveTest" ng-controller='MainContoller'>
+  <head>
+    <script src="../../prereqs/angular/angular.js"></script>
+    <script src="../../prereqs/d3/d3.min.js"></script>
+    <script src="../leaderBoard.js"></script>
+    <script src="../../../mathQuestions/components/MathUtil.js"></script>
+    <script src="test.js"></script>
+  </head>
+  <body>
+    <div leader-board opponents="opponents" player="player"></div>
+    <hl>
+    <div ng-repeat="player in opponents">{{player.score.correct}} | {{player.score.incorrect}} ----- {{player.name}}</div>
+    <button ng-click="stop()">Stop</button>
+    
+  </body>
+</html>
