@@ -52,6 +52,8 @@ angular.module('SimpleMathGame', [
         },
         start:function(){
           var self=this;
+          this.score.correct=0;
+          this.score.incorrect=0;
           this.ticker = $timeout(
             function(){
                 self.answer();            
