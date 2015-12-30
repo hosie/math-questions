@@ -17,7 +17,8 @@ module.exports = function(config) {
       'mathQuestions/prereqs/angular-route/angular-route.js',
       'mathQuestions/prereqs/angular-mocks/angular-mocks.js',
       'mathQuestions/components/**/*.js',
-      'mathQuestions/views/**/*.js'
+      'mathQuestions/views/**/*.js',
+      'simpleGame/directives/**/*.js'
     ],
 
 

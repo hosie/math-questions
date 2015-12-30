@@ -9,7 +9,7 @@ angular.module('SimpleMathGame', [
   'GreatMath.math-util',
   'GreatMath.times-table-questions',
   'GreatMath.question-generator',
-  'mathDirectives'
+  'GreatMath.directives'
   
 ])
 .config(['$routeProvider', function($routeProvider) {

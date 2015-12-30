@@ -1,4 +1,4 @@
-angular.module('DirectiveTest',['mathDirectives','GreatMath.math-util',])
+angular.module('DirectiveTest',['GreatMath.directives','GreatMath.math-util',])
 .controller('MainContoller',function($scope,$timeout,$interval,mathUtil){
   function addPlayer(name){
     $scope.opponents.push(
