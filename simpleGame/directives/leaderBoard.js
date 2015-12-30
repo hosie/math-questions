@@ -37,9 +37,11 @@ function leaderBoardDirective($rootScope,$timeout,$interval){
       var svg=null;
       var correctScoreBars,incorrectScoreBars,maxScoreLine,netScoreLine;
       var myCorrectScoreBar,myIncorrectScoreBar;  
+      var myPlayerLabel;
+      var playersLabels;
       function redraw(){
         var data = scope.opponents;
-        
+        var player = scope.player;
         //TODO put the following in a controller or a service so that it can be tested
         var correctScores = data.map(function(item,i){
             return {
@@ -76,12 +78,14 @@ function leaderBoardDirective($rootScope,$timeout,$interval){
         
         
         if(null==svg){
+          //first time through, set up all of the static elements
           svg = d3.select(iElement[0])
                 .append("svg")
                 .attr('width',1000)
                 .attr("height",opponentYPossition(null,data.length+1));
-          svg.append('text')
-          .text("You")
+          
+          myPlayerLabel = svg.append('text')
+          .text("You:" + player.score.correct + " | " + player.score.incorrect )
           .attr('fill','black')
           .attr('y','1em');
           myCorrectScoreBar=svg.append('rect')
@@ -105,9 +109,9 @@ function leaderBoardDirective($rootScope,$timeout,$interval){
         
           players.classed('player');
           
-          players.append('text')
+          playersLabels = players.append('text')
           .text(function(d){
-            return d.name;
+            return d.name + ": " + d.score.correct + " | " + d.score.incorrect;
           })
           .attr('x',0)
           .attr('fill','black')
@@ -150,7 +154,12 @@ function leaderBoardDirective($rootScope,$timeout,$interval){
           
           
         }else{
+          myPlayerLabel.text("You:" + player.score.correct + " | " + player.score.incorrect );
           
+          playersLabels.transition().text(function(d){
+            return d.name + ": " + d.score.correct + " | " + d.score.incorrect;
+          });
+        
           myCorrectScoreBar.transition()
             .attr('width',correctScoreBarWidth(scope.player));
           myIncorrectScoreBar.transition()
