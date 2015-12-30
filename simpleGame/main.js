@@ -24,7 +24,7 @@ angular.module('SimpleMathGame', [
   $routeProvider.otherwise({redirectTo: '/main'});
 }])
 .controller('MainController',function($scope,$timeout,$interval,mathUtil,topicRegistry,questionGenerator,ngAudio){
-  initialise(startGame);
+  initialise();
   var topicId;
   function addPlayer(name){
     $scope.players.push(
@@ -67,7 +67,10 @@ angular.module('SimpleMathGame', [
       }
     );
   }
-  function initialise(callback){
+  function initialise(){
+    
+    $scope.startGame = startGame;
+    
     $scope.player=
     {
       score:
@@ -106,8 +109,7 @@ angular.module('SimpleMathGame', [
         if(topics.length!=1){
           throw new Error("Unexpected number of times tables topics");
         }
-        topicId=topics[0].id;
-        callback();
+        topicId=topics[0].id;        
       }
     );
 
@@ -172,6 +174,7 @@ angular.module('SimpleMathGame', [
     $scope.players.forEach(function(player){
       player.start();
     });
+    $scope.started=true;
     
   }
   
@@ -182,6 +185,7 @@ angular.module('SimpleMathGame', [
     $scope.players.forEach(function(player){
       player.stop();
     });
+    $scope.started=false;
   }
   
 });
